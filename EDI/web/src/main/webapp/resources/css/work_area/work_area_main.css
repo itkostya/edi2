@@ -1,0 +1,117 @@
+
+.user_presentation {
+    color: darkgreen;
+    font: 600 20px 'Comic Sans MS', Arial, Helvetica, sans-serif;
+    align-content: center;
+    height: 3%;
+}
+
+.doc_button_blue {
+    background: rgb(102, 207, 227);
+    height: 72px;
+    width: 72px;
+}
+
+.doc_button_lime {
+    background: rgb(26, 219, 8);
+    height: 72px;
+    width: 72px;
+}
+
+UL {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    font-size: 11pt
+}
+
+UL LI {
+    position: relative;
+    padding: 4px 0;
+    z-index:1;
+}
+
+UL LI UL LI {
+    padding: 0;
+}
+
+LI UL {
+    position: absolute;
+    display: none;
+    width: 250px;
+    margin-top: 3px
+}
+
+LI DIV {
+    text-decoration: none;
+    border: 1px solid #fafafa;
+}
+
+LI UL LI A {
+    display: block;
+    padding: 4px;
+    width: 250px;
+    color: black;
+    text-decoration: none;
+    z-index: 1;
+    background:
+            url(../../images/add.png)
+            left center
+            no-repeat
+            white;
+}
+
+LI DIV:hover, LI A:hover{
+    color: #0402ff;
+    background-color: rgb(219, 211, 19);
+}
+
+LI:hover UL, LI.over UL {
+    all:initial;
+    list-style: none;
+    position: absolute;
+    display: block;
+    border: 1px solid black;
+    z-index: 1;
+}
+
+.first_row_task_table {
+    position: absolute;
+    background: rgb(240, 255, 240) !important;
+    top: -3%;
+    border-bottom-style: none;
+}
+
+.relative-with-border{
+    position: relative;
+    border: solid 1px gray;
+}
+
+.number_in_circle{
+    position: relative;
+    left: -2px;
+    width: 25px;
+    height: 25px;
+    border-radius: 25px;
+    background: red;
+    vertical-align:top;
+    color: white;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    top: -71px;
+    float: right;
+}
+
+.search-string{
+    vertical-align:middle;
+    float:right;
+    margin: 7px 4px 4px 4px;
+    font: 13px Arial;
+}
+
+
+
+

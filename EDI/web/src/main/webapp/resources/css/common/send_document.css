@@ -1,0 +1,39 @@
+/* SEND BLOCK begin */
+#send ul {
+    margin: 0;
+    padding: 0;
+}
+
+#send ul li {
+    list-style-type: none;
+}
+
+#send ul li ul {
+    position: absolute;
+    width: 200px;
+    left: -999px;
+    float: none;
+    border-bottom: none;
+}
+#send ul li:hover ul {
+    left: auto;
+}
+
+#send ul li ul li:hover {
+    left: auto;
+    background-color: #3dff1a;
+}
+
+#send ul li ul li {
+    background-color: white;
+}
+
+#send ul li ul li a {
+    display: block;
+    text-decoration: none;/* Подчеркивание у ссылок убираем */
+    border: 1px solid black;
+    margin-top: 3px;
+    margin-left: 0;
+    padding: 0;
+}
+/* SEND BLOCK end */

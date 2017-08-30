@@ -1,0 +1,193 @@
+a img {
+    border: none;
+}
+
+hr {
+    margin: 0 0 .0001pt;
+    border: none;
+    background-color: red;
+    color: red;
+    height: 2px;
+}
+
+div.command-bar
+{
+    left: 26%;
+    width:48%;
+    position: relative;
+    z-index: 1;
+}
+
+TABLE.table_history {
+    width: 100%;
+    border-collapse: collapse; /* Убираем двойные линии между ячейками */
+}
+TD, TR {
+    padding: 3px; /* Поля вокруг содержимого таблицы */
+    border: 1px solid rgb(172, 200, 189); /* Параметры рамки */
+}
+
+/*noinspection CssUnusedSymbol*/
+.text-information {
+    color: rgb(181, 139, 49);
+}
+
+/*noinspection CssUnusedSymbol*/
+.text-accommodation {
+    color: rgb(0, 128, 0);
+}
+
+/*noinspection CssUnusedSymbol*/
+.text-execution {
+    color: rgb(183, 0, 0);
+}
+
+/*noinspection CssUnusedSymbol*/
+.text-affirmation {
+    color: rgb(39, 39, 181);
+}
+
+/*noinspection CssUnusedSymbol*/
+.text-visa {
+    color: rgb(0, 0, 255);
+}
+
+/*noinspection CssUnusedSymbol*/
+.text-payment {
+    color: rgb(0, 160, 0);
+}
+
+/*noinspection CssUnusedSymbol*/
+.background-accommodated {
+    background-color: rgb(204, 255, 204);
+}
+
+/*noinspection CssUnusedSymbol*/
+.background-affirmed {
+    background-color: rgb(242, 248, 255);
+}
+
+/*noinspection CssUnusedSymbol*/
+.background-declined {
+    background-color: rgb(255, 208, 206);
+}
+
+/*noinspection CssUnusedSymbol*/
+.background-informed {
+    background-color: rgb(255, 254, 190);
+}
+
+/*noinspection CssUnusedSymbol*/
+.background-completed {
+    background-color: rgb(0, 224, 0);
+}
+
+/*noinspection CssUnusedSymbol*/
+.background-canceled {
+    background-color: rgb(255, 144, 133);
+}
+
+/*noinspection CssUnusedSymbol*/
+.background-vised {
+    background-color: rgb(211, 207, 255);
+}
+
+/*noinspection CssUnusedSymbol*/
+.background-disbursed {
+    background-color: rgb(204, 255, 204);
+}
+
+.delivered {
+    color: rgb(28, 165, 0);
+    background-color: rgb(247, 255, 207);
+}
+
+.waited {
+    color: rgb(165, 165, 165);
+}
+
+.viewed {
+    color: rgb(129, 129, 129);
+}
+
+.completed {
+    background-color: rgb(43, 216, 43);
+}
+
+.canceled {
+    background-color: rgb(255, 144, 133);
+}
+
+/*noinspection CssUnusedSymbol*/
+.after {
+    background-color: rgb(255, 229, 196);
+}
+
+/*noinspection CssUnusedSymbol*/
+.together {
+    background-color: rgb(252, 255, 194);
+}
+
+.comment{
+    color: rgb(0, 0, 255);
+    font-size: small;
+    font-style: italic;
+}
+
+.doc_name{
+    color: #003F2F;
+    font-size: 10.0pt;
+    font-weight: 700;
+    font-family: Arial, sans-serif;
+    mso-generic-font-family: auto;
+    mso-font-charset: 0;
+    text-align: left;
+    vertical-align: top;
+    border: .5pt solid #ACC8BD;
+    background: #E4F0DD;
+    mso-pattern: black none;
+    white-space: normal;
+}
+
+.bp_head{
+    mso-style-parent: style0;
+    color: #339966;
+    font-weight: 700;
+    font-family:"Arial", sans-serif;
+    mso-generic-font-family: auto;
+    mso-font-charset: 0;
+    text-align: left;
+    vertical-align: top;
+    border: .5pt solid #ACC8BD;
+    background: #F0F6EF;
+    mso-pattern: black none;
+    white-space: normal;
+    padding-left: 18px;
+    mso-char-indent-count: 2;
+}
+
+/*noinspection CssUnusedSymbol*/
+.marked_button{
+    border: 1px solid black;
+}
+
+.head-hidden-table{
+    font-weight: bold;
+    font-size:18.0pt;
+    font-family: "Times New Roman", serif;
+}
+
+div.WordSection2 {
+    left: 2%;
+    height: 5%;
+    padding:1em;
+    background:rgb(165, 165, 165);
+    position: relative;
+    font-size: 14.0pt;
+    color:darkblue;
+    font-style: italic;
+    font-weight:600;
+    margin:10px;
+    max-width:93%;
+    overflow:auto;
+}

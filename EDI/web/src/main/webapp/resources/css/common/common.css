@@ -1,0 +1,438 @@
+.left_up_panel {
+    font: bold italic 100% serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    align-content: center;
+}
+
+/*Button like link*/
+
+button.btn-link2{
+    border:none;
+    outline:none;
+    background:none;
+    cursor:pointer;
+    color:#0000EE !important;
+    padding:0;
+    font-family:inherit;
+    font-size:inherit;
+}
+
+a.link-like-text{
+    text-decoration: none;
+    color: black;
+}
+
+a.no-events{
+    pointer-events:none;
+}
+
+div.div-like-button,
+a.link-like-button{
+    align-items: flex-start;
+    cursor: default;
+    background-color: buttonface;
+    box-sizing: border-box;
+    border: 2px outset buttonface;
+    text-decoration: none;
+    border-image: initial;
+    text-rendering: auto;
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    margin: 0 0 0 0;
+    /*font: 13.3333px Arial;*/
+    /*test - new 5/23/2017 */
+    font: 13px Arial;
+    -webkit-writing-mode: horizontal-tb;
+    -webkit-appearance: button;
+    padding: 1px;
+}
+
+/*noinspection CssUnusedSymbol*/
+div.button-disabled,
+a.button-disabled{
+    color: graytext;
+    pointer-events:none;
+    background-color: rgb(235, 235, 228);
+}
+
+/********** COMMAND BARS BEGIN **********/
+
+.command-bar-close{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/command-bar/close.png);
+    background-size: contain;
+}
+
+.command-bar-close-blue{
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background:
+            url(../../images/command-bar/close_blue.png);
+    background-size: contain;
+}
+
+.command-bar-refresh{
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background:
+            url(../../images/refresh.png);
+    background-size: contain;
+}
+
+.command-bar-add-document{
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background:
+            url(../../images/add.png);
+    background-size: contain;
+}
+
+.command-bar-save{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/LotusSave.png);
+    background-size: contain;
+}
+
+.command-bar-send{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/LotusMail.png);
+    background-size: contain;
+}
+
+.command-bar-add-attachment{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/add_attachment.png);
+    background-size: contain;
+}
+
+.command-bar-view{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/search.png);
+    background-size: contain;
+}
+
+.command-bar-mark{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/command-bar/mark.png);
+    background-size: contain;
+}
+
+.command-bar-withdraw{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/command-bar/withdraw.png);
+    background-size: contain;
+}
+
+.command-bar-history{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/command-bar/history.png);
+    background-size: contain;
+}
+
+.command-bar-trash{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/command-bar/trash.png);
+    background-size: contain;
+}
+
+.command-bar-restore{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/command-bar/restore.png);
+    background-size: contain;
+}
+
+.command-bar-dimensions{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+}
+
+.command-bar-cancel{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/command-bar/close.png);
+    background-size: contain;
+}
+
+.command-bar-stop{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/command-bar/stop.png);
+    background-size: contain;
+}
+
+.command-bar-stop16{
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background:
+            url(../../images/command-bar/stop.png);
+    background-size: contain;
+}
+
+.command-bar-set-checkbox-items{
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background:
+            url(../../images/command-bar/set_checkbox_items.png);
+    background-size: contain;
+}
+
+.command-bar-clear-checkbox-items{
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background:
+            url(../../images/command-bar/clear_checkbox_items.png);
+    background-size: contain;
+}
+
+
+/********** COMMAND BARS END **********/
+
+.select-whom{
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    background:
+            url(../../images/user.png);
+    background-size: contain;
+}
+
+.div05 {
+    line-height: 0.5; /* Line-spacing metric */
+}
+
+.text-block TEXTAREA {
+    /*background: ; !* Background color under the text  *!*/
+    color: black; /* Symbols color*/
+    padding: 5px; /* Fields around text */
+    border: 1px solid #bccfdc; /* Gray boundary around text */
+}
+
+.horizontal DIV {
+    display: inline-block; /* Строчно-блочный элемент */
+}
+
+#info_result {
+    color: red; /* Цвет текста */
+}
+
+.image-for-table{
+    vertical-align:top;
+    width:16px;
+    height:16px
+}
+
+.table-coworkers,
+.table-tasks,
+.table-whom,
+.table-files
+{
+    width: 100%;
+    border-collapse: collapse;
+    border-right: 1px solid black;
+}
+
+.table-coworkers TBODY TD
+{
+    margin:0;
+    padding:0;
+    border: 1px solid black;
+    border-top:0;
+}
+
+.table-tasks TBODY TD,
+.table-whom TBODY TD,
+.table-files TBODY TD
+{
+    margin:0;
+    padding:0;
+    border: 1px solid black;
+    cursor:pointer;
+    border-top:0;
+}
+
+.table-coworkers THEAD TD,
+.table-tasks THEAD TD,
+.table-whom THEAD TD,
+.table-files THEAD TD
+{
+    margin:0;
+    padding:0;
+    border: 1px solid black;
+}
+
+.table-tasks tbody tr:hover,
+.table-whom tbody tr:hover
+{
+    background: rgb(204, 255, 204) !important;
+}
+
+.table-files tbody tr:hover
+{
+    background: rgb(204, 255, 204) ;
+}
+
+.table-tasks thead,
+.table-coworkers thead,
+.table-whom thead,
+.table-files thead
+{
+    background: rgb(240, 255, 240) !important;
+}
+
+/* SCROLL COVER FOR TABLE BEGIN */
+
+.table-wrapper{
+    position:relative;
+    width:100%; /* test */
+}
+
+.table-wrapper table
+{
+    width:100%;
+}
+
+.table-scroll
+{
+    height:85%;
+    overflow-x:hidden;
+    overflow-y:auto;
+    margin-top:20px;
+}
+
+.table-scroll-review-tasks
+{
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: inherit; /* test */
+}
+
+.table-scroll-add-files
+{
+    height:95%;
+    overflow-x:hidden;
+    overflow-y:auto;
+    margin-top:10px;
+}
+
+.table-scroll-add-files-small
+{
+    height:95%;
+    overflow-x:hidden;
+    overflow-y:auto;
+    margin-top:10px;
+}
+
+/* SCROLL COVER FOR TABLE END */
+
+/* HORIZONTAL MENU BEGIN */
+
+.tabs {
+    border-bottom: 1px solid black;
+    padding-bottom: 0;
+    padding-left: 20px;
+}
+
+.tabs DIV {
+    padding: 2px 15px 1px;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    background: #cfd6d4;
+    display: inline
+}
+
+.last-element {
+    border-right: 1px solid black;
+}
+
+.open{
+    background: white !important;
+    border-bottom: 1px solid white!important;
+    border-left: 1px solid black;
+}
+
+/* HORIZONTAL MENU END */
+
+/* Hide standard view of chose file button */
+
+.agent-hide-file{
+    opacity:0;
+    position:absolute;
+    height:16px;     /* Depends on height of parent div */
+    width:16px;      /* Depends on width of parent div */
+    padding:0;
+    margin:0;
+}
+
+/*noinspection CssUnusedSymbol*/
+.files-tr-marked{
+    background-color: #3dff1a !important;
+}
+
+/* INVISIBLE HEAD OF THE TABLE BEGIN */
+
+.second_row{
+    background-color:white;
+    color: white;
+    border-style: hidden;
+}
+
+.td_sr{
+    border-left-color:white !important;
+    border-right-color:white !important;
+}
+
+/* INVISIBLE HEAD OF THE TABLE END */
+
+mark {
+    background-color: #3dff1a;
+    color: black;
+}

@@ -1,0 +1,10 @@
+table.selection {
+    width: 25%;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+td.head_name {
+    font: bold italic 110% serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    align-content: center;
+}
