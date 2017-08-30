@@ -27,7 +27,7 @@ public abstract class AbstractCategory {
     private Long code;  // String and Long ?
 
 //    @Column(name = "PARENT")
- //   private AbstractCategory parent;
+ //   private AbstractCategory parent; // test
 
     @Column(name = "is_folder")
     private boolean isFolder;
