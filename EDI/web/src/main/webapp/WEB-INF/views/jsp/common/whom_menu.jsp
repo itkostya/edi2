@@ -49,10 +49,10 @@
 <script>
 
     const maxCountOfUsers = 10;
-    let
+    let documentTypeId = "${documentTypeId}";
 
     //noinspection JSUnusedLocalSymbols
-    function selectUsers(documentPropertyId) {
+    function selectUsers() {
 
         const selectMenuUser = document.getElementById("selectMenuUser");
         selectMenuUser.innerHTML = "";
@@ -85,7 +85,7 @@
 
     }
 
-    function selectUsersOnKeyDown(documentPropertyId) {
+    function selectUsersOnKeyDown() {
 
         let currentChild;
         let currentTabIndex, newPosition, count;
@@ -115,7 +115,7 @@
     }
 
     //noinspection JSUnusedLocalSymbols
-    function refreshChooseOneUser(currentTable, documentPropertyId) {
+    function refreshChooseOneUser(currentTable) {
 
         let body, row;
         let row_style;
@@ -136,7 +136,7 @@
         <c:choose><c:when test="${(status.index % 2) == 0}"> row_style+=" background: rgb(255, 248, 234); ";</c:when></c:choose>
         row.style= row_style;
 
-        row.onclick =  function () { getUserFromPopUpMenu("${cell.fio}", "${cell.id}", "${cell.position.name}", documentPropertyId); };
+        row.onclick =  function () { getUserFromPopUpMenu("${cell.fio}", "${cell.id}", "${cell.position.name}"); };
 
         </c:forEach>
 
@@ -147,9 +147,9 @@
 
     }
 
-    function getUserFromPopUpMenu(userFio, id, positionInCompany, documentPropertyId) {
+    function getUserFromPopUpMenu(userFio, id, positionInCompany) {
 
-        if (documentPropertyId === <%=DocumentProperty.MESSAGE.getId()%>) {
+        if (documentTypeId === <%=DocumentProperty.MESSAGE.getId()%>) {
             document.getElementById("selectedUser").value+= userFio.replace("&nbsp", " ").replace("&nbsp", " ")+"; ";
 
         }else {

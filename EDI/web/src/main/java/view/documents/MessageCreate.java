@@ -68,7 +68,7 @@ public class MessageCreate extends HttpServlet {
 
             req.setAttribute("finalDate", finalDate);
             req.setAttribute("userList", userList);
-            req.setAttribute("documentType", DocumentProperty.MESSAGE);
+            req.setAttribute("documentTypeId", DocumentProperty.MESSAGE.getId());
 
             Long tempId = (Long) CommonModule.getNumberFromRequest(req, "tempId", Long.class);
             SessionDataElement sessionDataElement = SessionParameter.INSTANCE.getUserSettings(req).getSessionDataElement(tempId);
