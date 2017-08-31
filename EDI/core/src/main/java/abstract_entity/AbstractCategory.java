@@ -26,7 +26,7 @@ public abstract class AbstractCategory {
     @Column(name = "code")
     private Long code;  // String and Long ?
 
-//    @Column(name = "PARENT") // test 100
+//    @Column(name = "PARENT")
  //   private AbstractCategory parent;
 
     @Column(name = "is_folder")
