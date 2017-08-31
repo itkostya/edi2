@@ -67,9 +67,9 @@
 
         document.getElementById("menu_send_to_users").innerHTML = createMenuSendToUsers();
         document.getElementById("menu_choose_users").innerHTML = createMenuChooseUsers();
-        setReviewOnload();
+        //setReviewOnload();
         setUsersOnPage();
-        refreshChooseOneUser(document.getElementById("table_choose_one_user"));
+        refreshChooseOneUser(document.getElementById("table_choose_one_user"),  <%=DocumentProperty.MESSAGE.getId()%>);
         uploadedFileList = fillUploadedFiles();
 
         resizeElements();

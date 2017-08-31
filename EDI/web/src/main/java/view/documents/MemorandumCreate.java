@@ -68,6 +68,7 @@ public class MemorandumCreate extends HttpServlet {
 
             req.setAttribute("finalDate", finalDate);
             req.setAttribute("userList", userList);
+            req.setAttribute("documentType", DocumentProperty.MEMORANDUM);
 
             Long tempId = (Long) CommonModule.getNumberFromRequest(req, "tempId", Long.class);
             SessionDataElement sessionDataElement = SessionParameter.INSTANCE.getUserSettings(req).getSessionDataElement(tempId);

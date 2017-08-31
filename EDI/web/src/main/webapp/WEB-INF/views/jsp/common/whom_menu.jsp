@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%@ page import="documents.DocumentProperty" %>
+
 <%--@elvariable id="userList" type="java.util.List<categories.User>"--%>
 
 <%-- Should be code on page:
@@ -47,9 +49,10 @@
 <script>
 
     const maxCountOfUsers = 10;
+    let
 
     //noinspection JSUnusedLocalSymbols
-    function selectUsers() {
+    function selectUsers(documentPropertyId) {
 
         const selectMenuUser = document.getElementById("selectMenuUser");
         selectMenuUser.innerHTML = "";
@@ -77,12 +80,12 @@
         }
         </c:forEach>
 
-        if (count === 1) getUserFromPopUpMenu(currentUser, currentUserId, currentPositionInCompany);
+        if (count === 1) getUserFromPopUpMenu(currentUser, currentUserId, currentPositionInCompany, documentPropertyId);
         else if (count > maxCountOfUsers) selectMenuUser.innerHTML+='<li tabindex = '+(count+1)+'>... и еще '+(count - maxCountOfUsers)+' сотрудника(-ов)</li>';
 
     }
 
-    function selectUsersOnKeyDown() {
+    function selectUsersOnKeyDown(documentPropertyId) {
 
         let currentChild;
         let currentTabIndex, newPosition, count;
@@ -106,24 +109,24 @@
             while (count++ < newPosition) currentChild = currentChild.nextSibling;
             if (currentChild!== null) currentChild.focus();
 
-            if (event.keyCode === 13) getUserFromPopUpMenu(currentChild.children[0].innerHTML, currentChild.id, currentChild.children[1].innerHTML);
+            if (event.keyCode === 13) getUserFromPopUpMenu(currentChild.children[0].innerHTML, currentChild.id, currentChild.children[1].innerHTML, documentPropertyId);
         }
 
     }
 
     //noinspection JSUnusedLocalSymbols
-    function refreshChooseOneUser(current_table) {
+    function refreshChooseOneUser(currentTable, documentPropertyId) {
 
         let body, row;
         let row_style;
 
-        row = current_table.createTHead().insertRow(0);
+        row = currentTable.createTHead().insertRow(0);
         row.className = "first_row";
 
         insertCellInRow(0, row, 'Ф. И. О.');
         insertCellInRow(1, row, 'Должность');
 
-        body = current_table.appendChild(document.createElement('tbody'));
+        body = currentTable.appendChild(document.createElement('tbody'));
         <c:forEach var="cell" items="${userList}" varStatus="status">
         row = body.insertRow(${status.index});
         insertCellInRow(0, row, '<a href="#choose_one_user" class="link-like-text">${cell.fio}</a>');
@@ -133,36 +136,43 @@
         <c:choose><c:when test="${(status.index % 2) == 0}"> row_style+=" background: rgb(255, 248, 234); ";</c:when></c:choose>
         row.style= row_style;
 
-        row.onclick =  function () { getUserFromPopUpMenu("${cell.fio}", "${cell.id}", "${cell.position.name}"); };
+        row.onclick =  function () { getUserFromPopUpMenu("${cell.fio}", "${cell.id}", "${cell.position.name}", documentPropertyId); };
 
         </c:forEach>
 
-        current_table.createTHead().insertRow(1).outerHTML = "<tr class='second_row'><td class='td_sr'>1</td><td class='td_sr'>2</td></tr>";
+        currentTable.createTHead().insertRow(1).outerHTML = "<tr class='second_row'><td class='td_sr'>1</td><td class='td_sr'>2</td></tr>";
 
         resizeElementsWhomMenu();
         window.addEventListener('resize', resizeElementsWhomMenu);
 
     }
 
-    function getUserFromPopUpMenu(userFio, id, positionInCompany) {
+    function getUserFromPopUpMenu(userFio, id, positionInCompany, documentPropertyId) {
 
-        document.getElementById("selectedUser").value = userFio.replace("&nbsp"," ").replace("&nbsp"," ");
-        document.getElementById("selectMenuUser").innerHTML = "";
-        document.getElementById("whomIdBasic").value = id;
-        document.getElementById("positionToBasic").value = positionInCompany; // new - 5/25/2017
+        if (documentPropertyId === <%=DocumentProperty.MESSAGE.getId()%>) {
+            document.getElementById("selectedUser").value+= userFio.replace("&nbsp", " ").replace("&nbsp", " ")+"; ";
+
+        }else {
+            document.getElementById("selectedUser").value = userFio.replace("&nbsp", " ").replace("&nbsp", " ");
+            document.getElementById("selectMenuUser").innerHTML = "";
+            document.getElementById("whomIdBasic").value = id;
+            document.getElementById("positionToBasic").value = positionInCompany;
+        }
 
     }
 
     function resizeElementsWhomMenu(){
 
         const clientHeight = document.firstChild.clientHeight;
-        const current_table = document.getElementById("table_choose_one_user");
+        const currentTable = document.getElementById("table_choose_one_user");
 
-        for (let i = 0; i < current_table.tHead.rows[0].children.length; i++)
-            current_table.tHead.rows[0].children[i].style = "width:"+current_table.tBodies[0].rows[0].cells[i].clientWidth+";";
+        for (let i = 0; i < currentTable.tHead.rows[0].children.length; i++)
+            currentTable.tHead.rows[0].children[i].style = "width:"+currentTable.tBodies[0].rows[0].cells[i].clientWidth+";";
         document.getElementsByClassName("second_row")[0].style.cssText = "font-size:" + (clientHeight > 850 ? "0" : clientHeight <= 630 ? "8" : clientHeight <= 700 ? "8" : "6") + "px";
 
     }
+
+    // Addition actions for document Message
 
 
 </script>
