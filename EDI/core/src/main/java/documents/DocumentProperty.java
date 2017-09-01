@@ -20,7 +20,7 @@ public enum DocumentProperty {
     private String enName;
     private String ruName;
     private List<ProcessType> processTypeList;
-    private String defaultPrefix;      // By default
+    private String defaultPrefix;
     private int prefixLength;
 
     DocumentProperty(int id, String enName, String ruName, List<ProcessType> processTypeList, String defaultPrefix, int prefixLength) {

@@ -245,7 +245,7 @@
     </div>
     <div class="div05">&nbsp</div>
     <div class="horizontal">
-        <div id="popup_menu_class">
+        <div id="popup-menu">
             <ul>
                 <li><label for="selectedUser">Кому: </label><input tabindex="1" name="whom" size="58%"
                                                                    onkeyUp="selectUsers()"

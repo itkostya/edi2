@@ -114,6 +114,21 @@
                     clientHeight <= 630 ? "88" : clientHeight <= 660 ? "89" : clientHeight <= 700 ? "90" :
                         clientHeight <= 780 ? "91" : clientHeight <= 830 ? "93" : clientHeight <= 880 ? "94" : "95") + "%";
 
+        document.getElementById("popup-menu").style.cssText =
+            "width: " + (clientWidth > 1420 ? "91.5" :
+            clientWidth <= 550 ? "79" :  clientWidth <= 750 ? "82":
+            clientWidth <= 1000 ? "83.5" :  clientWidth <= 1200 ? "88": "90")+ "%";
+
+        document.getElementById("selectedUser").style.cssText =
+            "width: " + (clientWidth > 1420 ? "96.5" :
+            clientWidth <= 550 ? "85" :  clientWidth <= 750 ? "90":
+                clientWidth <= 1000 ? "92.5" :  clientWidth <= 1200 ? "94.5": "95.5")+ "%";
+
+        document.getElementById("themeBasic").style.cssText =
+            "width: " + (clientWidth > 1420 ? "96.5" :
+            clientWidth <= 550 ? "86" :  clientWidth <= 750 ? "91":
+                clientWidth <= 1000 ? "94" :  clientWidth <= 1200 ? "95": "96")+ "%";
+
         addFilesAndResizeTable(uploadedFileList);
         resizeElementsSendDocument();
 
@@ -209,9 +224,9 @@
     </div>
     <div class="div05">&nbsp</div>
     <div class="horizontal">
-        <div id="popup_menu_class">
+        <div id="popup-menu" style="width: 91.5%; vertical-align:top;">
             <ul>
-                <li><label for="selectedUser">Кому: </label><input tabindex="1" name="whom" size="58%"
+                <li><label for="selectedUser">Кому: </label><input tabindex="1" name="whom" style="width:96.5%"
                                                                    onkeyUp="selectUsers()"
                                                                    onkeypress="selectUsers()"
                                                                    onkeydown="selectUsersOnKeyDown()" id="selectedUser"
@@ -231,7 +246,7 @@
     </div>
 
     <div class="div05">&nbsp</div>
-    <div><label for="themeBasic">Тема: </label><input name="theme" size="58%" id="themeBasic"
+    <div><label for="themeBasic">Тема: </label><input name="theme" style="width:96%" id="themeBasic"
                                                       value="${theme}" ${isNewElement==true ? "": "disabled"}></div>
     <div class="div05">&nbsp</div>
     <div class="horizontal" id="div-text-and-files">

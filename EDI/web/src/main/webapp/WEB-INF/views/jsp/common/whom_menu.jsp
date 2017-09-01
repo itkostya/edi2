@@ -8,7 +8,7 @@
 <%-- Should be code on page:
 
   // Choose user with keypress up, down, enter
-  <div id="popup_menu_class">
+  <div id="popup-menu">
      <ul>
         <li>Кому: <input type="text" tabindex="1" name="whom" size="80%" onkeyUp = "selectUsers()" onkeypress="selectUsers()" onkeydown="selectUsersOnKeyDown()" id="selectedUser">
            <input type="hidden" name="whomId" value="x" id="whomIdBasic"/>
@@ -49,7 +49,7 @@
 <script>
 
     const maxCountOfUsers = 10;
-    let documentTypeId = "${documentTypeId}";
+    let documentTypeId = ${documentTypeId};
 
     //noinspection JSUnusedLocalSymbols
     function selectUsers() {
