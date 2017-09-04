@@ -162,13 +162,7 @@
 
     function setReviewDuringWork() {
 
-        // Zhurov   Konstantin  Aleksandrovich  -> Zhurov K. A. (with more than 1 whitespaces)
-        // Zhurov  Konstantin -> Zhurov K.
-        let fio = document.getElementById("selectedUser").value.replace(/\s\s+/g, ' ').split(" ");
-        if (fio.length > 0 && fio[fio.length - 1] === "") fio.splice(fio.length - 1, 1);
-        document.getElementById("userTo").innerHTML = (fio.length >= 1 ? fio[0] + (fio.length >= 2 ? " " + fio[1].charAt(0) + "." +
-                (fio.length >= 3 ? " " + fio[2].charAt(0) + "." : "") : "") : "");
-
+        document.getElementById("userTo").innerHTML = getFioAbbreviated(document.getElementById("selectedUser").value);
         document.getElementById("positionTo").innerHTML = document.getElementById("positionToBasic").value;
         document.getElementById("docTheme").innerHTML = document.getElementById("themeBasic").value;
         document.getElementById("docText").innerHTML = document.getElementById("textInfoBasic").value.replace(/(?:\\[rn]|[\r\n])/g, "<br/>");

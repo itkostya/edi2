@@ -245,6 +245,8 @@
         </div>
     </div>
 
+    <div id="whom-selected"><table id="table-whom-selected"><thead></thead><tbody><tr></tr></tbody></table></div>
+
     <div class="div05">&nbsp</div>
     <div><label for="themeBasic">Тема: </label><input name="theme" style="width:96%" id="themeBasic"
                                                       value="${theme}" ${isNewElement==true ? "": "disabled"}></div>

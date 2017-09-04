@@ -150,4 +150,18 @@
 
     //  -----  Control array files sizes END -----
 
+    // Zhurov   Konstantin  Aleksandrovich  -> Zhurov K. A. (with more than 1 whitespaces)
+    // Zhurov  Konstantin -> Zhurov K.
+    //noinspection JSUnusedLocalSymbols
+    function getFioAbbreviated(userFioFull) {
+
+        userFioFull = userFioFull.replace("&nbsp", " ").replace("&nbsp", " ");
+        userFioFull = userFioFull.replace(String.fromCharCode(160), " ").replace(String.fromCharCode(160), " ");
+        userFioFull = userFioFull.replace(/\s\s+/g, ' ').split(" ");
+        if (userFioFull.length > 0 && userFioFull[userFioFull.length - 1] === "") userFioFull.splice(userFioFull.length - 1, 1);
+        return (userFioFull.length >= 1 ? userFioFull[0] + (userFioFull.length >= 2 ? " " + userFioFull[1].charAt(0) + "." +
+            (userFioFull.length >= 3 ? " " + userFioFull[2].charAt(0) + "." : "") : "") : "");
+
+    }
+
 </script>

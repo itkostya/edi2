@@ -3,6 +3,7 @@
 
 <%@ page import="documents.DocumentProperty" %>
 
+<%--@elvariable id="documentTypeId" type="java.lang.Long"--%>
 <%--@elvariable id="userList" type="java.util.List<categories.User>"--%>
 
 <%-- Should be code on page:
@@ -150,7 +151,9 @@
     function getUserFromPopUpMenu(userFio, id, positionInCompany) {
 
         if (documentTypeId === <%=DocumentProperty.MESSAGE.getId()%>) {
-            document.getElementById("selectedUser").value+= userFio.replace("&nbsp", " ").replace("&nbsp", " ")+"; ";
+            const currentTable = document.getElementById("table-whom-selected");
+            let row = currentTable.tBodies.item(0).rows[0];
+            insertCellInRow(0, row, '<div class="vR"><span class="vN"><div class="vT">'+getFioAbbreviated(userFio)+'</div><div class="vM" onclick="event.currentTarget.offsetParent.outerHTML = \'\'"></div></span></div>');
 
         }else {
             document.getElementById("selectedUser").value = userFio.replace("&nbsp", " ").replace("&nbsp", " ");
