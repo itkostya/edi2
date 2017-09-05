@@ -108,11 +108,16 @@
             }
         }
 
+        const heightTableWhomSelected = document.getElementById("table-whom-selected").tBodies.item(0).rows[0].cells.length === 0 ? 0 :
+            (clientHeight > 800 ? 5 : clientHeight <= 510 ? 12 : clientHeight <= 560 ? 10 : clientHeight <= 650 ? 7 : 6);
+
+        document.getElementById("whom-selected").style.cssText = "height: "+heightTableWhomSelected+"%";
+
         document.getElementById("div-text-and-files").style.cssText =
-            "height: " + (clientHeight > 940 ? "96" : clientHeight <= 510 ? "75" : clientHeight <= 531 ? "84" :
-                clientHeight <= 550 ? "85" : clientHeight <= 580 ? "86" : clientHeight <= 601 ? "87" :
-                    clientHeight <= 630 ? "88" : clientHeight <= 660 ? "89" : clientHeight <= 700 ? "90" :
-                        clientHeight <= 780 ? "91" : clientHeight <= 830 ? "93" : clientHeight <= 880 ? "94" : "95") + "%";
+            "height: " + ((clientHeight > 940 ? 96 : clientHeight <= 510 ? 75 : clientHeight <= 531 ? 84 :
+                clientHeight <= 550 ? 85 : clientHeight <= 580 ? 86 : clientHeight <= 601 ? 87 :
+                    clientHeight <= 630 ? 88 : clientHeight <= 660 ? 89 : clientHeight <= 700 ? 90 :
+                        clientHeight <= 780 ? 91 : clientHeight <= 830 ? 93 : clientHeight <= 880 ? 94 : 95) - heightTableWhomSelected )+ "%";
 
         document.getElementById("popup-menu").style.cssText =
             "width: " + (clientWidth > 1420 ? "91.5" :
@@ -167,9 +172,7 @@
             button.innerHTML = 'Сохранение...';
             button.disabled = true;
         }
-
     }
-
 
 </script>
 
@@ -245,7 +248,7 @@
         </div>
     </div>
 
-    <div id="whom-selected"><table id="table-whom-selected"><thead></thead><tbody><tr></tr></tbody></table></div>
+    <div id="whom-selected" class="horizontal-scroll-menu"><table id="table-whom-selected"><thead></thead><tbody><tr></tr></tbody></table></div>
 
     <div class="div05">&nbsp</div>
     <div><label for="themeBasic">Тема: </label><input name="theme" style="width:96%" id="themeBasic"

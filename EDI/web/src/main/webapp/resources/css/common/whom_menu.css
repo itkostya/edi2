@@ -72,9 +72,12 @@
     display: inline-block;
     width: 14px;
     height: 20px;
-    /*background: no-repeat url(//ssl.gstatic.com/apps/gadgets/contactarea/contactarea_sprite_2.gif) -4px 0;*/
     background: no-repeat url(/resources/images/contactarea_sprite_2.gif) -4px 0;
-    opacity: .6;
     vertical-align: top;
     cursor: pointer;
+}
+
+div.horizontal-scroll-menu {
+    overflow-x: auto;
+    overflow-y: hidden;
 }
