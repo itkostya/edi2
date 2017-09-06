@@ -55,7 +55,7 @@
 
     window.onload = function () {
 
-//        window.alert("onLoad");
+        //window.alert("onLoad memorandum");
 
         <c:choose>
         <c:when test="${sessionDataElement.elementStatus == ElementStatus.CLOSE}">window.close();

@@ -54,7 +54,7 @@ import java.util.stream.Collectors;
         maxRequestSize = Constant.MAX_REQUEST_SIZE)
 public class MemorandumCreate extends HttpServlet {
 
-    private java.sql.Date finalDate = TimeModule.INSTANCE.getFinalDateOfProcess();
+    private java.sql.Date finalDate = TimeModule.getFinalDateOfProcess();
     private final static List<User> userList = UserImpl.INSTANCE.getUsers();
 
     @Override
@@ -217,7 +217,7 @@ public class MemorandumCreate extends HttpServlet {
                                     // --- Create document Memorandum, business_process' classes: BusinessProcess, BusinessProcessSequence, ExecutorTask ---
 
                                     documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, whomUser, theme, textInfo, fileList);
-                                    CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, (Memorandum) documentEdi, executorTask, timeStamp, usersIdArray, orderTypeArray, processTypeArray, processTypeCommon, comment, new java.sql.Timestamp(finalDate.getTime()));
+                                    CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, documentEdi, executorTask, timeStamp, usersIdArray, orderTypeArray, processTypeArray, processTypeCommon, comment, new java.sql.Timestamp(finalDate.getTime()));
                                     sessionDataElement.setElementStatus(closeDocument ? ElementStatus.CLOSE : ElementStatus.STORE);
 
                                 }

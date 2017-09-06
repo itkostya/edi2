@@ -446,37 +446,6 @@ window.onload = function () {
 
     }
 
-
-    function afterErrorPageCheckResult(xhr) {
-
-        if (xhr.status !== 200) {
-            document.getElementById("info_result").innerHTML = "Ошибка (возможно превышен максимальный размер файла ${Constant.MAX_FILE_SIZE} или всех файлов ${Constant.MAX_REQUEST_SIZE})";
-        }
-
-    }
-
-
-    function afterLoadingPageCheckResult(xhr, reloadParentsPage) {
-
-        if (xhr.readyState === 4) {
-            let el = document.createElement('html');
-            el.innerHTML = xhr.responseText;
-            if (el.getElementsByTagName('div') !== null && el.getElementsByTagName('div').length !== 0) {
-                let newInfoResult = el.getElementsByTagName('div').namedItem('info_result').innerHTML;
-                if ((newInfoResult === null) || (newInfoResult === '')) {
-                    window.location.reload(true);
-                    if (reloadParentsPage) window.opener.location.reload(true); // Reload parent's page
-                } else {
-                    document.getElementById("info_result").innerHTML = newInfoResult;
-                }
-            } else {
-                window.location.reload(true);
-                if (reloadParentsPage) window.opener.location.reload(true); // Reload parent's page
-            }
-        }
-
-    }
-
     function setMarkOfLine() {
         table_recipients.tBodies[0].rows[recipients_row_index].className = "recipients-tr-marked";
         for (let i = 0; i < table_recipients.tBodies[0].rows.length; i++)

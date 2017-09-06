@@ -35,7 +35,7 @@
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/resources/css/common/modal_forms.css"/>" rel="stylesheet" type="text/css">
     <jsp:include page="../common/common.jsp"/>
-    <jsp:include page="../common/send_document.jsp"/>
+    <%--<jsp:include page="../common/send_document.jsp"/>--%>
     <jsp:include page="../common/whom_menu.jsp"/>
     <jsp:include page="../common/add_files.jsp"/>
 </head>
@@ -44,10 +44,10 @@
 
 <script>
 
-    let table_users;
-    let table_recipients;
-    let process_type = -1;
-    let recipients_row_index = -1;
+//    let table_users;
+//    let table_recipients;
+//    let process_type = -1;
+//    let recipients_row_index = -1;
     let fileList = [];
     let uploadedFileList = [];
     let rowMarkedTableIndex = -1;
@@ -55,7 +55,7 @@
 
     window.onload = function () {
 
-//        window.alert("onLoad");
+        //window.alert("onLoad message");
 
         <c:choose>
         <c:when test="${sessionDataElement.elementStatus == ElementStatus.CLOSE}">window.close();
@@ -65,10 +65,10 @@
 
         <c:set value="${(sessionDataElement.elementStatus == ElementStatus.CREATE || sessionDataElement.elementStatus == ElementStatus.ERROR)}" var="isNewElement"/>
 
-        document.getElementById("menu_send_to_users").innerHTML = createMenuSendToUsers();
-        document.getElementById("menu_choose_users").innerHTML = createMenuChooseUsers();
+//        document.getElementById("menu_send_to_users").innerHTML = createMenuSendToUsers();
+//        document.getElementById("menu_choose_users").innerHTML = createMenuChooseUsers();
         //setReviewOnload();
-        setUsersOnPage();
+        //setUsersOnPage();
         refreshChooseOneUser(document.getElementById("table_choose_one_user"),  <%=DocumentProperty.MESSAGE.getId()%>);
         uploadedFileList = fillUploadedFiles();
 
@@ -135,7 +135,7 @@
                 clientWidth <= 1000 ? "94" :  clientWidth <= 1200 ? "95": "96")+ "%";
 
         addFilesAndResizeTable(uploadedFileList);
-        resizeElementsSendDocument();
+        //resizeElementsSendDocument();
 
     }
 
@@ -174,6 +174,54 @@
         }
     }
 
+    function sendMessageAfterChecking() {
+
+        //const post_users = [];
+        let i;
+        let errorString = "";
+
+        if (document.getElementById("table-whom-selected").tBodies.item(0).rows[0].cells.length === 0)
+            errorString += "Не выбран получатель(-ли); ";
+
+        errorString += getResultStringOfComparingBigFilesArray(fileList, ${Constant.MAX_FILE_SIZE});
+
+        if (errorString !== "") {
+            document.getElementById("info_result").innerHTML = errorString;
+        } else {
+
+            const post_users = Array.from(document.getElementsByClassName("hidden-id")).map(f => f.innerText);
+
+            const formData = new FormData(document.forms["doc_message_create"]);
+            //const formData = new FormData(document.forms["menu_send_to_users"]);
+            formData.append("post_users[]", post_users);
+
+            if (uploadedFileList !== null) {
+                let uploadedFileString = "";
+                for (i = 0; i < uploadedFileList.length; i++) uploadedFileString += uploadedFileList[i][1] + ";"; // File's md5Hex sum
+                formData.append("uploadedFileString", uploadedFileString);
+            }
+
+            for (i = 0; i < fileList.length; i++) formData.append("fileList[]", fileList[i]);
+            formData.append("param", "send");
+            formData.append("param", "send");
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "${pageContext.request.contextPath}", true);
+            xhr.timeout = 30000;
+            xhr.send(formData);
+
+            xhr.onerror = function () {
+                afterErrorPageCheckResult(xhr);
+            };
+            xhr.onload = function () {
+                afterLoadingPageCheckResult(xhr, true);
+            };
+
+            document.getElementById("info_result").innerHTML = "Отправка...";
+        }
+
+    }
+
 </script>
 
 <form method="post" action="${pageContext.request.contextPath}/doc_message_create" autocomplete="off"
@@ -188,34 +236,15 @@
             </button>
         </div>
         <div>
-            <div class="div-like-button ${isNewElement==true ? "" : "button-disabled"}"
+            <div class="div-like-button"
                  onclick="saveAsDraft();" id="command-bar-draft">
                 <img class="command-bar-save" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
                 Сохранить как черновик
             </div>
         </div>
-        <div id="send" class="div-like-button">
-            <ul>
-                <li id="command-bar-send">
-                    <img class="command-bar-send" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="/>
-                    Отправить &#9660;
-                    <ul>
-                        <c:forEach var="cell" items="<%=DocumentProperty.MESSAGE.getProcessTypeList()%>"
-                                   varStatus="status">
-                            <li><a href="#form_send_to_users" class="button"
-                                   onclick="return checkParameterAndSetTypeProcess(${status.index});">
-                                <img src="${pageContext.request.contextPath}/resources/images/enumerators/ProcessType/${cell.enName.toLowerCase()}/accept.png">
-                                <span class="submit">На ${cell.ruName.toLowerCase()}</span></a>
-                            </li>
-                        </c:forEach>
-
-                        <li><a href="#form_send_to_users" class="button"
-                               onclick="return checkParameterAndSetTypeProcess(<%=Constant.SCENARIO_NUMBER%>);">
-                            <img src="${pageContext.request.contextPath}/resources/images/enumerators/ProcessType/scenario/accept.png">
-                            <span class="submit">По сценарию</span></a>
-                        </li>
-                    </ul>
-            </ul>
+        <div id="send" class="div-like-button" onclick="return sendMessageAfterChecking()">
+            <img src="${pageContext.request.contextPath}/resources/images/LotusMail.png">
+            <span class="submit">Отправить</span>
         </div>
 
         <div class="div-like-button ${isNewElement==true ? "" : "button-disabled"}" id="div_add_files">

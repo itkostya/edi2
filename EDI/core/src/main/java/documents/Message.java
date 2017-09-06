@@ -26,6 +26,8 @@ public class Message extends AbstractDocumentEdi {
     @Column(name = "message_field")
     private String messageField;
 
+    private String whom;
+
     public String getMessageField() {
         return messageField;
     }

@@ -58,7 +58,7 @@ import java.util.stream.Collectors;
         maxRequestSize = Constant.MAX_REQUEST_SIZE)
 public class ExecutorTaskServlet extends HttpServlet {
 
-    private java.sql.Date finalDate = TimeModule.INSTANCE.getFinalDateOfProcess();
+    private java.sql.Date finalDate = TimeModule.getFinalDateOfProcess();
     private final List<User> userList = UserImpl.INSTANCE.getUsers();
 
     @Override

@@ -35,17 +35,4 @@ public enum PageContainer {
 
     public static final String DOWNLOAD_PAGE = "/download";
 
-//    public static String getPageNameByHref(String href){
-//
-//        if (href.contains(ADMIN_PAGE)) return ADMIN_PAGE;
-//        else if (href.contains(USER_PAGE)) return USER_PAGE;
-//        else if (href.contains(WORK_AREA_PAGE)) return WORK_AREA_PAGE;
-//        else if (href.contains(DOCUMENT_MEMORANDUM_JOURNAL_PAGE)) return DOCUMENT_MEMORANDUM_JOURNAL_PAGE;
-//        else if (href.contains(DOCUMENT_MEMORANDUM_CREATE_PAGE)) return DOCUMENT_MEMORANDUM_CREATE_PAGE;
-//        else if (href.contains(EXECUTOR_TASK_PAGE)) return EXECUTOR_TASK_PAGE;
-//        else if (href.contains(DOWNLOAD_PAGE)) return DOWNLOAD_PAGE;
-//
-//        return "";
-//    }
-
 }

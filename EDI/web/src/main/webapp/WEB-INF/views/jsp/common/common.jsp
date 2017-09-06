@@ -1,3 +1,6 @@
+<%--@elvariable id="Constant" type="enumerations"--%>
+<%@ page import="app_info.Constant" %>
+
 <%--@elvariable id="PageContainer" type="tools"--%>
 <%@ page import="tools.PageContainer"%>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -163,5 +166,38 @@
             (userFioFull.length >= 3 ? " " + userFioFull[2].charAt(0) + "." : "") : "") : "");
 
     }
+
+    //  -----  Check result after sending document BEGIN -----
+
+    //noinspection JSUnusedLocalSymbols
+    function afterErrorPageCheckResult(xhr) {
+
+        if (xhr.status !== 200) {
+            document.getElementById("info_result").innerHTML = "Ошибка (возможно превышен максимальный размер файла ${Constant.MAX_FILE_SIZE} или всех файлов ${Constant.MAX_REQUEST_SIZE})";
+        }
+    }
+
+    //noinspection JSUnusedLocalSymbols
+    function afterLoadingPageCheckResult(xhr, reloadParentsPage) {
+
+        if (xhr.readyState === 4) {
+            let el = document.createElement('html');
+            el.innerHTML = xhr.responseText;
+            if (el.getElementsByTagName('div') !== null && el.getElementsByTagName('div').length !== 0) {
+                let newInfoResult = el.getElementsByTagName('div').namedItem('info_result').innerHTML;
+                if ((newInfoResult === null) || (newInfoResult === '')) {
+                    window.location.reload(true);
+                    if (reloadParentsPage) window.opener.location.reload(true); // Reload parent's page
+                } else {
+                    document.getElementById("info_result").innerHTML = newInfoResult;
+                }
+            } else {
+                window.location.reload(true);
+                if (reloadParentsPage) window.opener.location.reload(true); // Reload parent's page
+            }
+        }
+    }
+
+    //  -----  Check result after sending document END -----
 
 </script>

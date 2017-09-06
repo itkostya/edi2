@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 
 
 /*
- * Created by kostya on 9/20/2016.
+ * Created by kostya on 8/14/2017
  */
 
 @WebServlet(urlPatterns = {PageContainer.DOCUMENT_MESSAGE_CREATE_PAGE})
@@ -54,7 +54,7 @@ import java.util.stream.Collectors;
         maxRequestSize = Constant.MAX_REQUEST_SIZE)
 public class MessageCreate extends HttpServlet {
 
-    private java.sql.Date finalDate = TimeModule.INSTANCE.getFinalDateOfProcess();
+    private java.sql.Date finalDate = TimeModule.getFinalDateOfProcess(3);
     private final static List<User> userList = UserImpl.INSTANCE.getUsers();
 
     @Override
@@ -66,7 +66,6 @@ public class MessageCreate extends HttpServlet {
 
             User currentUser = SessionParameter.INSTANCE.getCurrentUser(req);
 
-            req.setAttribute("finalDate", finalDate);
             req.setAttribute("userList", userList);
             req.setAttribute("documentTypeId", DocumentProperty.MESSAGE.getId());
 
@@ -195,29 +194,17 @@ public class MessageCreate extends HttpServlet {
                                     sessionDataElement.setErrorMessage("Не выбран(ы) получатели документа");
                                 } else {
 
-                                    // Order type
-                                    String[] orderTypeArray = "".equals(req.getParameter("post_order_type[]")) ? null : req.getParameter("post_order_type[]").split(",");
-
                                     // Process type
-                                    int processTypeParameter = Integer.valueOf(req.getParameter("process_type"));  // scenario - a lot of different process
-                                    String[] processTypeArray = null;
-                                    ProcessType processTypeCommon = null;
-                                    if (processTypeParameter == Constant.SCENARIO_NUMBER) {
-                                        String postProcessType = req.getParameter("post_process_type[]");
-                                        processTypeArray = postProcessType.split(",");
-                                    } else {
-                                        processTypeCommon = DocumentProperty.MESSAGE.getProcessTypeList().get(processTypeParameter);
-                                    }
+                                    ProcessType processTypeCommon = DocumentProperty.MESSAGE.getProcessTypeList().get(0);
 
                                     String comment = req.getParameter("comment");
                                     if (Objects.nonNull(comment))
                                         comment = CommonModule.getCorrectStringForWeb(comment);
-                                    finalDate = java.sql.Date.valueOf(req.getParameter("finalDate")); //java.sql.Date.valueOf("2015-01-21")
 
                                     // --- Create document Message, business_process' classes: BusinessProcess, BusinessProcessSequence, ExecutorTask ---
 
                                     documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, whomUser, theme, textInfo, fileList);
-                                    CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, (Message) documentEdi, executorTask, timeStamp, usersIdArray, orderTypeArray, processTypeArray, processTypeCommon, comment, new java.sql.Timestamp(finalDate.getTime()));
+                                    CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, (Message) documentEdi, executorTask, timeStamp, usersIdArray, null, null, processTypeCommon, comment, new java.sql.Timestamp(finalDate.getTime()));
                                     sessionDataElement.setElementStatus(closeDocument ? ElementStatus.CLOSE : ElementStatus.STORE);
 
                                 }

@@ -37,7 +37,7 @@ public enum TimeModule {
 
     }
 
-    public  java.sql.Date getFinalDateOfProcess(){
+    public static java.sql.Date getFinalDateOfProcess(){
 
         java.sql.Date result = new java.sql.Date( new java.util.Date().getTime() );
 
@@ -54,6 +54,17 @@ public enum TimeModule {
 
         return new java.sql.Date(c.getTime().getTime());
     }
+
+    public static java.sql.Date getFinalDateOfProcess(int addDays){
+
+        java.sql.Date result = new java.sql.Date( new java.util.Date().getTime() );
+        Calendar c = Calendar.getInstance();
+        c.setTime(result);
+        c.add(Calendar.DAY_OF_MONTH, addDays);
+        return new java.sql.Date(c.getTime().getTime());
+
+    }
+
 
     public static java.sql.Timestamp addSecondsToCurrentTime(Long seconds){
 

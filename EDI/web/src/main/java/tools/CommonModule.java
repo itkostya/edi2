@@ -33,7 +33,8 @@ public enum CommonModule {
     INSTANCE;
 
     public static String getCorrectStringForWeb(String base) {
-       return base.replace("\r\n", "</br>").replace("'","").replace("\\","").replace("\"","");
+       if (Objects.isNull(base)) return "";
+       else return base.replace("\r\n", "</br>").replace("'","").replace("\\","").replace("\"","");
     }
 
     public static String getCorrectStringJspPage(String base) {

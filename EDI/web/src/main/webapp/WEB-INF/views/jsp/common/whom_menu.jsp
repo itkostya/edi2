@@ -153,9 +153,8 @@
         if (documentTypeId === <%=DocumentProperty.MESSAGE.getId()%>) {
             const currentTable = document.getElementById("table-whom-selected");
             let row = currentTable.tBodies.item(0).rows[0];
-            insertCellInRow(0, row, '<div class="vR"><span class="vN"><div class="vT">'+getFioAbbreviated(userFio)+'</div><div class="vM" onclick="event.currentTarget.offsetParent.outerHTML = \'\'; resizeElements();"></div></span></div>');
+            insertCellInRow(0, row, '<div class="vR"><span class="vN"><div class="vT">'+getFioAbbreviated(userFio)+'</div><div class="hidden-id" hidden>'+id+'</div><div class="vM" onclick="event.currentTarget.offsetParent.outerHTML = \'\'; resizeElements();"></div></span></div>');
             resizeElements();
-
         }else {
             document.getElementById("selectedUser").value = userFio.replace("&nbsp", " ").replace("&nbsp", " ");
             document.getElementById("selectMenuUser").innerHTML = "";
@@ -175,9 +174,6 @@
         document.getElementsByClassName("second_row")[0].style.cssText = "font-size:" + (clientHeight > 850 ? "0" : clientHeight <= 630 ? "8" : clientHeight <= 700 ? "8" : "6") + "px";
 
     }
-
-    // Addition actions for document Message
-
 
 </script>
 
