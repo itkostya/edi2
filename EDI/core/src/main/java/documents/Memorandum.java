@@ -3,10 +3,8 @@ package documents;
 import abstract_entity.AbstractDocumentEdi;
 import categories.User;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -27,6 +25,11 @@ public class Memorandum extends AbstractDocumentEdi {
     @Column(name = "memorandum_field")
     private String memorandumField;
 
+    @NotNull(message = "Поле 'Кому' должно быть заполнено")
+    @ManyToOne
+    @JoinColumn(name = "whom_id")
+    private User whom;
+
     public String getMemorandumField() {
         return memorandumField;
     }
@@ -40,9 +43,18 @@ public class Memorandum extends AbstractDocumentEdi {
         setDocumentProperty(DocumentProperty.MEMORANDUM);
     }
 
-    public Memorandum(Timestamp date, boolean deletionMark, String number, boolean posted, User author, User whom, String theme, String text) {
-        super(date, deletionMark, number, posted, author, whom, theme, text);
+    public Memorandum(Timestamp date, boolean deletionMark, String number, boolean posted, User author, String theme, String text, String whomString, User whom) {
+        super(date, deletionMark, number, posted, author, theme, text, whomString);
+        this.whom = whom;
         setDocumentProperty(DocumentProperty.MEMORANDUM);
+    }
+
+    public User getWhom() {
+        return whom;
+    }
+
+    public void setWhom(User whom) {
+        this.whom = whom;
     }
 
     @Override
@@ -51,11 +63,11 @@ public class Memorandum extends AbstractDocumentEdi {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Memorandum that = (Memorandum) o;
-        return Objects.equals(memorandumField, that.memorandumField);
+        return Objects.equals(memorandumField, that.memorandumField) && Objects.equals(whom, that.whom);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), memorandumField);
+        return Objects.hash(super.hashCode(), memorandumField, whom);
     }
 }

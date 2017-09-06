@@ -38,6 +38,7 @@ import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -92,11 +93,12 @@ public class MessageCreate extends HttpServlet {
                     // Get for draft
                     req.setAttribute("theme", documentEdi.getTheme());
                     req.setAttribute("textInfo", documentEdi.getText());
-                    User whomUser = documentEdi.getWhom();
-                    if (Objects.nonNull(whomUser)) {
-                        req.setAttribute("whomId", whomUser.getId());
-                        req.setAttribute("selectedUser", whomUser.getFio());
-                    }
+                    // TODO - get whom users
+//                    User whomUser = documentEdi.getWhom();
+//                    if (Objects.nonNull(whomUser)) {
+//                        req.setAttribute("whomId", whomUser.getId());
+//                        req.setAttribute("selectedUser", whomUser.getFio());
+//                    }
                     req.setAttribute("uploadedFiles", UploadedFileServiceImpl.INSTANCE.getListByDocument(documentEdi));
                 }
 
@@ -169,12 +171,14 @@ public class MessageCreate extends HttpServlet {
                         }
 
                         List<UploadedFile> fileList = CommonModule.getFileListFromRequest(req, "fileList[]"); // new files from client
+                        // --- Parse data ---
+                        String[] usersIdArray = "".equals(req.getParameter("post_users[]")) ? null : req.getParameter("post_users[]").split(",");
 
                         switch (param) {
 
                             case "save":
 
-                                documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, whomUser, theme, textInfo, fileList);
+                                documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, usersIdArray);
                                 if (Objects.isNull(executorTask)) {
                                     executorTask = new ExecutorTask(timeStamp, null, true, currentUser, documentEdi, null, "", null, null, new java.sql.Timestamp(finalDate.getTime()), null, false, false, true);
                                     ExecutorTaskImpl.INSTANCE.save(executorTask);
@@ -186,9 +190,6 @@ public class MessageCreate extends HttpServlet {
 
                             case "send":
 
-                                // --- Parse data ---
-                                String[] usersIdArray = "".equals(req.getParameter("post_users[]")) ? null : req.getParameter("post_users[]").split(",");
-
                                 if (Objects.isNull(usersIdArray)) {
                                     sessionDataElement.setElementStatus(ElementStatus.ERROR);
                                     sessionDataElement.setErrorMessage("Не выбран(ы) получатели документа");
@@ -197,14 +198,10 @@ public class MessageCreate extends HttpServlet {
                                     // Process type
                                     ProcessType processTypeCommon = DocumentProperty.MESSAGE.getProcessTypeList().get(0);
 
-                                    String comment = req.getParameter("comment");
-                                    if (Objects.nonNull(comment))
-                                        comment = CommonModule.getCorrectStringForWeb(comment);
-
                                     // --- Create document Message, business_process' classes: BusinessProcess, BusinessProcessSequence, ExecutorTask ---
 
-                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, whomUser, theme, textInfo, fileList);
-                                    CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, (Message) documentEdi, executorTask, timeStamp, usersIdArray, null, null, processTypeCommon, comment, new java.sql.Timestamp(finalDate.getTime()));
+                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, usersIdArray);
+                                    CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, (Message) documentEdi, executorTask, timeStamp, usersIdArray, null, null, processTypeCommon, null, new java.sql.Timestamp(finalDate.getTime()));
                                     sessionDataElement.setElementStatus(closeDocument ? ElementStatus.CLOSE : ElementStatus.STORE);
 
                                 }
@@ -254,13 +251,16 @@ public class MessageCreate extends HttpServlet {
         }
     }
 
-    private AbstractDocumentEdi createOrUpdateDocument(HttpServletRequest req, AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, User whomUser, String theme, String textInfo, List<UploadedFile> fileList) {
+    private AbstractDocumentEdi createOrUpdateDocument(HttpServletRequest req, AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, String theme, String textInfo, List<UploadedFile> fileList, String[] usersIdArray ) {
+
+        Object[] usersWhom = Arrays.stream(usersIdArray).map(s -> UserImpl.INSTANCE.getUserById(Long.valueOf(s))).toArray();
+        String whomUser = (Arrays.toString( Arrays.stream(usersWhom).map(s-> ((User) s).getFio()).toArray())).replace("[", "").replace("]", "");
 
         if (Objects.isNull(documentEdi)) {
-            documentEdi = new Message(timeStamp, false, null, false, currentUser, whomUser, CommonModule.getCorrectStringForWeb(theme), textInfo);
+            documentEdi = new Message(timeStamp, false, null, false, currentUser, CommonModule.getCorrectStringForWeb(theme), textInfo, whomUser);
             MessageImpl.INSTANCE.save((Message) documentEdi);
         } else {
-            documentEdi.setWhom(whomUser);
+            documentEdi.setWhomString(whomUser);
             documentEdi.setTheme(CommonModule.getCorrectStringForWeb(theme));
             documentEdi.setText(textInfo);
             MessageImpl.INSTANCE.update((Message) documentEdi);

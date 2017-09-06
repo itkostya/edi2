@@ -203,7 +203,6 @@
 
             for (i = 0; i < fileList.length; i++) formData.append("fileList[]", fileList[i]);
             formData.append("param", "send");
-            formData.append("param", "send");
 
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "${pageContext.request.contextPath}", true);

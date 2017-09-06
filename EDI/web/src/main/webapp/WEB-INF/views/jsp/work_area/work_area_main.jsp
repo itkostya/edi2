@@ -27,7 +27,7 @@
 <html>
 
 <head>
-    <title>Edi - version 0.90.2 - beta</title>
+    <title>Edi - version 0.90.4 - beta</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/work_area/work_area_main.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">

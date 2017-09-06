@@ -135,9 +135,9 @@ public class ExecutorTaskServlet extends HttpServlet {
                         sessionDataElement.setElementStatus(ElementStatus.STORE);
                     }
 
-                    if (Objects.nonNull(documentEdi.getWhom())) {
-                        req.setAttribute("positionTo", documentEdi.getWhom().getPosition().getName());
-                        req.setAttribute("userTo", documentEdi.getWhom().getFioInitials());
+                    if ((documentEdi instanceof Memorandum) && (Objects.nonNull(((Memorandum)documentEdi).getWhom()))) {
+                        req.setAttribute("positionTo", ((Memorandum)documentEdi).getWhom().getPosition().getName());
+                        req.setAttribute("userTo", ((Memorandum)documentEdi).getWhom().getFioInitials());
                     }
 
                     if (Objects.nonNull(documentEdi.getAuthor())) {

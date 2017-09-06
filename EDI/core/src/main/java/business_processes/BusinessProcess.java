@@ -49,8 +49,7 @@ public class BusinessProcess {
     @JoinColumn(name = "document_id")
     private AbstractDocumentEdi document;
 
-    @NotNull(message = "Поле 'Комментарий' не должно быть null")
-    @Size(min = 0, max = 255, message = "Поле 'Комментарий' не должно превышать 255 символов")
+    @Size(max = 255, message = "Поле 'Комментарий' не должно превышать 255 символов")
     @Column(name = "comment")
     private String comment;  // comment to recipients
 

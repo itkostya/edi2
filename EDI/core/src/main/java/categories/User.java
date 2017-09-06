@@ -6,6 +6,7 @@ import business_processes.BusinessProcess;
 import business_processes.BusinessProcessSequence;
 import business_processes.ExecutorTask;
 import business_processes.ExecutorTaskFolderStructure;
+import documents.Memorandum;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
@@ -58,7 +59,7 @@ public class User extends AbstractCategory{
     private Set<AbstractDocumentEdi> documentSet = new HashSet<>();
 
     @OneToMany(mappedBy = "whom")
-    private Set<AbstractDocumentEdi> documentSetWhom = new HashSet<>();
+    private Set<Memorandum> documentSetWhom = new HashSet<>();
 
     @OneToMany(mappedBy = "author")
     private Set<BusinessProcess> businessProcessSet = new HashSet<>();
@@ -193,12 +194,12 @@ public class User extends AbstractCategory{
     }
 
     @SuppressWarnings("unused")
-    public Set<AbstractDocumentEdi> getDocumentSetWhom() {
+    public Set<Memorandum> getDocumentSetWhom() {
         return documentSetWhom;
     }
 
     @SuppressWarnings("unused")
-    public void setDocumentSetWhom(Set<AbstractDocumentEdi> documentSetWhom) {
+    public void setDocumentSetWhom(Set<Memorandum> documentSetWhom) {
         this.documentSetWhom = documentSetWhom;
     }
 

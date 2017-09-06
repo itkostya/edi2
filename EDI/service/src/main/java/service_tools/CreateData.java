@@ -122,31 +122,31 @@ public enum CreateData {
         java.sql.Timestamp d9 = java.sql.Timestamp.valueOf("2015-03-15 01:00:00");
         java.sql.Timestamp d10 = java.sql.Timestamp.valueOf("2015-03-25 01:00:00");
 
-        MemorandumImpl.INSTANCE.save(new Memorandum(d1, false, null, false, user_itkostya, it_director,"Анкета_СЭД", "Анкета Документооборот"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d2, false, null, false, user_itkostya, it_director, "Перепопенко", "Подключение сотрудника к Документообороту"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d3, false, null, false, user_itkostya, it_director, "Хачатурян", "Подключение пользователя к домену"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d4, false, null, false, user_itkostya, it_director, "Овчаренко", "Подключение к домену"));
-
-        MemorandumImpl.INSTANCE.save(new Memorandum(d2, false, null, false, it_admin1, it_director, "Логины сотрудников", "Список сотрудников: Василий Сысоев, Ахтандег Гамандрилов"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d3, false, null, false, it_admin1, it_director, "Настройки пользователя", "Укажите отдел сотрудника Сысоев"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d4, false, null, false, it_admin1, it_director, "Настройки Лига", "Зачем бухгалтеру Лига? Пусть спрашивает у юриста"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d5, false, null, false, it_admin1, it_director, "Настройки Medoc", "Зачем Вам Медок? Носите дискеты в налоговую!"));
-
-        MemorandumImpl.INSTANCE.save(new Memorandum(d3, false, null, false, it_admin2, it_director, "Тест", "Тест 123"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d4, false, null, false, it_admin2, it_director, "Молоток", "Где мой молоток, товарисчи?"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d5, false, null, false, it_admin2, it_director, "Приколы свежак", "Зацените https://www.youtube.com/watch?v=P1qRmJkHFmQ"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d6, false, null, false, it_admin2, it_director, "Женщины", "Дорогие женщины, чисто сердечно поздравляем Вас с праздником весны - 8 Марта!"));
-
-        MemorandumImpl.INSTANCE.save(new Memorandum(d4, false, null, false, hr_director, hr_director, "Анкета_СЭД", "Анкета Документооборот"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d5, false, null, false, hr_director,  hr_director, "Отчеты за месяц", "Любезные мои подчиненные, а не соблаговолите ли Вы предоставить мне свои отчеты за месяц в течении 5 минут"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d6, false, null, false, hr_director,  hr_director,"Коллеги с 8 Марта", "Чтоб Вас мужики любили и на руках носили!"));
-
-        MemorandumImpl.INSTANCE.save(new Memorandum(d7, false, null, false, hr_manager1,  hr_director,"Анкета_СЭД", "Анкета Документооборот"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d8, false, null, false, hr_manager1,  hr_director,"Отчет о работе за месяц", "Процент выполнения своих задач: 110%"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d9, false, null, false, hr_manager1,  hr_director,"Срез данных по з/п", "В соответстии с последним срезом данных ИТ отделу необходимо поднять з/п на 50% с оплатой в долларах"));
-
-        MemorandumImpl.INSTANCE.save(new Memorandum(d6, false, null, false, hr_manager2, hr_manager2, "С праздником!", "Девченки, с праздником! P.s. Все мужики - козлы ;-)"));
-        MemorandumImpl.INSTANCE.save(new Memorandum(d10, false, null, false, hr_manager2, hr_manager1,"Декрет", "Я ухожу в декрет! Мне было приятно с Вами всеми работать! Вы такие классные! Ня... )"));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d1, false, null, false, user_itkostya, ""+it_director,"Анкета_СЭД", "Анкета Документооборот", it_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d2, false, null, false, user_itkostya, ""+it_director, "Перепопенко", "Подключение сотрудника к Документообороту",it_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d3, false, null, false, user_itkostya, ""+it_director, "Хачатурян", "Подключение пользователя к домену", it_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d4, false, null, false, user_itkostya, ""+it_director, "Овчаренко", "Подключение к домену", it_director));
+//
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d2, false, null, false, it_admin1, ""+it_director, "Логины сотрудников", "Список сотрудников: Василий Сысоев, Ахтандег Гамандрилов", it_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d3, false, null, false, it_admin1, ""+it_director, "Настройки пользователя", "Укажите отдел сотрудника Сысоев", it_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d4, false, null, false, it_admin1, ""+it_director, "Настройки Лига", "Зачем бухгалтеру Лига? Пусть спрашивает у юриста", it_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d5, false, null, false, it_admin1, ""+it_director, "Настройки Medoc", "Зачем Вам Медок? Носите дискеты в налоговую!", it_director));
+//
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d3, false, null, false, it_admin2, ""+it_director, "Тест", "Тест 123", it_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d4, false, null, false, it_admin2, ""+it_director, "Молоток", "Где мой молоток, товарисчи?", it_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d5, false, null, false, it_admin2, ""+it_director, "Приколы свежак", "Зацените https://www.youtube.com/watch?v=P1qRmJkHFmQ", it_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d6, false, null, false, it_admin2, ""+it_director, "Женщины", "Дорогие женщины, чисто сердечно поздравляем Вас с праздником весны - 8 Марта!", it_director));
+//
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d4, false, null, false, hr_director, ""+hr_director, "Анкета_СЭД", "Анкета Документооборот", hr_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d5, false, null, false, hr_director, ""+hr_director, "Отчеты за месяц", "Любезные мои подчиненные, а не соблаговолите ли Вы предоставить мне свои отчеты за месяц в течении 5 минут",hr_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d6, false, null, false, hr_director, ""+hr_director,"Коллеги с 8 Марта", "Чтоб Вас мужики любили и на руках носили!", hr_director));
+//
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d7, false, null, false, hr_manager1,  ""+hr_director,"Анкета_СЭД", "Анкета Документооборот",  hr_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d8, false, null, false, hr_manager1,  ""+hr_director,"Отчет о работе за месяц", "Процент выполнения своих задач: 110%",  hr_director));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d9, false, null, false, hr_manager1,  ""+hr_director,"Срез данных по з/п", "В соответстии с последним срезом данных ИТ отделу необходимо поднять з/п на 50% с оплатой в долларах",  hr_director));
+//
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d6, false, null, false, hr_manager2, ""+hr_manager2, "С праздником!", "Девченки, с праздником! P.s. Все мужики - козлы ;-)", hr_manager2));
+//        MemorandumImpl.INSTANCE.save(new Memorandum(d10, false, null, false, hr_manager2, ""+hr_manager1,"Декрет", "Я ухожу в декрет! Мне было приятно с Вами всеми работать! Вы такие классные! Ня... )", hr_manager1));
     }
 
     public static void createBusinessProcess() {
@@ -160,7 +160,7 @@ public enum CreateData {
         java.sql.Timestamp t3 = java.sql.Timestamp.valueOf("2015-03-19 15:08:07");
 
         User user_itkostya = UserImpl.INSTANCE.getUserByLogin("itkostya");
-        Memorandum m1 = new Memorandum(t1, false, null, false, user_itkostya, user_itkostya,"Служебка тест БП", "Служебка тест БП");
+        Memorandum m1 = new Memorandum(t1, false, null, false, user_itkostya, ""+user_itkostya,"Служебка тест БП", "Служебка тест БП", user_itkostya);
         MemorandumImpl.INSTANCE.save(m1);
 
         User it_admin1 = UserImpl.INSTANCE.getUserByLogin("it_admin1");
@@ -186,7 +186,7 @@ public enum CreateData {
         java.sql.Timestamp t3 = java.sql.Timestamp.valueOf("2015-03-19 15:08:07");
 
         User user_itkostya = UserImpl.INSTANCE.getUserByLogin("itkostya");
-        Memorandum m1 = new Memorandum(t1, false, null, false, user_itkostya, user_itkostya,"Служебка тест БП", "Служебка тест БП");
+        Memorandum m1 = new Memorandum(t1, false, null, false, user_itkostya, ""+user_itkostya,"Служебка тест БП", "Служебка тест БП", user_itkostya);
         MemorandumImpl.INSTANCE.save(m1);
 
         User it_admin1 = UserImpl.INSTANCE.getUserByLogin("it_admin1");
@@ -227,10 +227,10 @@ public enum CreateData {
         java.sql.Timestamp t4 = java.sql.Timestamp.valueOf("2015-04-01 12:02:47");
 
         User user_itkostya = UserImpl.INSTANCE.getUserByLogin("itkostya");
-        Memorandum m1 = new Memorandum(t1, false, null, false, user_itkostya, user_itkostya,"Служебка тест БП", "Служебка тест БП");
+        Memorandum m1 = new Memorandum(t1, false, null, false, user_itkostya, "Служебка тест БП", "Служебка тест БП", ""+user_itkostya, user_itkostya);
         MemorandumImpl.INSTANCE.save(m1);
 
-        Message message1 = new Message(t1, false, null, false, user_itkostya, user_itkostya,"Сообщение тест", "Сообщение тест");
+        Message message1 = new Message(t1, false, null, false, user_itkostya,  "Сообщение тест", "Сообщение тест", ""+user_itkostya);
         MessageImpl.INSTANCE.save(message1);
 
         User it_admin1 = UserImpl.INSTANCE.getUserByLogin("it_admin1");
@@ -339,29 +339,29 @@ public enum CreateData {
 
         List<Memorandum> memorandumList = new ArrayList<>(
                 Arrays.asList(
-                        new Memorandum(t1, false, null, false, user_itkostya, it_director, "Анкета_СЭД", "Анкета Документооборот"),
-                        new Memorandum(t2, false, null, false, user_itkostya, it_director, "Перепопенко", "Подключение сотрудника к Документообороту"),
-                        new Memorandum(t3, false, null, false, user_itkostya, it_director, "Хачатурян", "Подключение пользователя к домену"),
-                        new Memorandum(t4, false, null, false, user_itkostya, it_director, "Овчаренко", "Подключение к домену"),
-                        new Memorandum(t2, false, null, false, it_admin1, it_director, "Логины сотрудников", "Список сотрудников: Василий Сысоев, Ахтандег Гамандрилов"),
-                        new Memorandum(t3, false, null, false, it_admin1, it_director, "Настройки пользователя", "Укажите отдел сотрудника Сысоев"),
-                        new Memorandum(t4, false, null, false, it_admin1, it_director, "Настройки Лига", "Зачем бухгалтеру Лига? Пусть спрашивает у юриста"),
-                        new Memorandum(t5, false, null, false, it_admin1, it_director, "Настройки Medoc", "Зачем Вам Медок? Носите дискеты в налоговую!"),
-                        new Memorandum(t3, false, null, false, it_admin2, it_director, "Тест", "Тест 123"),
-                        new Memorandum(t4, false, null, false, it_admin2, it_director, "Молоток", "Где мой молоток, товарисчи?"),
-                        new Memorandum(t5, false, null, false, it_admin2, it_director, "Приколы свежак", "Зацените https://www.youtube.com/watch?v=P1qRmJkHFmQ"),
-                        new Memorandum(t6, false, null, false, it_admin2, hr_director, "Женщины", "Дорогие женщины, чисто сердечно поздравляем Вас с праздником весны - 8 Марта!"),
-                        new Memorandum(t4, false, null, false, hr_director, it_director, "Анкета_СЭД", "Анкета Документооборот"),
-                        new Memorandum(t5, false, null, false, hr_director, it_director, "Отчеты за месяц", "Любезные мои подчиненные, а не соблаговолите ли Вы предоставить мне свои отчеты за месяц в течении 5 минут"),
-                        new Memorandum(t6, false, null, false, hr_director, it_director, "Коллеги с 8 Марта", "Чтоб Вас мужики любили и на руках носили!"),
-                        new Memorandum(t7, false, null, false, hr_manager1, it_director, "Анкета_СЭД", "Анкета Документооборот"),
-                        new Memorandum(t8, false, null, false, hr_manager1, it_director, "Отчет о работе за месяц", "Процент выполнения своих задач: 110%"),
-                        new Memorandum(t9, false, null, false, hr_manager1, it_director, "Срез данных по з/п", "В соответстии с последним срезом данных ИТ отделу необходимо поднять з/п на 50% с оплатой в долларах"),
-                        new Memorandum(t6, false, null, false, hr_manager2, hr_manager1, "С праздником!", "Девченки, с праздником! P.s. Все мужики - козлы ;-)"),
-                        new Memorandum(t10, false, null, false, hr_manager2, hr_manager1, "Декрет", "Я ухожу в декрет! Мне было приятно с Вами всеми работать! Вы такие классные! Ня... )")));
+                        new Memorandum(t1, false, null, false, user_itkostya, "Анкета_СЭД", "Анкета Документооборот", ""+it_director, it_director),
+                        new Memorandum(t2, false, null, false, user_itkostya, "Перепопенко", "Подключение сотрудника к Документообороту", ""+it_director, it_director),
+                        new Memorandum(t3, false, null, false, user_itkostya, "Хачатурян", "Подключение пользователя к домену", ""+it_director, it_director),
+                        new Memorandum(t4, false, null, false, user_itkostya, "Овчаренко", "Подключение к домену", ""+it_director, it_director),
+                        new Memorandum(t2, false, null, false, it_admin1, "Логины сотрудников", "Список сотрудников: Василий Сысоев, Ахтандег Гамандрилов", ""+it_director, it_director),
+                        new Memorandum(t3, false, null, false, it_admin1, "Настройки пользователя", "Укажите отдел сотрудника Сысоев", ""+it_director, it_director),
+                        new Memorandum(t4, false, null, false, it_admin1,  "Настройки Лига", "Зачем бухгалтеру Лига? Пусть спрашивает у юриста", ""+it_director, it_director),
+                        new Memorandum(t5, false, null, false, it_admin1,  "Настройки Medoc", "Зачем Вам Медок? Носите дискеты в налоговую!", ""+it_director, it_director),
+                        new Memorandum(t3, false, null, false, it_admin2,  "Тест", "Тест 123", ""+it_director, it_director),
+                        new Memorandum(t4, false, null, false, it_admin2,  "Молоток", "Где мой молоток, товарисчи?", ""+it_director, it_director),
+                        new Memorandum(t5, false, null, false, it_admin2,  "Приколы свежак", "Зацените https://www.youtube.com/watch?v=P1qRmJkHFmQ", ""+it_director, it_director),
+                        new Memorandum(t6, false, null, false, it_admin2, "Женщины", "Дорогие женщины, чисто сердечно поздравляем Вас с праздником весны - 8 Марта!", ""+hr_director, hr_director),
+                        new Memorandum(t4, false, null, false, hr_director,  "Анкета_СЭД", "Анкета Документооборот", ""+it_director, it_director),
+                        new Memorandum(t5, false, null, false, hr_director,  "Отчеты за месяц", "Любезные мои подчиненные, а не соблаговолите ли Вы предоставить мне свои отчеты за месяц в течении 5 минут", ""+it_director, it_director),
+                        new Memorandum(t6, false, null, false, hr_director,  "Коллеги с 8 Марта", "Чтоб Вас мужики любили и на руках носили!", ""+it_director, it_director),
+                        new Memorandum(t7, false, null, false, hr_manager1,  "Анкета_СЭД", "Анкета Документооборот", ""+it_director, it_director),
+                        new Memorandum(t8, false, null, false, hr_manager1,  "Отчет о работе за месяц", "Процент выполнения своих задач: 110%", ""+it_director, it_director),
+                        new Memorandum(t9, false, null, false, hr_manager1,  "Срез данных по з/п", "В соответстии с последним срезом данных ИТ отделу необходимо поднять з/п на 50% с оплатой в долларах", ""+it_director, it_director),
+                        new Memorandum(t6, false, null, false, hr_manager2, "С праздником!", "Девченки, с праздником! P.s. Все мужики - козлы ;-)", ""+hr_manager1, hr_manager1),
+                        new Memorandum(t10, false, null, false, hr_manager2, "Декрет", "Я ухожу в декрет! Мне было приятно с Вами всеми работать! Вы такие классные! Ня... )", ""+hr_manager2, hr_manager2)));
         for (Memorandum memorandum : memorandumList) MemorandumImpl.INSTANCE.save(memorandum);
 
-        Message message1 = new Message(t1, false, null, false, user_itkostya,  user_itkostya,"Сообщение тест", "Сообщение тест");
+        Message message1 = new Message(t1, false, null, false, user_itkostya,  "Сообщение тест", "Сообщение тест", ""+user_itkostya);
         MessageImpl.INSTANCE.save(message1);
 
         List<BusinessProcess> businessProcessList = new ArrayList<>(

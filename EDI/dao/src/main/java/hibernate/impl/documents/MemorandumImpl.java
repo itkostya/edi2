@@ -1,6 +1,7 @@
 package hibernate.impl.documents;
 
 import documents.Memorandum;
+import exсeption.AbstractDocumentEdiNotFoundException;
 import hibernate.HibernateDAO;
 import hibernate.HibernateUtil;
 import org.hibernate.Session;
@@ -32,5 +33,15 @@ public enum MemorandumImpl implements HibernateDAO<Memorandum> {
         Session session = HibernateUtil.getSessionWithTransaction();
         session.delete(memorandum);
         HibernateUtil.closeSessionWithTransaction(session);
+    }
+
+    public Memorandum getById(Long id){
+
+        Session session = HibernateUtil.getSession();
+        Memorandum documentEdi = session.get(Memorandum.class,id);
+        if (documentEdi == null) throw new AbstractDocumentEdiNotFoundException(id);
+        session.close();
+
+        return documentEdi;
     }
 }

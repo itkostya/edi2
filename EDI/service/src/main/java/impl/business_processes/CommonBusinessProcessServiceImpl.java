@@ -43,9 +43,9 @@ public enum CommonBusinessProcessServiceImpl {
 
         for (int k = 0; k < usersIdArray.length; k++) {
 
-            ProcessOrderType processOrderType = (k < orderTypeArray.length ? ProcessOrderType.values()[Integer.valueOf(orderTypeArray[k])] : null);
+            ProcessOrderType processOrderType = (Objects.nonNull(orderTypeArray) && (k < orderTypeArray.length) ? ProcessOrderType.values()[Integer.valueOf(orderTypeArray[k])] : null);
 
-            ProcessType processType = (processTypeCommon == null ? (k < processTypeArray.length ? ProcessType.values()[Integer.valueOf(processTypeArray[k])] : null) : processTypeCommon);
+            ProcessType processType = (Objects.isNull(processTypeCommon) ? (k < processTypeArray.length ? ProcessType.values()[Integer.valueOf(processTypeArray[k])] : null) : processTypeCommon);
 
             User userExecutor = UserImpl.INSTANCE.getUserById(Long.valueOf(usersIdArray[k]));
 

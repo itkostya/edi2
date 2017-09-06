@@ -60,7 +60,7 @@ public class MemorandumCreate extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        AbstractDocumentEdi documentEdi;
+        Memorandum documentEdi;
 
         if (SessionParameter.INSTANCE.accessAllowed(req)) {
 
@@ -82,11 +82,11 @@ public class MemorandumCreate extends HttpServlet {
                 Long documentId = (Long) CommonModule.getNumberFromRequest(req, "documentId", Long.class);
                 if (Objects.nonNull(documentId)) {
                     // Work with draft
-                    documentEdi = AbstractDocumentEdiImpl.INSTANCE.getById(documentId);
+                    documentEdi = MemorandumImpl.INSTANCE.getById(documentId);
                     sessionDataElement.setDocumentEdi(documentEdi);
                     sessionDataElement.setElementStatus(ElementStatus.CREATE);
                 } else if (Objects.nonNull(sessionDataElement.getDocumentEdi())) {
-                    documentEdi = sessionDataElement.getDocumentEdi();
+                    documentEdi = (Memorandum) sessionDataElement.getDocumentEdi();
                 }
 
                 if (Objects.nonNull(documentEdi)) {
@@ -175,7 +175,7 @@ public class MemorandumCreate extends HttpServlet {
 
                             case "save":
 
-                                documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, whomUser, theme, textInfo, fileList);
+                                documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomUser);
                                 if (Objects.isNull(executorTask)) {
                                     executorTask = new ExecutorTask(timeStamp, null, true, currentUser, documentEdi, null, "", null, null, new java.sql.Timestamp(finalDate.getTime()), null, false, false, true);
                                     ExecutorTaskImpl.INSTANCE.save(executorTask);
@@ -216,7 +216,7 @@ public class MemorandumCreate extends HttpServlet {
 
                                     // --- Create document Memorandum, business_process' classes: BusinessProcess, BusinessProcessSequence, ExecutorTask ---
 
-                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, whomUser, theme, textInfo, fileList);
+                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomUser);
                                     CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, documentEdi, executorTask, timeStamp, usersIdArray, orderTypeArray, processTypeArray, processTypeCommon, comment, new java.sql.Timestamp(finalDate.getTime()));
                                     sessionDataElement.setElementStatus(closeDocument ? ElementStatus.CLOSE : ElementStatus.STORE);
 
@@ -267,13 +267,13 @@ public class MemorandumCreate extends HttpServlet {
         }
     }
 
-    private AbstractDocumentEdi createOrUpdateDocument(HttpServletRequest req, AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, User whomUser, String theme, String textInfo, List<UploadedFile> fileList) {
+    private AbstractDocumentEdi createOrUpdateDocument(HttpServletRequest req, AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, String theme, String textInfo, List<UploadedFile> fileList, User whomUser) {
 
         if (Objects.isNull(documentEdi)) {
-            documentEdi = new Memorandum(timeStamp, false, null, false, currentUser, whomUser, CommonModule.getCorrectStringForWeb(theme), textInfo);
+            documentEdi = new Memorandum(timeStamp, false, null, false, currentUser, CommonModule.getCorrectStringForWeb(theme), textInfo, ""+whomUser, whomUser);
             MemorandumImpl.INSTANCE.save((Memorandum) documentEdi);
         } else {
-            documentEdi.setWhom(whomUser);
+            documentEdi.setWhomString(whomUser.getFio());
             documentEdi.setTheme(CommonModule.getCorrectStringForWeb(theme));
             documentEdi.setText(textInfo);
             MemorandumImpl.INSTANCE.update((Memorandum) documentEdi);
