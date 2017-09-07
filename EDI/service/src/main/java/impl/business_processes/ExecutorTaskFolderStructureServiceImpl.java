@@ -21,7 +21,7 @@ public enum ExecutorTaskFolderStructureServiceImpl {
 
     public List<ExecutorTaskFolderStructure> getMarkedTask(User user, String sortingSequence, String filterString) {
 
-        List<ExecutorTaskFolderStructure> executorTaskFolderStructureList = ExecutorTaskFolderStructureImpl.INSTANCE.getExecutorList(user, FolderStructure.MARKED, filterString, "MainPanelServlet", "");
+        List<ExecutorTaskFolderStructure> executorTaskFolderStructureList = ExecutorTaskFolderStructureImpl.INSTANCE.getExecutorList(user, FolderStructure.MARKED, filterString,  "", null);
 
         if (sortingSequence.equals("default")) {
             // Completed (false, true) asc, Date desc
@@ -72,9 +72,9 @@ public enum ExecutorTaskFolderStructureServiceImpl {
 
     }
 
-    public List<ExecutorTaskFolderStructure> getTasksByFolder(User user, FolderStructure folderStructure, String groupBy, String sortingSequence, String filterString) {
+    public List<ExecutorTaskFolderStructure> getTasksByFolder(User user, FolderStructure folderStructure, String groupBy, String sortingSequence, String filterString, Class<? extends AbstractDocumentEdi> abstractDocumentEdiClass ) {
 
-        List<ExecutorTaskFolderStructure> executorTaskFolderStructureList = ExecutorTaskFolderStructureImpl.INSTANCE.getExecutorList(user, folderStructure, filterString, "MemorandumJournal", groupBy);
+        List<ExecutorTaskFolderStructure> executorTaskFolderStructureList = ExecutorTaskFolderStructureImpl.INSTANCE.getExecutorList(user, folderStructure, filterString, groupBy, abstractDocumentEdiClass);
 
         if (Objects.nonNull(groupBy)) {
             switch (groupBy) {
@@ -145,9 +145,9 @@ public enum ExecutorTaskFolderStructureServiceImpl {
 
     }
 
-    public List<ExecutorTaskFolderStructure> getCommonList(User user, String sortingSequence, String filterString) {
+    public List<ExecutorTaskFolderStructure> getCommonList(User user, String sortingSequence, String filterString,  Class<? extends AbstractDocumentEdi> abstractDocumentEdiClass) {
 
-        List<ExecutorTaskFolderStructure> executorTaskFolderStructureList = ExecutorTaskFolderStructureImpl.INSTANCE.getCommonList(user, filterString);
+        List<ExecutorTaskFolderStructure> executorTaskFolderStructureList = ExecutorTaskFolderStructureImpl.INSTANCE.getCommonList(user, filterString, abstractDocumentEdiClass);
 
         if (sortingSequence.equals("default")) {
             // Date desc
@@ -295,8 +295,8 @@ public enum ExecutorTaskFolderStructureServiceImpl {
         ExecutorTaskFolderStructureImpl.INSTANCE.update(executorTaskFolderStructure);
     }
 
-    public HashMap<FolderStructure, Integer> getTaskCountByFolders(User user) {
-        return ExecutorTaskFolderStructureImpl.INSTANCE.getTaskCountByFolders(user);
+    public HashMap<FolderStructure, Integer> getTaskCountByFolders(User user, Class<? extends AbstractDocumentEdi> abstractDocumentEdiClass) {
+        return ExecutorTaskFolderStructureImpl.INSTANCE.getTaskCountByFolders(user, abstractDocumentEdiClass);
     }
 
     public boolean isMarkedExecutorTask(User user, AbstractDocumentEdi documentEdi, ExecutorTask executorTask) {

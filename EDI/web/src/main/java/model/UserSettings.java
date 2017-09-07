@@ -1,6 +1,8 @@
 package model;
 
 import categories.User;
+import documents.Memorandum;
+import documents.Message;
 import enumerations.FolderStructure;
 import hibernate.impl.business_processes.ExecutorTaskFolderStructureImpl;
 import tools.CommonModule;
@@ -32,6 +34,13 @@ public class UserSettings {
             put("tasksListByGroup", "default");     // Sorting (completed asc, date desc)
             put("fullTasksList", "default");        // Sorting (completed asc, date desc)
         }});
+        put("MessageJournal", new HashMap<String, String>() {{
+            put("bookMark1", "tasksListByGroup");   // Current table - "tasksListByGroup" or "fullTasksList"
+            put("bookMark2", "INBOX");              // FolderStructure - INBOX, ..., TRASH
+            put("groupBy", "author");               // GroupBy (author, sender)
+            put("tasksListByGroup", "default");     // Sorting (completed asc, date desc)
+            put("fullTasksList", "default");        // Sorting (completed asc, date desc)
+        }});
     }};
 
     private final Map<String, Map<String, String>> mapFilter = new HashMap<String, Map<String, String>>(){{
@@ -42,6 +51,10 @@ public class UserSettings {
             put("coworkersList", "");
         }});
         put("MemorandumJournal", new HashMap<String, String>() {{
+            put("tasksListByGroup", "");
+            put("fullTasksList", "");
+        }});
+        put("MessageJournal", new HashMap<String, String>() {{
             put("tasksListByGroup", "");
             put("fullTasksList", "");
         }});
@@ -124,11 +137,11 @@ public class UserSettings {
     public void setDocumentPropertyMap(String documentName){
 
         switch (documentName){
-            case "Message":
-                break;
             case "Memorandum":
-                HashMap<FolderStructure, Integer> folderStructureHashMap = ExecutorTaskFolderStructureImpl.INSTANCE.getTaskCountByFolders(user);
-                documentPropertyMap.put("Memorandum", folderStructureHashMap);
+                documentPropertyMap.put("Memorandum", ExecutorTaskFolderStructureImpl.INSTANCE.getTaskCountByFolders(user, Memorandum.class));
+                break;
+            case "Message":
+                documentPropertyMap.put("Message", ExecutorTaskFolderStructureImpl.INSTANCE.getTaskCountByFolders(user, Message.class));
                 break;
         }
     }

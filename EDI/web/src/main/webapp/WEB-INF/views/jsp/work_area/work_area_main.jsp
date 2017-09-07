@@ -27,7 +27,7 @@
 <html>
 
 <head>
-    <title>Edi - version 0.90.4 - beta</title>
+    <title>Edi - version 0.092 - beta</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/work_area/work_area_main.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
@@ -380,7 +380,7 @@
                 <td>
                     <div class="relative-with-border" id="div-document-message">
                         <div>
-                            <a href='${pageContext.request.contextPath}/doc_memorandum_journal'>
+                            <a href='${pageContext.request.contextPath}/doc_message_journal'>
                                 <img src="${pageContext.request.contextPath}/resources/images/documents/message/work_area.png"
                                      alt="Сообщение" class="doc_button_blue" name="doc-image"></a>
                         </div>

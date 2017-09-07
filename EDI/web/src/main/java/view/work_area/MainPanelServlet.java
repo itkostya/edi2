@@ -74,6 +74,8 @@ public class MainPanelServlet extends HttpServlet {
         Map<String, String> mapSort = SessionParameter.INSTANCE.getUserSettings(req).getMapSort("MainPanelServlet");
         Map<String, String> mapFilter = SessionParameter.INSTANCE.getUserSettings(req).getMapFilter("MainPanelServlet");
         SessionParameter.INSTANCE.getUserSettings(req).setDocumentPropertyMap("Memorandum");
+        SessionParameter.INSTANCE.getUserSettings(req).setDocumentPropertyMap("Message");
+
 
         Map<String, Map<FolderStructure, Integer>> documentPropertyMap = SessionParameter.INSTANCE.getUserSettings(req).getDocumentPropertyMap();
         if (Objects.nonNull(req.getParameter("bookMark"))) bookMark = req.getParameter("bookMark");
@@ -81,8 +83,8 @@ public class MainPanelServlet extends HttpServlet {
 
         req.setAttribute("userPresentation", currentUser.getFio());
         req.setAttribute("bookMark", bookMark);
-        req.setAttribute("messageCount", 0);  // documentPropertyMap.get("Message")
-        req.setAttribute("memorandumCount", documentPropertyMap.get("Memorandum").get(FolderStructure.INBOX));  // documentPropertyMap.get("Memorandum")
+        req.setAttribute("memorandumCount", documentPropertyMap.get("Memorandum").get(FolderStructure.INBOX));
+        req.setAttribute("messageCount", documentPropertyMap.get("Message").get(FolderStructure.INBOX));
 
         switch (bookMark) {
             case "reviewTasksList":

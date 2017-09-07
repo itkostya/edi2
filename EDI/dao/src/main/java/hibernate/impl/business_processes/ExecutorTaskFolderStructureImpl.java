@@ -48,7 +48,7 @@ public enum ExecutorTaskFolderStructureImpl implements HibernateDAO<ExecutorTask
         HibernateUtil.closeSessionWithTransaction(session);
     }
 
-    public List<ExecutorTaskFolderStructure> getExecutorList(User user, FolderStructure folderStructure, String filterString, String pageName, String groupBy) {
+    public List<ExecutorTaskFolderStructure> getExecutorList(User user, FolderStructure folderStructure, String filterString, String groupBy, Class<? extends AbstractDocumentEdi> abstractDocumentEdiClass) {
 
         Session session = HibernateUtil.getSession();
 
@@ -62,16 +62,17 @@ public enum ExecutorTaskFolderStructureImpl implements HibernateDAO<ExecutorTask
         cq.where(cb.and(
                 cb.equal(executorTaskFolderStructureRoot.get("user"), user),
                 cb.equal(executorTaskFolderStructureRoot.get("folder"), folderStructure),
-                cb.equal(abstractDocumentJoin.type(), Memorandum.class),
-                (("".equals(filterString) || Objects.isNull(filterString)) ? cb.and() :
-                        ("MainPanelServlet".equals(pageName)) ?
+                (Objects.isNull(abstractDocumentEdiClass)) ?
+                        (("".equals(filterString) || Objects.isNull(filterString)) ? cb.and() :
                                 cb.or(
                                         cb.like(cb.lower(abstractDocumentJoin.get("number")), "%" + filterString.toLowerCase() + "%"),
                                         cb.like(cb.lower(cb.function("DATE_FORMAT", String.class, abstractDocumentJoin.get("date"), cb.literal("'%d.%m.%Y %T'"))), "%" + filterString.toLowerCase() + "%"),
                                         cb.like(cb.lower(abstractDocumentJoin.get("theme")), "%" + filterString.toLowerCase() + "%"),
                                         cb.like(cb.lower(executorTaskJoin.get("author").get("fio")), "%" + filterString.toLowerCase() + "%"),
-                                        cb.like(cb.lower(cb.function("DATE_FORMAT", String.class, executorTaskJoin.get("date"), cb.literal("'%d.%m.%Y %T'"))), "%" + filterString.toLowerCase() + "%")) :
-                                ("MemorandumJournal".equals(pageName)) ?
+                                        cb.like(cb.lower(cb.function("DATE_FORMAT", String.class, executorTaskJoin.get("date"), cb.literal("'%d.%m.%Y %T'"))), "%" + filterString.toLowerCase() + "%"))) :
+                        cb.and(
+                                cb.equal(abstractDocumentJoin.type(), abstractDocumentEdiClass),
+                                ("".equals(filterString) || Objects.isNull(filterString)) ? cb.and() :
                                         cb.or(
                                                 ("author".equals(groupBy) ? cb.like(cb.lower(abstractDocumentJoin.get("author").get("fio")), "%" + filterString.toLowerCase() + "%") :
                                                         "sender".equals(groupBy) ? cb.like(cb.lower(executorTaskJoin.get("author").get("fio")), "%" + filterString.toLowerCase() + "%") :
@@ -82,9 +83,10 @@ public enum ExecutorTaskFolderStructureImpl implements HibernateDAO<ExecutorTask
                                                 cb.like(cb.lower(abstractDocumentJoin.get("number")), "%" + filterString.toLowerCase() + "%"),
                                                 cb.like(cb.lower(abstractDocumentJoin.get("theme")), "%" + filterString.toLowerCase() + "%"),
                                                 cb.like(cb.lower(cb.function("DATE_FORMAT", String.class, executorTaskJoin.get("date"), cb.literal("'%d.%m.%Y %k %i'"))), "%" + filterString.toLowerCase() + "%")
-                                        ) : cb.or()
+                                        )
+                        )
                 )
-        ));
+        );
 
         // MainPanelServlet
         //  cell.executorTask.document.number
@@ -135,7 +137,7 @@ public enum ExecutorTaskFolderStructureImpl implements HibernateDAO<ExecutorTask
         //    and doc_abstract_document_edi.DTYPE = 'Memorandum'
     }
 
-    public List<ExecutorTaskFolderStructure> getCommonList(User user, String filterString) {
+    public List<ExecutorTaskFolderStructure> getCommonList(User user, String filterString, Class<? extends AbstractDocumentEdi> abstractDocumentEdiClass) {
 
         Session session = HibernateUtil.getSession();
 
@@ -148,7 +150,7 @@ public enum ExecutorTaskFolderStructureImpl implements HibernateDAO<ExecutorTask
         cq.where(cb.and(
                 cb.equal(executorTaskFolderStructureRoot.get("user"), user),
                 cb.notEqual(executorTaskFolderStructureRoot.get("folder"), FolderStructure.DRAFT),
-                cb.equal(abstractDocumentJoin.type(), Memorandum.class),
+                cb.equal(abstractDocumentJoin.type(), abstractDocumentEdiClass),
                 (("".equals(filterString) || Objects.isNull(filterString)) ? cb.and() :
                         cb.or(
                                 cb.like(cb.lower(abstractDocumentJoin.get("number")), "%" + filterString.toLowerCase() + "%"),
@@ -260,7 +262,7 @@ public enum ExecutorTaskFolderStructureImpl implements HibernateDAO<ExecutorTask
 
     }
 
-    public HashMap<FolderStructure, Integer> getTaskCountByFolders(User user) {
+    public HashMap<FolderStructure, Integer> getTaskCountByFolders(User user, Class<? extends AbstractDocumentEdi> abstractDocumentEdiClass) {
 
         Session session = HibernateUtil.getSession();
         Query query = session.createQuery(
@@ -272,11 +274,12 @@ public enum ExecutorTaskFolderStructureImpl implements HibernateDAO<ExecutorTask
                         "left join AbstractDocumentEdi as abstractdocument on abstractdocument.id = executorTask.document.id " +
                         "where executorTaskFolderStructure.user = :user " +
                         "and executorTask.result is null " +
-                        "and type(abstractdocument)= Memorandum " +
+                        "and type(abstractdocument)= :abstractDocumentEdiClass " +
                         "group by executorTaskFolderStructure.folder"
         );// Set correct type of Query ?
 
         query.setParameter("user", user);
+        query.setParameter("abstractDocumentEdiClass", abstractDocumentEdiClass);
 
         List<HashMap<String, Object>> list = query.list(); // This type because you can't get everything from the query
 

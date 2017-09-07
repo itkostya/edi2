@@ -1,7 +1,7 @@
 package view.documents;
 
 import categories.User;
-import documents.Memorandum;
+import documents.Message;
 import enumerations.FolderStructure;
 import impl.business_processes.ExecutorTaskFolderStructureServiceImpl;
 import model.SessionParameter;
@@ -20,14 +20,14 @@ import java.util.Objects;
 /*
  * Created by kostya on 9/12/2016.
  */
-@WebServlet(urlPatterns = {PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_PAGE})
-public class MemorandumJournal extends HttpServlet {
+@WebServlet(urlPatterns = {PageContainer.DOCUMENT_MESSAGE_JOURNAL_PAGE})
+public class MessageJournal extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (SessionParameter.INSTANCE.accessAllowed(req)) {
             setAttributesDependOnBookMark(req);
-            req.getRequestDispatcher(PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_JSP).forward(req, resp);
+            req.getRequestDispatcher(PageContainer.DOCUMENT_MESSAGE_JOURNAL_JSP).forward(req, resp);
         }
         else {
             req.setAttribute("error_message", "Access denied");
@@ -42,10 +42,10 @@ public class MemorandumJournal extends HttpServlet {
 
         if (SessionParameter.INSTANCE.accessAllowed(req)) {
 
-            Map<String, String> mapSort = SessionParameter.INSTANCE.getUserSettings(req).getMapSort("MemorandumJournal");
+            Map<String, String> mapSort = SessionParameter.INSTANCE.getUserSettings(req).getMapSort("MessageJournal");
 
-            SessionParameter.INSTANCE.getUserSettings(req).getMapFilter("MemorandumJournal").keySet().stream().filter(s -> Objects.nonNull(req.getParameter((s+"FilterString")))).
-                    forEach( s1 -> SessionParameter.INSTANCE.getUserSettings(req).setMapFilter("MemorandumJournal", s1, req.getParameter(s1+"FilterString")));
+            SessionParameter.INSTANCE.getUserSettings(req).getMapFilter("MessageJournal").keySet().stream().filter(s -> Objects.nonNull(req.getParameter((s+"FilterString")))).
+                    forEach( s1 -> SessionParameter.INSTANCE.getUserSettings(req).setMapFilter("MessageJournal", s1, req.getParameter(s1+"FilterString")));
 
             StringBuilder sortColumnNumber = new StringBuilder(Objects.isNull(req.getParameter("sortColumn")) ? "" : req.getParameter("sortColumn"));
             if (Objects.nonNull(req.getParameter("bookMark1"))) bookMark1 = req.getParameter("bookMark1"); else bookMark1 = mapSort.get("bookMark1");
@@ -64,9 +64,9 @@ public class MemorandumJournal extends HttpServlet {
     private void setAttributesDependOnBookMark(HttpServletRequest req) {
 
         String bookMark1, bookMark2, groupBy;
-        Map<String, String> mapSort = SessionParameter.INSTANCE.getUserSettings(req).getMapSort("MemorandumJournal");
-        Map<String, String> mapFilter = SessionParameter.INSTANCE.getUserSettings(req).getMapFilter("MemorandumJournal");
-        SessionParameter.INSTANCE.getUserSettings(req).setDocumentPropertyMap("Memorandum");
+        Map<String, String> mapSort = SessionParameter.INSTANCE.getUserSettings(req).getMapSort("MessageJournal");
+        Map<String, String> mapFilter = SessionParameter.INSTANCE.getUserSettings(req).getMapFilter("MessageJournal");
+        SessionParameter.INSTANCE.getUserSettings(req).setDocumentPropertyMap("Message");
         Map<String, Map<FolderStructure, Integer>> documentPropertyMap = SessionParameter.INSTANCE.getUserSettings(req).getDocumentPropertyMap();
 
         if (req.getParameter("bookMark1") != null) bookMark1 = req.getParameter("bookMark1"); else bookMark1 = mapSort.get("bookMark1");
@@ -76,7 +76,7 @@ public class MemorandumJournal extends HttpServlet {
         req.setAttribute("bookMark1", bookMark1);
         req.setAttribute("bookMark2", bookMark2);
         req.setAttribute("groupBy", groupBy);
-        req.setAttribute("propertyMap", documentPropertyMap.get("Memorandum"));
+        req.setAttribute("propertyMap", documentPropertyMap.get("Message"));
 
         mapSort.put("bookMark2", bookMark2);
         mapSort.put("groupBy", groupBy);
@@ -84,11 +84,11 @@ public class MemorandumJournal extends HttpServlet {
 
         switch (bookMark1) {
             case "tasksListByGroup":
-                req.setAttribute("tasksList", ExecutorTaskFolderStructureServiceImpl.INSTANCE.getTasksByFolder(currentUser, FolderStructure.valueOf(bookMark2), groupBy, mapSort.get(bookMark1), mapFilter.get(bookMark1), Memorandum.class));
+                req.setAttribute("tasksList", ExecutorTaskFolderStructureServiceImpl.INSTANCE.getTasksByFolder(currentUser, FolderStructure.valueOf(bookMark2), groupBy, mapSort.get(bookMark1), mapFilter.get(bookMark1), Message.class));
                 req.setAttribute("mapSortValue", mapSort.get(bookMark1));
                 break;
             case "fullTasksList":
-                req.setAttribute("tasksList", ExecutorTaskFolderStructureServiceImpl.INSTANCE.getCommonList(currentUser,  mapSort.get(bookMark1), mapFilter.get(bookMark1), Memorandum.class));
+                req.setAttribute("tasksList", ExecutorTaskFolderStructureServiceImpl.INSTANCE.getCommonList(currentUser,  mapSort.get(bookMark1), mapFilter.get(bookMark1),Message.class));
                 req.setAttribute("mapSortValue", mapSort.get(bookMark1));
                 break;
         }
