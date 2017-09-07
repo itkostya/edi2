@@ -491,7 +491,7 @@
                             <td>
                                 <button name="bookMark" value='reviewTasksList'>
                                     <img class="command-bar-refresh"
-                                         src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                                         src="${pageContext.request.contextPath}/resources/images/refresh.png"/>
                                     Обновить
                                 </button>
                             </td>
@@ -499,8 +499,7 @@
                                 <ul id=menu>
                                     <li>
                                         <div class="div-like-button">
-                                            <img class="command-bar-add-document"
-                                                 src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                                            <div class="command-bar-add-document"></div>
                                             Создать документ ▼
                                         </div>
                                         <ul>
@@ -536,7 +535,7 @@
                             <td>
                                 <button name="bookMark" value='controlledTasksList'>
                                     <img class="command-bar-refresh"
-                                         src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                                         src="${pageContext.request.contextPath}/resources/images/refresh.png">
                                     Обновить
                                 </button>
                             </td>
@@ -566,7 +565,7 @@
                             <td>
                                 <button name="bookMark" value='markedTasksList'>
                                     <img class="command-bar-refresh"
-                                         src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                                         src="${pageContext.request.contextPath}/resources/images/refresh.png">
                                     Обновить
                                 </button>
                             </td>

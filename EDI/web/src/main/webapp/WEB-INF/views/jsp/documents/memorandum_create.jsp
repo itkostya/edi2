@@ -190,21 +190,21 @@
     <div class="horizontal">
         <div>
             <button name="param" value="close" id="command-bar-close" onClick="window.close();">
-                <img class="command-bar-close" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">Закрыть
+                <img class="command-bar-close" src="${pageContext.request.contextPath}/resources/images/command-bar/close.png"/>Закрыть
             </button>
         </div>
         <div>
             <div class="div-like-button ${isNewElement==true ? "" : "button-disabled"}"
                  onclick="saveAsDraft();" id="command-bar-draft">
-                <img class="command-bar-save" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                <div class="command-bar-save"></div>
                 Сохранить как черновик
             </div>
         </div>
         <div id="send" class="div-like-button">
             <ul>
                 <li id="command-bar-send">
-                    <img class="command-bar-send" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="/>
-                    Отправить &#9660;
+                    <div class="command-bar-send"></div>
+                    Отправить ▼
                     <ul>
                         <c:forEach var="cell" items="<%=DocumentProperty.MEMORANDUM.getProcessTypeList()%>"
                                    varStatus="status">
@@ -221,18 +221,18 @@
                             <span class="submit">По сценарию</span></a>
                         </li>
                     </ul>
+                </li>
             </ul>
         </div>
 
         <div class="div-like-button ${isNewElement==true ? "" : "button-disabled"}" id="div_add_files">
             <input class="agent-hide-file" type="file" id="input_add_files" name="input_add_files[]" multiple
                    onchange="addFilesAndResizeTable(uploadedFileList)"/>
-            <img src="${pageContext.request.contextPath}/resources/images/add_attachment.png"
-                 class="command-bar-add-attachment"/>Добавить вложение
+            <div class="command-bar-add-attachment"></div>Добавить вложение
         </div>
         <div id="command-bar-view">
             <a href="#form_review_document" class="link-like-button" onclick="setReviewDuringWork();">
-                <img class="command-bar-view" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                <div class="command-bar-view"></div>
                 Просмотр
             </a>
         </div>
@@ -255,7 +255,7 @@
 
         <div>
             <a href="#form_choose_one_user" class="link-like-button ${isNewElement==true ? "": "button-disabled"}">
-                <img class="select-whom" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                <div class="select-whom"></div>
                 <span class="submit" id="chose-whom">Выбрать кому</span></a>
         </div>
     </div>
@@ -274,7 +274,7 @@
             <div style="height:3%; width:80%">
                 <button onclick="deleteRowInTableFiles()"
                         formaction="javascript:void(0)" ${isNewElement==true ? "": "disabled"} id="delete-addition">
-                    <img class="command-bar-cancel" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                    <div class="command-bar-cancel"></div>
                     Удалить вложение
                 </button>
             </div>

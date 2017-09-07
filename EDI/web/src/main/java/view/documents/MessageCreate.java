@@ -151,9 +151,6 @@ public class MessageCreate extends HttpServlet {
                     String theme = req.getParameter("theme");
                     String textInfo = req.getParameter("textInfo");
 
-                    Long whomId = (Long) CommonModule.getNumberFromRequest(req, "whomId", Long.class);
-                    User whomUser = (Objects.isNull(whomId) ? null : UserImpl.INSTANCE.getUserById(whomId));
-
                     String closeDocumentString = req.getParameter("closeDocument");
                     Boolean closeDocument = (!Objects.isNull(closeDocumentString) && "on".equals(closeDocumentString));
 
@@ -174,38 +171,42 @@ public class MessageCreate extends HttpServlet {
                         // --- Parse data ---
                         String[] usersIdArray = "".equals(req.getParameter("post_users[]")) ? null : req.getParameter("post_users[]").split(",");
 
-                        switch (param) {
+                        if (Objects.isNull(usersIdArray)) {
 
-                            case "save":
+                            sessionDataElement.setElementStatus(ElementStatus.ERROR);
+                            sessionDataElement.setErrorMessage("Не выбран(ы) получатели документа");
 
-                                documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, usersIdArray);
-                                if (Objects.isNull(executorTask)) {
-                                    executorTask = new ExecutorTask(timeStamp, null, true, currentUser, documentEdi, null, "", null, null, new java.sql.Timestamp(finalDate.getTime()), null, false, false, true);
-                                    ExecutorTaskImpl.INSTANCE.save(executorTask);
-                                    ExecutorTaskFolderStructureImpl.INSTANCE.save(new ExecutorTaskFolderStructure(FolderStructure.DRAFT, executorTask.getAuthor(), executorTask, false));
-                                }
-                                sessionDataElement.setElementStatus(ElementStatus.CREATE);
+                        } else {
 
-                                break;
+                            Object[] usersWhom = Arrays.stream(usersIdArray).map(s -> UserImpl.INSTANCE.getUserById(Long.valueOf(s))).toArray();
+                            String whomString = (Arrays.toString(Arrays.stream(usersWhom).map(s -> ((User) s).getFio()).toArray())).replace("[", "").replace("]", "");
 
-                            case "send":
+                            switch (param) {
 
-                                if (Objects.isNull(usersIdArray)) {
-                                    sessionDataElement.setElementStatus(ElementStatus.ERROR);
-                                    sessionDataElement.setErrorMessage("Не выбран(ы) получатели документа");
-                                } else {
+                                case "save":
 
+                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomString);
+                                    if (Objects.isNull(executorTask)) {
+                                        executorTask = new ExecutorTask(timeStamp, null, true, currentUser, documentEdi, null, "", null, null, new java.sql.Timestamp(finalDate.getTime()), null, false, false, true);
+                                        ExecutorTaskImpl.INSTANCE.save(executorTask);
+                                        ExecutorTaskFolderStructureImpl.INSTANCE.save(new ExecutorTaskFolderStructure(FolderStructure.DRAFT, executorTask.getAuthor(), executorTask, false));
+                                    }
+                                    sessionDataElement.setElementStatus(ElementStatus.CREATE);
+
+                                    break;
+
+                                case "send":
                                     // Process type
                                     ProcessType processTypeCommon = DocumentProperty.MESSAGE.getProcessTypeList().get(0);
 
                                     // --- Create document Message, business_process' classes: BusinessProcess, BusinessProcessSequence, ExecutorTask ---
 
-                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, usersIdArray);
+                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomString);
                                     CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, (Message) documentEdi, executorTask, timeStamp, usersIdArray, null, null, processTypeCommon, null, new java.sql.Timestamp(finalDate.getTime()));
                                     sessionDataElement.setElementStatus(closeDocument ? ElementStatus.CLOSE : ElementStatus.STORE);
 
-                                }
-                                break;
+                                    break;
+                            }
                         }
 
                     } catch (ConstraintViolationException e) {
@@ -251,16 +252,13 @@ public class MessageCreate extends HttpServlet {
         }
     }
 
-    private AbstractDocumentEdi createOrUpdateDocument(HttpServletRequest req, AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, String theme, String textInfo, List<UploadedFile> fileList, String[] usersIdArray ) {
-
-        Object[] usersWhom = Arrays.stream(usersIdArray).map(s -> UserImpl.INSTANCE.getUserById(Long.valueOf(s))).toArray();
-        String whomUser = (Arrays.toString( Arrays.stream(usersWhom).map(s-> ((User) s).getFio()).toArray())).replace("[", "").replace("]", "");
+    private AbstractDocumentEdi createOrUpdateDocument(HttpServletRequest req, AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, String theme, String textInfo, List<UploadedFile> fileList, String whomString) {
 
         if (Objects.isNull(documentEdi)) {
-            documentEdi = new Message(timeStamp, false, null, false, currentUser, CommonModule.getCorrectStringForWeb(theme), textInfo, whomUser);
+            documentEdi = new Message(timeStamp, false, null, false, currentUser, CommonModule.getCorrectStringForWeb(theme), textInfo, whomString);
             MessageImpl.INSTANCE.save((Message) documentEdi);
         } else {
-            documentEdi.setWhomString(whomUser);
+            documentEdi.setWhomString(whomString);
             documentEdi.setTheme(CommonModule.getCorrectStringForWeb(theme));
             documentEdi.setText(textInfo);
             MessageImpl.INSTANCE.update((Message) documentEdi);

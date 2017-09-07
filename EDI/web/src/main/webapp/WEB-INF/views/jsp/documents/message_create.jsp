@@ -231,18 +231,18 @@
     <div class="horizontal">
         <div>
             <button name="param" value="close" id="command-bar-close" onClick="window.close();">
-                <img class="command-bar-close" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">Закрыть
+                <img class="command-bar-close" src="${pageContext.request.contextPath}/resources/images/command-bar/close.png"/>Закрыть
             </button>
         </div>
         <div>
             <div class="div-like-button"
                  onclick="saveAsDraft();" id="command-bar-draft">
-                <img class="command-bar-save" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                <div class="command-bar-save"></div>
                 Сохранить как черновик
             </div>
         </div>
         <div id="send" class="div-like-button" onclick="return sendMessageAfterChecking()">
-            <img src="${pageContext.request.contextPath}/resources/images/LotusMail.png">
+            <div class="command-bar-send"></div>
             <span class="submit">Отправить</span>
         </div>
 
@@ -271,7 +271,7 @@
 
         <div>
             <a href="#form_choose_one_user" class="link-like-button ${isNewElement==true ? "": "button-disabled"}">
-                <img class="select-whom" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                <div class="select-whom"></div>
                 <span class="submit" id="chose-whom">Выбрать кому</span></a>
         </div>
     </div>
@@ -292,7 +292,7 @@
             <div style="height:3%; width:80%">
                 <button onclick="deleteRowInTableFiles()"
                         formaction="javascript:void(0)" ${isNewElement==true ? "": "disabled"} id="delete-addition">
-                    <img class="command-bar-cancel" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                    <div class="command-bar-cancel"></div>
                     Удалить вложение
                 </button>
             </div>

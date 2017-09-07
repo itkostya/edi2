@@ -147,12 +147,12 @@
         <c:choose>
         <c:when test="${(executorTask != null)&&(isTrash)}">
         command_bar_trash.innerHTML = '<div><button name="param" value="restore-trash" id="command-bar-restore">' +
-            '<img  class="command-bar-restore" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">' +
+            '<img  class="command-bar-restore" src="${pageContext.request.contextPath}/resources/images/command-bar/restore.png">' +
             ' Восстановить</button></div>';
         </c:when>
         <c:when test="${(executorTask != null)&&(!isTrash)}">
         command_bar_trash.innerHTML = '<div><button name="param" value="in-trash" id="command-bar-trash">' +
-            '<img class="command-bar-trash" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">' +
+            '<img class="command-bar-trash" src="${pageContext.request.contextPath}/resources/images/command-bar/trash.png">' +
             'Корзина</button></div>';
         </c:when>
         </c:choose>
@@ -522,7 +522,7 @@
                 <div>
                     <button name="param" value="mark" ${isMarkedElement==true ? "class='marked_button'" : ""}><img
                             class="command-bar-mark"
-                            src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                            src="${pageContext.request.contextPath}/resources/images/command-bar/mark.png">
                     </button>
                 </div>
             </c:when></c:choose>
@@ -545,9 +545,8 @@
 
             <div id="send" class="div-like-button" style="${isTrash==true ? "display:none" : ""}">
                 <ul>
-                    <li id="command-bar-send"><img class="command-bar-send"
-                                                   src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="/>
-                        Отправить &#9660;
+                    <li id="command-bar-send"><div class="command-bar-send"></div>
+                        Отправить ▼
                         <ul>
                             <c:forEach var="cell" items="${documentEdi.getDocumentProperty().getProcessTypeList()}"
                                        varStatus="status">
@@ -572,14 +571,13 @@
                 <div>
                     <button name="param" value="withdraw">
                         <img class="command-bar-withdraw"
-                             src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                             src="${pageContext.request.contextPath}/resources/images/command-bar/withdraw.png"/>
                         Отозвать
                     </button>
                 </div>
             </c:when></c:choose>
 
-            <div><a href="#form_history" class="link-like-button"><img
-                    class="command-bar-history" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+            <div><a href="#form_history" class="link-like-button"><div class="command-bar-history"></div>
                 <span id="command-bar-history">История</span></a></div>
 
             <c:choose><c:when test="${(executorTask != null)}">
@@ -589,7 +587,7 @@
             <c:choose><c:when test="${mapStop.size() > 0}">
                 <div>
                     <a href="#form_stop" class="link-like-button">
-                        <img class="command-bar-stop" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+                        <div class="command-bar-stop"></div>
                         <span id="command-bar-stop">Отменить</span></a>
                 </div>
             </c:when></c:choose>
