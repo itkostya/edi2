@@ -153,7 +153,7 @@
         img_marked += 'src="${pageContext.request.contextPath}/resources/images/command-bar/mark.png">';
         </c:when>
         <c:otherwise>
-        img_marked += 'src="${pageContext.request.contextPath}/resources/images/documents/memorandum/document_type.png">';
+        img_marked += 'src="${pageContext.request.contextPath}/resources/images/documents/message/document_type.png">';
         </c:otherwise>
         </c:choose>
         insertCellInRow(0, row, img_marked + getHighlightedText('  ${groupBy=='sender' ? cell.executorTask.author.fio : cell.executorTask.document.author.fio }', filterString));
@@ -234,7 +234,7 @@
         <c:forEach var="cell" items="${tasksList}" varStatus="status">
         row = body.insertRow(${status.index});
 
-        img_marked = '<img class="image-for-table" src="${pageContext.request.contextPath}/resources/images/documents/memorandum/document_type.png"> ';
+        img_marked = '<img class="image-for-table" src="${pageContext.request.contextPath}/resources/images/documents/message/document_type.png"> ';
         insertCellInRow(0, row, img_marked + getHighlightedText('${cell.executorTask.document.number}', filterString));
         insertCellInRow(1, row, getHighlightedText('${TimeModule.getDate(cell.executorTask.date, 'dd.MM.yyyy HH:mm:ss')}', filterString));
         insertCellInRow(2, row, getHighlightedText('${cell.executorTask.document.getDocumentView("dd.MM.yyyy")}', filterString));
@@ -267,7 +267,7 @@
 </script>
 
 <form method="post" action="${pageContext.request.contextPath}/doc_message_journal"
-      style="overflow:hidden; height:99%" autocomplete="off" name="doc_memorandum_journal">
+      style="overflow:hidden; height:99%" autocomplete="off" name="doc_message_journal">
 
     <div style="height:3%" id="div-journal-headline">
         <div class="horizontal">
@@ -339,7 +339,7 @@
                             </div>
                             <div class="search-string-journal"><input name="tasksListByGroupFilterString"
                                                                       placeholder="Поиск"
-                                                                      onkeyup="onKeyupSearchString(arguments[0],'doc_memorandum_journal')"
+                                                                      onkeyup="onKeyupSearchString(arguments[0],'doc_message_journal')"
                                                                       value="${filterString}"/></div>
                         </div>
                     </div>

@@ -27,7 +27,7 @@
 <html>
 
 <head>
-    <title>Edi - version 0.092 - beta</title>
+    <title>Edi - version 0.093 - beta</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/work_area/work_area_main.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
@@ -175,7 +175,7 @@
         insertCellInRow(1, row, getHighlightedText('${cell.author.fio}', filterString));
         insertCellInRow(2, row, getHighlightedText('${cell.document.getDocumentView("dd.MM.yyyy HH:mm:ss")}', filterString));
 
-        img_marked = '<img class="image-for-table" src="${pageContext.request.contextPath}/resources/images/documents/memorandum/document_type.png">';
+        img_marked = '<img class="image-for-table" src="${pageContext.request.contextPath}/resources/images/documents/${cell.document.documentProperty.enName.toLowerCase()}/document_type.png">';
         insertCellInRow(3, row, img_marked + getHighlightedText(' ${CommonModule.getCorrectStringForWeb(cell.document.theme)}', filterString));
 
         insertCellInRow(4, row, getHighlightedText('${TimeModule.getDate(cell.date, 'dd.MM.yyyy HH:mm:ss')}', filterString));
@@ -232,7 +232,7 @@
         insertCellInRow(1, row, getHighlightedText('${cell.executor.fio}', filterString));
         insertCellInRow(2, row, getHighlightedText('${cell.document.getDocumentView("dd.MM.yyyy HH:mm:ss")}', filterString));
 
-        img_marked = '<img class="image-for-table" src="${pageContext.request.contextPath}/resources/images/documents/memorandum/document_type.png">';
+        img_marked = '<img class="image-for-table" src="${pageContext.request.contextPath}/resources/images/documents/${cell.document.documentProperty.enName.toLowerCase()}/document_type.png">';
         insertCellInRow(3, row, img_marked + getHighlightedText('  ${CommonModule.getCorrectStringForWeb(cell.document.theme)}', filterString));
 
         insertCellInRow(4, row, getHighlightedText('${TimeModule.getDate(cell.finalDate, 'dd.MM.yyyy')}', filterString));

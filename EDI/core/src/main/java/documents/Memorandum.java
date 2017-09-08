@@ -30,23 +30,27 @@ public class Memorandum extends AbstractDocumentEdi {
     @JoinColumn(name = "whom_id")
     private User whom;
 
+    public Memorandum() {
+        super();
+        //setDocumentProperty(DocumentProperty.MEMORANDUM);
+    }
+
+    public Memorandum(Timestamp date, boolean deletionMark, String number, boolean posted, User author, String theme, String text, String whomString, User whom) {
+        super(date, deletionMark, number, posted, author, theme, text, whomString);
+        this.whom = whom;
+        //setDocumentProperty(DocumentProperty.MEMORANDUM);
+    }
+
+    public DocumentProperty getDocumentProperty() {
+        return DocumentProperty.MEMORANDUM;
+    }
+
     public String getMemorandumField() {
         return memorandumField;
     }
 
     public void setMemorandumField(String memorandumField) {
         this.memorandumField = memorandumField;
-    }
-
-    public Memorandum() {
-        super();
-        setDocumentProperty(DocumentProperty.MEMORANDUM);
-    }
-
-    public Memorandum(Timestamp date, boolean deletionMark, String number, boolean posted, User author, String theme, String text, String whomString, User whom) {
-        super(date, deletionMark, number, posted, author, theme, text, whomString);
-        this.whom = whom;
-        setDocumentProperty(DocumentProperty.MEMORANDUM);
     }
 
     public User getWhom() {

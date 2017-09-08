@@ -57,9 +57,6 @@ public abstract class AbstractDocumentEdi extends AbstractDocument {
     @OneToMany(mappedBy = "document")
     private Set<UploadedFile> uploadedFileSet = new HashSet<>();
 
-    //@Column(name = "document_property")
-    private static DocumentProperty documentProperty;
-
     public AbstractDocumentEdi() {
         super();
     }
@@ -71,6 +68,8 @@ public abstract class AbstractDocumentEdi extends AbstractDocument {
         this.text = text;
         this.whomString = whomString;
     }
+
+    public abstract DocumentProperty getDocumentProperty();
 
     public Long getId() {
         return id;
@@ -132,14 +131,6 @@ public abstract class AbstractDocumentEdi extends AbstractDocument {
     @SuppressWarnings("unused")
     public void setUploadedFileSet(Set<UploadedFile> uploadedFileSet) {
         this.uploadedFileSet = uploadedFileSet;
-    }
-
-    public DocumentProperty getDocumentProperty() {
-        return documentProperty;
-    }
-
-    protected void setDocumentProperty(DocumentProperty documentProperty) {
-        this.documentProperty = documentProperty;
     }
 
     @Override

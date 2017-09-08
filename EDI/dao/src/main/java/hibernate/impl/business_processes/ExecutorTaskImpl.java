@@ -75,7 +75,6 @@ public enum ExecutorTaskImpl implements HibernateDAO<ExecutorTask> {
         cq.where(cb.and(
                 cb.equal(e.get("executor"), executor),
                 cb.equal(e.get("completed"), false),
-                cb.notEqual(abstractDocumentJoin.type(), Message.class),
                 (("".equals(filterString) || Objects.isNull(filterString)) ? cb.and() :
                         cb.or(
                                 (Arrays.stream(ProcessType.values()).filter(n -> n.getRuName().toLowerCase().contains(filterString.toLowerCase())).count() == 0 ? cb.or() :
