@@ -28,12 +28,10 @@ public class Message extends AbstractDocumentEdi {
 
     public Message() {
         super();
-        //setDocumentProperty(DocumentProperty.MESSAGE);
     }
 
     public Message(Timestamp date, boolean deletionMark, String number, boolean posted, User author, String theme, String text, String whomString) {
         super(date, deletionMark, number, posted, author, theme, text, whomString);
-        //setDocumentProperty(DocumentProperty.MESSAGE);
     }
 
     public DocumentProperty getDocumentProperty() {

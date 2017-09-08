@@ -159,7 +159,7 @@
     }
 
     function setMainView() {
-        <c:import var="data" url="../common/view_document.jsp" scope="session"/>
+        <c:import var="data" url="../documents/${documentEdi.documentProperty.enName.toLowerCase()}_view.jsp" scope="session"/>
         document.getElementById("review_document").innerHTML = "${CommonModule.getCorrectStringJspPage(data)}";
     }
 
@@ -172,28 +172,31 @@
     }
 
     function setSignatures() {
-        let fragment = "";
-        <c:forEach var="entry" items="${mapSignatures}" varStatus="status">
-        fragment += "<hr>";
-        fragment += "<span style='font-size:12.0pt;font-family: 'Times New Roman',serif'><b>" + "${entry.key.result.ruName}" + "." + "</b>&nbsp;&nbsp;${TimeModule.getDate(entry.key.dateCompleted, 'dd.MM.yyyy')}&nbsp;&nbsp;" + "${entry.key.executor.position.name}" + "&nbsp;" + "${entry.key.executor.fio}" + "</span>";
-        <c:choose>
-        <c:when test="${entry.key.comment != ''}">
-        fragment += "</br><span style='font-size:12.0pt;font-family:'Times New Roman',serif'><i>" +
-            '${(entry.key.comment.contains(PageContainer.EXECUTOR_TASK_PAGE) ? CommonModule.getDocumentLinkView(entry.key.comment) : entry.key.comment)}' +
-            "</i></span>";
-        </c:when>
-        </c:choose>
 
-        <c:forEach items="${entry.value}" var="item" varStatus="loop">
-        fragment += "<p style='margin:5px'><a href= 'javascript:void(0)' onClick=\"downloadFile('${item.fileName}','${item.name}','${entry.key.id}')\"><img src='${pageContext.request.contextPath}/resources/images/files/" + getExtensionImageByFilename("${item.name}") + "'  width='32' height='32' align='middle'/>${item.name}</a></p>";
-        </c:forEach>
+        if (document.getElementById("signatures") !== null) {
 
-        </c:forEach>
+            let fragment = "";
+            <c:forEach var="entry" items="${mapSignatures}" varStatus="status">
+            fragment += "<hr>";
+            fragment += "<span style='font-size:12.0pt;font-family: 'Times New Roman',serif'><b>" + "${entry.key.result.ruName}" + "." + "</b>&nbsp;&nbsp;${TimeModule.getDate(entry.key.dateCompleted, 'dd.MM.yyyy')}&nbsp;&nbsp;" + "${entry.key.executor.position.name}" + "&nbsp;" + "${entry.key.executor.fio}" + "</span>";
+            <c:choose>
+            <c:when test="${entry.key.comment != ''}">
+            fragment += "</br><span style='font-size:12.0pt;font-family:'Times New Roman',serif'><i>" +
+                '${(entry.key.comment.contains(PageContainer.EXECUTOR_TASK_PAGE) ? CommonModule.getDocumentLinkView(entry.key.comment) : entry.key.comment)}' +
+                "</i></span>";
+            </c:when>
+            </c:choose>
 
-        if (fragment !== "") fragment = "<div style='text-align:left;background:#fff'>" + fragment + "</div>";
+            <c:forEach items="${entry.value}" var="item" varStatus="loop">
+            fragment += "<p style='margin:5px'><a href= 'javascript:void(0)' onClick=\"downloadFile('${item.fileName}','${item.name}','${entry.key.id}')\"><img src='${pageContext.request.contextPath}/resources/images/files/" + getExtensionImageByFilename("${item.name}") + "'  width='32' height='32' align='middle'/>${item.name}</a></p>";
+            </c:forEach>
 
-        if (document.getElementById("signatures") === null) window.alert("Signatures doesn't exist");
-        document.getElementById("signatures").innerHTML = fragment;
+            </c:forEach>
+
+            if (fragment !== "") fragment = "<div style='text-align:left;background:#fff'>" + fragment + "</div>";
+
+            document.getElementById("signatures").innerHTML = fragment;
+        }
 
     }
 
@@ -577,8 +580,10 @@
                 </div>
             </c:when></c:choose>
 
-            <div><a href="#form_history" class="link-like-button"><div class="command-bar-history"></div>
-                <span id="command-bar-history">История</span></a></div>
+            <c:choose><c:when test="${mapHistory.size() > 0}">
+                <div><a href="#form_history" class="link-like-button"><div class="command-bar-history"></div>
+                    <span id="command-bar-history">История</span></a></div>
+            </c:when></c:choose>
 
             <c:choose><c:when test="${(executorTask != null)}">
                 <div id="command_bar_trash"></div>

@@ -1,0 +1,47 @@
+a img
+{
+    border: none;
+}
+
+body
+{
+    background-color: #ddd;
+    color: #000000;
+    font-family: Arial, serif;
+    font-size: 13px;
+    margin: 0;
+    padding: 0;
+}
+
+div.a5
+{
+    width:48%;
+    height:120mm;
+    max-width:48%;
+    margin-top:3mm;
+    padding:1em;
+    background:#fff;
+    position: relative;
+    left: 26%;
+}
+
+hr
+{
+    margin: 0 0 .0001pt;
+    border: none;
+    background-color: red;
+    color: red;
+    height: 2px;
+}
+
+p
+{
+    margin: 1em 1em .0001pt;
+}
+
+span.TextSpanMessage
+{
+    color:#000000;
+    font-size: 12.0pt;
+    font-family: "Times New Roman", serif;
+}

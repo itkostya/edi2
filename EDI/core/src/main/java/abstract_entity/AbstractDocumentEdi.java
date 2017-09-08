@@ -47,7 +47,7 @@ public abstract class AbstractDocumentEdi extends AbstractDocument {
     @Column(name = "text_doc")
     private String text;
 
-    @NotNull(message = "Поле 'Кому' должно быть заполнено")
+    @Size(min = 1, max = 255, message = "Поле 'Кому(строкой)' должно быть заполнено и не должно превышать 255 символов")
     @Column(name = "whom_string")
     private String whomString;
 

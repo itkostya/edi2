@@ -156,7 +156,7 @@
     }
 
     function setReviewOnload() {
-        <c:import var="data" url="../common/view_document.jsp" scope="session"/>
+        <c:import var="data" url="memorandum_view.jsp" scope="session"/>
         document.getElementById("menu_review_document").innerHTML = "${CommonModule.getCorrectStringJspPage(data)}";
     }
 

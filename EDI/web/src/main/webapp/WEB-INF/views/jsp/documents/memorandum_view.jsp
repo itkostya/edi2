@@ -19,9 +19,9 @@
 
 <html xmlns:o="urn:schemas-microsoft-com:office:office"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="urn:schemas-microsoft-com:office:office " >
+      xsi:schemaLocation="urn:schemas-microsoft-com:office:office" >
 
-<link href="<c:url value="/resources/css/common/view_document.css"/>" rel="stylesheet" type="text/css">
+<link href="<c:url value="/resources/css/documents/memorandum_view.css"/>" rel="stylesheet" type="text/css">
 
 <div style='text-align: center;'>
     <div class=WordSection1>

@@ -140,6 +140,8 @@ public class ExecutorTaskServlet extends HttpServlet {
                         req.setAttribute("userTo", ((Memorandum)documentEdi).getWhom().getFioInitials());
                     }
 
+                    req.setAttribute("userWhomString", documentEdi.getWhomString()); // for Message
+
                     if (Objects.nonNull(documentEdi.getAuthor())) {
                         if (Objects.nonNull(documentEdi.getAuthor().getPosition()))
                             req.setAttribute("positionFrom", documentEdi.getAuthor().getPosition().getName());
@@ -168,7 +170,7 @@ public class ExecutorTaskServlet extends HttpServlet {
                     req.setAttribute("mapHistory", BusinessProcessSequenceServiceImpl.INSTANCE.getHistoryByDocumentMap(documentEdi));
                     req.setAttribute("mapStop", BusinessProcessSequenceServiceImpl.INSTANCE.getNotCompletedSequenceByDocumentAndUser(documentEdi, currentUser));
 
-                    req.setAttribute("commentForRecipients", (Objects.nonNull(executorTask) ? executorTask.getBusinessProcess().getComment() : ""));
+                    req.setAttribute("commentForRecipients", (Objects.nonNull(executorTask) && Objects.nonNull(executorTask.getBusinessProcess()) && Objects.nonNull(executorTask.getBusinessProcess().getComment()) ? executorTask.getBusinessProcess().getComment() : ""));
                 }
             }
             req.setAttribute("tempId", tempId);

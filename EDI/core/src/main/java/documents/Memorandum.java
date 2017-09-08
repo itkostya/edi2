@@ -32,13 +32,11 @@ public class Memorandum extends AbstractDocumentEdi {
 
     public Memorandum() {
         super();
-        //setDocumentProperty(DocumentProperty.MEMORANDUM);
     }
 
     public Memorandum(Timestamp date, boolean deletionMark, String number, boolean posted, User author, String theme, String text, String whomString, User whom) {
         super(date, deletionMark, number, posted, author, theme, text, whomString);
         this.whom = whom;
-        //setDocumentProperty(DocumentProperty.MEMORANDUM);
     }
 
     public DocumentProperty getDocumentProperty() {

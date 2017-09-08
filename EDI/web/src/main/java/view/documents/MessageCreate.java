@@ -179,7 +179,7 @@ public class MessageCreate extends HttpServlet {
                         } else {
 
                             Object[] usersWhom = Arrays.stream(usersIdArray).map(s -> UserImpl.INSTANCE.getUserById(Long.valueOf(s))).toArray();
-                            String whomString = (Arrays.toString(Arrays.stream(usersWhom).map(s -> ((User) s).getFio()).toArray())).replace("[", "").replace("]", "");
+                            String whomString = (Arrays.toString(Arrays.stream(usersWhom).map(s -> ((User) s).getFioInitials()).toArray())).replace("[", "").replace("]", "").substring(0,254);
 
                             switch (param) {
 
