@@ -13,8 +13,8 @@ import java.util.List;
 
 public enum DocumentProperty {
 
-    MESSAGE (0, "Message", "Сообщение", Collections.singletonList(ProcessType.INFORMATION), "ПС", 10),
-    MEMORANDUM(1, "Memorandum", "Служебная записка", Arrays.asList(ProcessType.ACCOMMODATION, ProcessType.INFORMATION, ProcessType.EXECUTION, ProcessType.AFFIRMATION, ProcessType.VISA),"СЗ", 10);
+    MESSAGE (0, "Message", "Сообщение", Collections.singletonList(ProcessType.INFORMATION), "ПС", 10,  Arrays.asList("mapHistory","mapStop")),
+    MEMORANDUM(1, "Memorandum", "Служебная записка", Arrays.asList(ProcessType.ACCOMMODATION, ProcessType.INFORMATION, ProcessType.EXECUTION, ProcessType.AFFIRMATION, ProcessType.VISA),"СЗ", 10, Collections.EMPTY_LIST);
 
     private int id;
     private String enName;
@@ -22,14 +22,16 @@ public enum DocumentProperty {
     private List<ProcessType> processTypeList;
     private String defaultPrefix;
     private int prefixLength;
+    private List<String> declinedFieldList; //TODO - is it necessary?
 
-    DocumentProperty(int id, String enName, String ruName, List<ProcessType> processTypeList, String defaultPrefix, int prefixLength) {
+    DocumentProperty(int id, String enName, String ruName, List<ProcessType> processTypeList, String defaultPrefix, int prefixLength,  List<String> declinedFieldList) {
         this.id = id;
         this.enName = enName;
         this.ruName = ruName;
         this.processTypeList = processTypeList;
         this.defaultPrefix = defaultPrefix;
         this.prefixLength = prefixLength;
+        this.declinedFieldList = declinedFieldList;
     }
 
     @SuppressWarnings("unused")
@@ -86,5 +88,13 @@ public enum DocumentProperty {
     @SuppressWarnings("unused")
     public void setPrefixLength(int prefixLength) {
         this.prefixLength = prefixLength;
+    }
+
+    public List<String> getDeclinedFieldList() {
+        return declinedFieldList;
+    }
+
+    public void setDeclinedFieldList(List<String> declinedFieldList) {
+        this.declinedFieldList = declinedFieldList;
     }
 }

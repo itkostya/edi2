@@ -16,6 +16,17 @@
 
 <link href="<c:url value="/resources/css/documents/message_view.css"/>" rel="stylesheet" type="text/css">
 
+<div id='command-bar-buttons-accept-decline-message' style="display: none"></div>
+
+<div id='command-bar-buttons-send-message' style="display: none">
+    <div><a href="#" class="link-like-button" onclick="return sendForward();">
+        <div class="command-bar-send-forward"></div>
+        <span class="submit">Переслать</span></a></div>
+    <div><a href="#" class="link-like-button" onclick="return sendReply();">
+        <div class="command-bar-send-reply"></div>
+        <span class="submit">Ответ</span></a></div>
+</div>
+
 <div style="text-align: center;">
     <div class=a5>
         <div style="text-align:left;">

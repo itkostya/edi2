@@ -11,6 +11,7 @@ import categories.UploadedFile;
 import categories.User;
 import documents.DocumentProperty;
 import documents.Memorandum;
+import documents.Message;
 import enumerations.FolderStructure;
 import enumerations.ProcessOrderType;
 import enumerations.ProcessResult;
@@ -163,12 +164,13 @@ public class ExecutorTaskServlet extends HttpServlet {
                     req.setAttribute("currentUser", currentUser);
                     req.setAttribute("executorTask", executorTask);
                     req.setAttribute("uploadedFiles", UploadedFileServiceImpl.INSTANCE.getListByDocument(documentEdi));
+
                     // Command bar
                     req.setAttribute("markedAvailable", markedAvailable(currentUser, documentEdi, executorTask));
                     req.setAttribute("isMarkedExecutorTask", ExecutorTaskFolderStructureServiceImpl.INSTANCE.isMarkedExecutorTask(currentUser, documentEdi, executorTask));
                     req.setAttribute("withdrawAvailable", !ExecutorTaskServiceImpl.INSTANCE.getWithdrawAvailable(currentUser, documentEdi).isEmpty());
-                    req.setAttribute("mapHistory", BusinessProcessSequenceServiceImpl.INSTANCE.getHistoryByDocumentMap(documentEdi));
-                    req.setAttribute("mapStop", BusinessProcessSequenceServiceImpl.INSTANCE.getNotCompletedSequenceByDocumentAndUser(documentEdi, currentUser));
+                    req.setAttribute("mapHistory", documentEdi.getDocumentProperty().getDeclinedFieldList().contains("mapHistory") ? null : BusinessProcessSequenceServiceImpl.INSTANCE.getHistoryByDocumentMap(documentEdi));
+                    req.setAttribute("mapStop",  documentEdi.getDocumentProperty().getDeclinedFieldList().contains("mapStop")? null :BusinessProcessSequenceServiceImpl.INSTANCE.getNotCompletedSequenceByDocumentAndUser(documentEdi, currentUser));
 
                     req.setAttribute("commentForRecipients", (Objects.nonNull(executorTask) && Objects.nonNull(executorTask.getBusinessProcess()) && Objects.nonNull(executorTask.getBusinessProcess().getComment()) ? executorTask.getBusinessProcess().getComment() : ""));
                 }

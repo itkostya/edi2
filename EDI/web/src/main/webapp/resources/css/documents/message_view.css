@@ -45,3 +45,23 @@ span.TextSpanMessage
     font-size: 12.0pt;
     font-family: "Times New Roman", serif;
 }
+
+.command-bar-send-forward
+{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/documents/message/send_forward.png);
+    background-size: contain;
+}
+
+.command-bar-send-reply
+{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/documents/message/send_reply.png);
+    background-size: contain;
+}

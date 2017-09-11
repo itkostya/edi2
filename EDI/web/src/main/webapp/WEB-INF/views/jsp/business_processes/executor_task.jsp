@@ -159,8 +159,24 @@
     }
 
     function setMainView() {
-        <c:import var="data" url="../documents/${documentEdi.documentProperty.enName.toLowerCase()}_view.jsp" scope="session"/>
-        document.getElementById("review_document").innerHTML = "${CommonModule.getCorrectStringJspPage(data)}";
+
+        <c:import var="documentView" url="../documents/${documentEdi.documentProperty.enName.toLowerCase()}_view.jsp" scope="session"/>
+        document.getElementById("review_document").innerHTML = "${CommonModule.getCorrectStringJspPage(documentView)}";
+
+        <c:choose>
+        <c:when test="${((documentView != null)&&(documentView.contains('command-bar-buttons-accept-decline-'.concat(documentEdi.documentProperty.enName.toLowerCase()))))}">
+            document.getElementById("command-bar-buttons-accept-decline").innerHTML = document.getElementById("command-bar-buttons-accept-decline-${documentEdi.documentProperty.enName.toLowerCase()}").innerHTML;
+            document.getElementById("command-bar-buttons-accept-decline-${documentEdi.documentProperty.enName.toLowerCase()}").outerHTML = "";
+        </c:when>
+        </c:choose>
+
+        <c:choose>
+        <c:when test="${((documentView != null)&&(documentView.contains('command-bar-buttons-send-'.concat(documentEdi.documentProperty.enName.toLowerCase()))))}">
+            document.getElementById("command-bar-buttons-send").innerHTML = document.getElementById("command-bar-buttons-send-${documentEdi.documentProperty.enName.toLowerCase()}").innerHTML;
+            document.getElementById("command-bar-buttons-send-${documentEdi.documentProperty.enName.toLowerCase()}").outerHTML = "";
+        </c:when>
+        </c:choose>
+
     }
 
     function setProcessType(text_of_button, index) {
@@ -236,7 +252,7 @@
     function setHistory() {
 
         <c:choose>
-        <c:when test="${mapHistory != ''}">
+        <c:when test="${((mapHistory!= null) && (mapHistory != ''))}">
 
         let historyParam = "";
         historyParam += "<span class='head-hidden-table'>История документа</span>";
@@ -325,7 +341,7 @@
     function setStop() {
 
         <c:choose>
-        <c:when test="${mapStop.size() > 0}">
+        <c:when test="${((mapStop!=null) && (mapStop.size() > 0))}">
 
         let mapParam = "";
         mapParam += "<span class='head-hidden-table'>" + "Отменить процессы" + "</span>";
@@ -523,51 +539,56 @@
 
             <c:choose><c:when test="${markedAvailable}">
                 <div>
-                    <button name="param" value="mark" ${isMarkedElement==true ? "class='marked_button'" : ""}><img
-                            class="command-bar-mark"
+                    <button name="param" value="mark" ${isMarkedElement==true ? "class='marked_button'" : ""}>
+                        <img class="command-bar-mark"
                             src="${pageContext.request.contextPath}/resources/images/command-bar/mark.png">
                     </button>
                 </div>
             </c:when></c:choose>
 
-            <div style="${isTrash==true ? "display:none" : ""}">
-                <c:forEach var="cell" items="${processType.getAvailableStatus()}" varStatus="status">
-                    <a href="#form_completed_task" class="link-like-button"
-                       onclick="return setProcessType('${cell}', ${status.index});">
-                        <c:choose>
-                            <c:when test="${(status.index == 0) && (currentUser == executorTask.executor) && (executorTask.result == null)}">
-                                <img src="${pageContext.request.contextPath}/resources/images/enumerators/ProcessType/${processType.enName.toLowerCase()}/accept.png"
-                                     class="command-bar-dimensions">
-                                <span id="command-bar-accept">${cell}</span></c:when>
-                            <c:when test="${(status.index == 1) && (currentUser == executorTask.executor) && (executorTask.result == null)}">
-                                <img src="${pageContext.request.contextPath}/resources/images/enumerators/ProcessType/${processType.enName.toLowerCase()}/decline.png"
-                                     class="command-bar-dimensions">
-                                <span id="command-bar-decline">${cell}</span></c:when>
-                        </c:choose></a>
-                </c:forEach></div>
+            <div id="command-bar-buttons-accept-decline">
+                <div style="${isTrash==true ? "display:none" : ""}">
+                    <c:forEach var="cell" items="${processType.getAvailableStatus()}" varStatus="status">
+                        <a href="#form_completed_task" class="link-like-button"
+                           onclick="return setProcessType('${cell}', ${status.index});">
+                            <c:choose>
+                                <c:when test="${(status.index == 0) && (currentUser == executorTask.executor) && (executorTask.result == null)}">
+                                    <img src="${pageContext.request.contextPath}/resources/images/enumerators/ProcessType/${processType.enName.toLowerCase()}/accept.png"
+                                         class="command-bar-dimensions">
+                                    <span id="command-bar-accept">${cell}</span></c:when>
+                                <c:when test="${(status.index == 1) && (currentUser == executorTask.executor) && (executorTask.result == null)}">
+                                    <img src="${pageContext.request.contextPath}/resources/images/enumerators/ProcessType/${processType.enName.toLowerCase()}/decline.png"
+                                         class="command-bar-dimensions">
+                                    <span id="command-bar-decline">${cell}</span></c:when>
+                            </c:choose></a>
+                    </c:forEach></div>
+            </div>
 
-            <div id="send" class="div-like-button" style="${isTrash==true ? "display:none" : ""}">
-                <ul>
-                    <li id="command-bar-send"><div class="command-bar-send"></div>
-                        Отправить ▼
-                        <ul>
-                            <c:forEach var="cell" items="${documentEdi.getDocumentProperty().getProcessTypeList()}"
-                                       varStatus="status">
+            <div id="command-bar-buttons-send">
+                <div id="send" class="div-like-button" style="${isTrash==true ? "display:none" : ""}">
+                    <ul>
+                        <li id="command-bar-send">
+                            <div class="command-bar-send"></div>
+                            Отправить ▼
+                            <ul>
+                                <c:forEach var="cell" items="${documentEdi.getDocumentProperty().getProcessTypeList()}"
+                                           varStatus="status">
+                                    <li><a href="#form_send_to_users" class="button"
+                                           onclick="return checkParameterAndSetTypeProcess(${status.index});">
+                                        <img src="${pageContext.request.contextPath}/resources/images/enumerators/ProcessType/${cell.enName.toLowerCase()}/accept.png">
+                                        <span class="submit">На ${cell.ruName.toLowerCase()}</span></a>
+                                    </li>
+                                </c:forEach>
+
                                 <li><a href="#form_send_to_users" class="button"
-                                       onclick="return checkParameterAndSetTypeProcess(${status.index});">
-                                    <img src="${pageContext.request.contextPath}/resources/images/enumerators/ProcessType/${cell.enName.toLowerCase()}/accept.png">
-                                    <span class="submit">На ${cell.ruName.toLowerCase()}</span></a>
+                                       onclick="return checkParameterAndSetTypeProcess(<%=Constant.SCENARIO_NUMBER%>);">
+                                    <img src="${pageContext.request.contextPath}/resources/images/enumerators/ProcessType/scenario/accept.png">
+                                    <span class="submit">По сценарию</span></a>
                                 </li>
-                            </c:forEach>
-
-                            <li><a href="#form_send_to_users" class="button"
-                                   onclick="return checkParameterAndSetTypeProcess(<%=Constant.SCENARIO_NUMBER%>);">
-                                <img src="${pageContext.request.contextPath}/resources/images/enumerators/ProcessType/scenario/accept.png">
-                                <span class="submit">По сценарию</span></a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <c:choose><c:when test="${withdrawAvailable}">
@@ -580,7 +601,7 @@
                 </div>
             </c:when></c:choose>
 
-            <c:choose><c:when test="${mapHistory.size() > 0}">
+            <c:choose><c:when test="${((mapHistory!= null) && (mapHistory.size() > 0))}">
                 <div><a href="#form_history" class="link-like-button"><div class="command-bar-history"></div>
                     <span id="command-bar-history">История</span></a></div>
             </c:when></c:choose>
@@ -589,7 +610,7 @@
                 <div id="command_bar_trash"></div>
             </c:when></c:choose>
 
-            <c:choose><c:when test="${mapStop.size() > 0}">
+            <c:choose><c:when test="${((mapStop!= null) && (mapStop.size() > 0))}">
                 <div>
                     <a href="#form_stop" class="link-like-button">
                         <div class="command-bar-stop"></div>
