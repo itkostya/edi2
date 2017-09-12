@@ -96,37 +96,27 @@
 
     function resizeElements() {
 
-        const clientWidth = document.firstChild.clientWidth;
+        const clientWidth = document.firstChild.clientWidth-(${processType == ProcessType.INFORMATION} ? 0 : 200);
         const clientHeight = window.innerHeight;
 
-        if (clientWidth < 1375) {
-            if (document.getElementById("command-bar-stop") !== null && document.getElementById("command-bar-stop").length > 0) {
-                document.getElementById("command-bar-stop")[0].innerHTML = document.getElementById("command-bar-stop")[0].innerHTML.replace("Отменить", "");
-            }
-            if (clientWidth < 1240) {
-                if (document.getElementById("command-bar-trash") !== null) {
-                    document.getElementById("command-bar-trash").innerHTML = document.getElementById("command-bar-trash").innerHTML.replace("Корзина", "")
-                }
-                else {
-                    if (document.getElementById("command-bar-restore") !== null) {
-                        document.getElementById("command-bar-restore").innerHTML = document.getElementById("command-bar-restore").innerHTML.replace(" Восстановить", "");
-                    }
-                }
-                if (clientWidth < 1140) {
-                    if (document.getElementById("command-bar-history") !== null) {
-                        document.getElementById("command-bar-history").innerHTML = document.getElementById("command-bar-history").innerHTML.replace("История", "");
-                    }
-                    if (clientWidth < 1025) {
-                        if (document.getElementById("command-bar-send") !== null) {
-                            document.getElementById("command-bar-send").innerHTML = document.getElementById("command-bar-send").innerHTML.replace("Отправить", "");
-                        }
-                        if (clientWidth < 885) {
+        if (clientWidth < 1275) {
+            replaceTextInHtmlElement(document.getElementById("command-bar-stop"), "Отменить", "");
+            if (clientWidth < 1140) {
+                replaceTextInHtmlElement(document.getElementById("command-bar-trash"), "Корзина", "");
+                replaceTextInHtmlElement(document.getElementById("command-bar-restore"), " Восстановить", "");
+                if (clientWidth < 1040) {
+                    replaceTextInHtmlElement(document.getElementById("command-bar-history"), "История", "");
+                    if (clientWidth < 925) {
+                        replaceTextInHtmlElement(document.getElementById("command-bar-send"), "Отправить", "");
+                        if (clientWidth < 785) {
                             if (document.getElementById("command-bar-accept") !== null) {
                                 document.getElementById("command-bar-accept").style.cssText = "display: none;";
                             }
                             if (document.getElementById("command-bar-decline") !== null) {
                                 document.getElementById("command-bar-decline").style.cssText = "display: none;";
                             }
+                            replaceTextInHtmlElement(document.getElementById("text-send-forward"), "Переслать", "");
+                            replaceTextInHtmlElement(document.getElementById("text-send-reply"), "Ответ", "");
                         }
                     }
                 }
@@ -545,6 +535,9 @@
                     </button>
                 </div>
             </c:when></c:choose>
+
+            <div><a href="#" class="link-like-button" onclick="window.close();">
+                <div class="command-bar-close-black"></div></a></div>
 
             <div id="command-bar-buttons-accept-decline">
                 <div style="${isTrash==true ? "display:none" : ""}">

@@ -21,10 +21,10 @@
 <div id='command-bar-buttons-send-message' style="display: none">
     <div><a href="#" class="link-like-button" onclick="return sendForward();">
         <div class="command-bar-send-forward"></div>
-        <span class="submit">Переслать</span></a></div>
+        <span id="text-send-forward">Переслать</span></a></div>
     <div><a href="#" class="link-like-button" onclick="return sendReply();">
         <div class="command-bar-send-reply"></div>
-        <span class="submit">Ответ</span></a></div>
+        <span id="text-send-reply">Ответ</span></a></div>
 </div>
 
 <div style="text-align: center;">

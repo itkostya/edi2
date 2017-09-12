@@ -200,4 +200,8 @@
 
     //  -----  Check result after sending document END -----
 
+    function replaceTextInHtmlElement(htmlElement, basicText, newText){
+        if (htmlElement !== null) htmlElement.innerHTML = htmlElement.innerHTML.replace(basicText, newText);
+    }
+
 </script>

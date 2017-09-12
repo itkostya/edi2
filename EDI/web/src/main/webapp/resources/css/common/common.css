@@ -81,6 +81,15 @@ a.button-disabled{
     background-size: contain;
 }
 
+.command-bar-close-black{
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    background:
+            url(../../images/command-bar/close_black.png);
+    background-size: contain;
+}
+
 .command-bar-refresh{
     vertical-align: middle;
     width: 16px;
