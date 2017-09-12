@@ -3,7 +3,11 @@
 
 <%--@elvariable id="PageContainer" type="tools"--%>
 <%@ page import="tools.PageContainer"%>
+
+<%--@elvariable id="documentPropertyString" type="java.lang.String"--%>
+
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <script>
 
@@ -13,9 +17,20 @@
     }
 
     //noinspection JSUnusedLocalSymbols
-    function onClickOpenTask(document, formName, documentId, executorTaskId, isExecutorTaskDraft) {
+    function onClickOpenTask(formName, documentId, executorTaskId, isExecutorTaskDraft, documentPropertyString) {
         const myForm = document.forms[formName];
-        myForm.action = "${pageContext.request.contextPath}" + (isExecutorTaskDraft ? "${PageContainer.DOCUMENT_MEMORANDUM_CREATE_PAGE}" : "${PageContainer.EXECUTOR_TASK_PAGE}");
+        let createPagePath = "";
+        if (isExecutorTaskDraft) {
+            switch (documentPropertyString.toUpperCase()) {
+                case "MEMORANDUM":
+                    createPagePath = "${PageContainer.getCreatePageStringByDocumentProperty('MEMORANDUM')}";
+                    break;
+                case "MESSAGE":
+                    createPagePath = "${PageContainer.getCreatePageStringByDocumentProperty('MESSAGE')}";
+                    break;
+            }
+        }
+        myForm.action = "${pageContext.request.contextPath}" + (isExecutorTaskDraft ? createPagePath: "${PageContainer.EXECUTOR_TASK_PAGE}");
         myForm.elements["documentId"].value = documentId;
         myForm.elements["executorTaskId"].value = executorTaskId;
         myForm.elements["tempId"].value = getRandomInt();

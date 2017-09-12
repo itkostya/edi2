@@ -139,49 +139,7 @@
 
     }
 
-    function saveAsDraft() {
-
-        const errorString = getResultStringOfComparingBigFilesArray(fileList, ${Constant.MAX_FILE_SIZE});
-
-        if (errorString !== "") {
-            document.getElementById("info_result").innerHTML = errorString;
-        } else {
-
-            const formData = new FormData(document.forms["doc_message_create"]);
-            let i;
-
-            let uploadedFileString = "";
-            for (i = 0; i < uploadedFileList.length; i++) uploadedFileString += uploadedFileList[i][1] + ";"; // File's md5Hex sum
-            formData.append("uploadedFileString", uploadedFileString);
-
-            for (i = 0; i < fileList.length; i++) formData.append("fileList[]", fileList[i]);
-            formData.append("param", "save");
-
-            const xhr = new XMLHttpRequest();
-            xhr.open("POST", "${pageContext.request.contextPath}/doc_message_create", true);
-            xhr.send(formData);
-
-            xhr.onerror = function () {
-                afterErrorPageCheckResult(xhr);
-            };
-            xhr.onload = function () {
-                afterLoadingPageCheckResult(xhr, false);
-            };
-
-            let button = document.getElementById("info_result");
-            button.innerHTML = 'Сохранение...';
-            button.disabled = true;
-        }
-    }
-
-    function sendMessageAfterChecking() {
-
-        //const post_users = [];
-        let i;
-        let errorString = "";
-
-        if (document.getElementById("table-whom-selected").tBodies.item(0).rows[0].cells.length === 0)
-            errorString += "Не выбран получатель(-ли); ";
+    function messageSaveSend(stringParamSaveSend, stringInfoResultProcess, errorString) {
 
         errorString += getResultStringOfComparingBigFilesArray(fileList, ${Constant.MAX_FILE_SIZE});
 
@@ -190,9 +148,9 @@
         } else {
 
             const post_users = Array.from(document.getElementsByClassName("hidden-id")).map(f => f.innerText);
+            let i;
 
             const formData = new FormData(document.forms["doc_message_create"]);
-            //const formData = new FormData(document.forms["menu_send_to_users"]);
             formData.append("post_users[]", post_users);
 
             if (uploadedFileList !== null) {
@@ -202,7 +160,7 @@
             }
 
             for (i = 0; i < fileList.length; i++) formData.append("fileList[]", fileList[i]);
-            formData.append("param", "send");
+            formData.append("param", stringParamSaveSend);
 
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "${pageContext.request.contextPath}", true);
@@ -216,8 +174,21 @@
                 afterLoadingPageCheckResult(xhr, true);
             };
 
-            document.getElementById("info_result").innerHTML = "Отправка...";
+            document.getElementById("info_result").innerHTML = stringInfoResultProcess;
         }
+
+
+    }
+
+    function saveAsDraft() {
+
+        messageSaveSend("save", "Сохранение...", "");
+
+    }
+
+    function sendMessageAfterChecking() {
+
+        messageSaveSend("send", "Отправка...", ((document.getElementById("table-whom-selected").tBodies.item(0).rows[0].cells.length === 0) ? "Не выбран получатель(-ли); " :""));
 
     }
 

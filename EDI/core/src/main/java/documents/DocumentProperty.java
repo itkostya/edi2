@@ -22,7 +22,7 @@ public enum DocumentProperty {
     private List<ProcessType> processTypeList;
     private String defaultPrefix;
     private int prefixLength;
-    private List<String> declinedFieldList; //TODO - is it necessary?
+    private List<String> declinedFieldList;
 
     DocumentProperty(int id, String enName, String ruName, List<ProcessType> processTypeList, String defaultPrefix, int prefixLength,  List<String> declinedFieldList) {
         this.id = id;

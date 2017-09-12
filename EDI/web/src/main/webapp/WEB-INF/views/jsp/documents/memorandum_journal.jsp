@@ -194,12 +194,12 @@
         <c:choose>
         <c:when test="${cell.folder == FolderStructure.INBOX}">
         row.ondblclick = function () {
-            onClickOpenTask(document, "myForm", ${cell.executorTask.document.id}, ${cell.executorTask.id}, ${cell.executorTask.draft})
+            onClickOpenTask("myForm", ${cell.executorTask.document.id}, ${cell.executorTask.id}, ${cell.executorTask.draft}, "${cell.executorTask.document.documentProperty}")
         };
         </c:when>
         <c:otherwise>
         row.ondblclick = function () {
-            onClickOpenTask(document, "myForm", ${cell.executorTask.document.id}, null, ${cell.executorTask.draft})
+            onClickOpenTask("myForm", ${cell.executorTask.document.id}, null, ${cell.executorTask.draft}, "${cell.executorTask.document.documentProperty}")
         };
         </c:otherwise>
         </c:choose>
@@ -255,7 +255,7 @@
         row.style = row_style;
 
         row.ondblclick = function () {
-            onClickOpenTask(document, "myForm", ${cell.executorTask.document.id}, ${cell.executorTask.id}, ${cell.executorTask.draft})
+            onClickOpenTask("myForm", ${cell.executorTask.document.id}, ${cell.executorTask.id}, ${cell.executorTask.draft}, "${cell.executorTask.document.documentProperty}")
         };
 
         </c:forEach>

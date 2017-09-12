@@ -198,7 +198,7 @@
         row.style = row_style;
 
         row.ondblclick = function () {
-            onClickOpenTask(document, "formOpenTask", ${cell.document.id}, ${cell.id}, false)
+            onClickOpenTask("formOpenTask", ${cell.document.id}, ${cell.id}, false, "${cell.document.documentProperty}")
         };
 
         </c:forEach>
@@ -254,7 +254,7 @@
         row.style = row_style;
 
         row.ondblclick = function () {
-            onClickOpenTask(document, "formOpenTask", ${cell.document.id}, null, false)
+            onClickOpenTask("formOpenTask", ${cell.document.id}, null, false, "${cell.document.documentProperty}")
         };
         </c:forEach>
 
@@ -301,7 +301,7 @@
         row.style = row_style;
 
         row.ondblclick = function () {
-            onClickOpenTask(document, "formOpenTask", ${cell.executorTask.document.id}, null, ${cell.executorTask.draft})
+            onClickOpenTask("formOpenTask", ${cell.executorTask.document.id}, null, ${cell.executorTask.draft}, "${cell.executorTask.document.documentProperty}")
         };
 
         </c:forEach>

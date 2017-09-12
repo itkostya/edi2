@@ -1,5 +1,7 @@
 package tools;
 
+import exсeption.PageContainerNotFoundException;
+
 /*
  * Created by kostya on 9/2/2016.
  */
@@ -34,5 +36,15 @@ public enum PageContainer {
     public static final String EXECUTOR_TASK_JSP = "WEB-INF/views/jsp/business_processes/executor_task.jsp";
 
     public static final String DOWNLOAD_PAGE = "/download";
+
+    public static String getCreatePageStringByDocumentProperty(String documentProperty){
+
+        switch (documentProperty.toUpperCase()) {
+            case ("MEMORANDUM"): return DOCUMENT_MEMORANDUM_CREATE_PAGE;
+            case ("MESSAGE"): return DOCUMENT_MESSAGE_CREATE_PAGE;
+        }
+        throw new PageContainerNotFoundException("documentProperty");
+
+    }
 
 }
