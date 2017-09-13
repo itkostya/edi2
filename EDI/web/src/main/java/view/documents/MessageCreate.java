@@ -93,12 +93,7 @@ public class MessageCreate extends HttpServlet {
                     // Get for draft
                     req.setAttribute("theme", documentEdi.getTheme());
                     req.setAttribute("textInfo", documentEdi.getText());
-                    // TODO - get whom users
-//                    User whomUser = documentEdi.getWhom();
-//                    if (Objects.nonNull(whomUser)) {
-//                        req.setAttribute("whomId", whomUser.getId());
-//                        req.setAttribute("selectedUser", whomUser.getFio());
-//                    }
+                    req.setAttribute("userWhomList", Arrays.stream(documentEdi.getWhomString().split(",")).map(s -> (  s.matches("[0-9]+") ? UserImpl.INSTANCE.getUserById(Long.valueOf(s)) : null)).toArray(User[]::new));
                     req.setAttribute("uploadedFiles", UploadedFileServiceImpl.INSTANCE.getListByDocument(documentEdi));
                 }
 
@@ -151,9 +146,6 @@ public class MessageCreate extends HttpServlet {
                     String theme = req.getParameter("theme");
                     String textInfo = req.getParameter("textInfo");
 
-                    String closeDocumentString = req.getParameter("closeDocument");
-                    Boolean closeDocument = (!Objects.isNull(closeDocumentString) && "on".equals(closeDocumentString));
-
                     Long tempId = (Long) CommonModule.getNumberFromRequest(req, "tempId", Long.class);
                     SessionDataElement sessionDataElement = SessionParameter.INSTANCE.getUserSettings(req).getSessionDataElement(tempId);
 
@@ -178,13 +170,14 @@ public class MessageCreate extends HttpServlet {
 
                         } else {
 
-                            Object[] usersWhom = Arrays.stream(usersIdArray).map(s -> UserImpl.INSTANCE.getUserById(Long.valueOf(s))).toArray();
-                            String tempStr = (Arrays.toString(Arrays.stream(usersWhom).map(s -> ((User) s).getFioInitials()).toArray())).replace("[", "").replace("]", "");
-                            String whomString = (tempStr.length() > 255 ? tempStr.substring(0,254): tempStr);
+                            String whomString = "";
 
                             switch (param) {
 
                                 case "save":
+
+                                    whomString = req.getParameter("post_users[]");
+                                    whomString = (whomString.length() > 255 ? whomString.substring(0,254): whomString);
 
                                     documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomString);
                                     if (Objects.isNull(executorTask)) {
@@ -197,6 +190,11 @@ public class MessageCreate extends HttpServlet {
                                     break;
 
                                 case "send":
+
+                                    User[] usersWhom = Arrays.stream(usersIdArray).map(s -> UserImpl.INSTANCE.getUserById(Long.valueOf(s))).toArray(User[]::new);
+                                    String tempStr = (Arrays.toString(Arrays.stream(usersWhom).map(User::getFioInitials).toArray())).replace("[", "").replace("]", "");
+                                    whomString = (tempStr.length() > 255 ? tempStr.substring(0,254): tempStr);
+
                                     // Process type
                                     ProcessType processTypeCommon = DocumentProperty.MESSAGE.getProcessTypeList().get(0);
 
@@ -204,7 +202,7 @@ public class MessageCreate extends HttpServlet {
 
                                     documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomString);
                                     CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, (Message) documentEdi, executorTask, timeStamp, usersIdArray, null, null, processTypeCommon, null, new java.sql.Timestamp(finalDate.getTime()));
-                                    sessionDataElement.setElementStatus(closeDocument ? ElementStatus.CLOSE : ElementStatus.STORE);
+                                    sessionDataElement.setElementStatus(ElementStatus.CLOSE);
 
                                     break;
                             }

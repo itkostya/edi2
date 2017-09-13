@@ -5,6 +5,7 @@
 
 <%--@elvariable id="documentTypeId" type="java.lang.Long"--%>
 <%--@elvariable id="userList" type="java.util.List<categories.User>"--%>
+<%--@elvariable id="userWhomList" type="java.util.List<categories.User>"--%>
 
 <%-- Should be code on page:
 
@@ -86,6 +87,7 @@
 
     }
 
+    //noinspection JSUnusedLocalSymbols
     function selectUsersOnKeyDown() {
 
         let currentChild;
@@ -145,6 +147,28 @@
 
         resizeElementsWhomMenu();
         window.addEventListener('resize', resizeElementsWhomMenu);
+
+    }
+
+    function setUsersWhomList() {
+
+        <c:choose>
+        <c:when test="${not empty userWhomList}">
+
+            const currentTable = document.getElementById("table-whom-selected");
+            let row;
+            <c:forEach var="cell" items="${userWhomList}" varStatus="status">
+                <c:choose>
+                <c:when test="${not empty cell}">
+                    row = currentTable.tBodies.item(0).rows[0];
+                    insertCellInRow(0, row, '<div class="vR"><span class="vN"><div class="vT">'+getFioAbbreviated("${cell.fio}")+'</div><div class="hidden-id" hidden>${cell.id}</div><div class="vM" onclick="event.currentTarget.offsetParent.outerHTML = \'\'; resizeElements();"></div></span></div>');
+                </c:when>
+                </c:choose>
+            </c:forEach>
+            resizeElements();
+
+        </c:when>
+        </c:choose>
 
     }
 

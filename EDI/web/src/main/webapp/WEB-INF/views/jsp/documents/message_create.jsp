@@ -70,6 +70,7 @@
         //setReviewOnload();
         //setUsersOnPage();
         refreshChooseOneUser(document.getElementById("table_choose_one_user"),  <%=DocumentProperty.MESSAGE.getId()%>);
+        setUsersWhomList();
         uploadedFileList = fillUploadedFiles();
 
         resizeElements();
