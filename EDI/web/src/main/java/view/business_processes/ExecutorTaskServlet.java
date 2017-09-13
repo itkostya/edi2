@@ -125,8 +125,21 @@ public class ExecutorTaskServlet extends HttpServlet {
                     if (Objects.nonNull(executorTask)) {
                         BusinessProcessSequence businessProcessSequence = BusinessProcessSequenceServiceImpl.INSTANCE.getBusinessProcessSequence(executorTask);
                         if (!businessProcessSequence.isViewed()) {
+
+                            if (documentEdi instanceof Message) {
+                                executorTask.setCompleted(true);
+                                executorTask.setDateCompleted(TimeModule.getCurrentDate());
+                                executorTask.setResult(ProcessResult.INFORMED);
+                                ExecutorTaskImpl.INSTANCE.update(executorTask);
+
+                                businessProcessSequence.setCompleted(true);
+                                businessProcessSequence.setDate(TimeModule.getCurrentDate());
+                                businessProcessSequence.setResult(ProcessResult.INFORMED);
+                            }
+
                             businessProcessSequence.setViewed(true);
                             BusinessProcessSequenceImpl.INSTANCE.update(businessProcessSequence);
+
                         }
                     }
 
@@ -278,7 +291,7 @@ public class ExecutorTaskServlet extends HttpServlet {
                             case "withdraw":
                                 CommonBusinessProcessServiceImpl.INSTANCE.withdrawExecutorTasks(currentUser, documentEdi, executorTask);
                                 sessionDataElement.setExecutorTask(executorTask);
-                                sessionDataElement.setElementStatus(ElementStatus.UPDATE);   // - new 5/23/2017 was STORE
+                                sessionDataElement.setElementStatus(ElementStatus.UPDATE);
                                 doGet(req, resp);
                                 break;
                         }

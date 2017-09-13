@@ -150,20 +150,26 @@
 
     function setMainView() {
 
-        <c:import var="documentView" url="../documents/${documentEdi.documentProperty.enName.toLowerCase()}_view.jsp" scope="session"/>
-        document.getElementById("review_document").innerHTML = "${CommonModule.getCorrectStringJspPage(documentView)}";
-
         <c:choose>
-        <c:when test="${((documentView != null)&&(documentView.contains('command-bar-buttons-accept-decline-'.concat(documentEdi.documentProperty.enName.toLowerCase()))))}">
-            document.getElementById("command-bar-buttons-accept-decline").innerHTML = document.getElementById("command-bar-buttons-accept-decline-${documentEdi.documentProperty.enName.toLowerCase()}").innerHTML;
-            document.getElementById("command-bar-buttons-accept-decline-${documentEdi.documentProperty.enName.toLowerCase()}").outerHTML = "";
-        </c:when>
-        </c:choose>
+        <c:when test="${not empty documentEdi}">
 
-        <c:choose>
-        <c:when test="${((documentView != null)&&(documentView.contains('command-bar-buttons-send-'.concat(documentEdi.documentProperty.enName.toLowerCase()))))}">
-            document.getElementById("command-bar-buttons-send").innerHTML = document.getElementById("command-bar-buttons-send-${documentEdi.documentProperty.enName.toLowerCase()}").innerHTML;
-            document.getElementById("command-bar-buttons-send-${documentEdi.documentProperty.enName.toLowerCase()}").outerHTML = "";
+            <c:import var="documentView" url="../documents/${documentEdi.documentProperty.enName.toLowerCase()}_view.jsp" scope="session"/>
+            document.getElementById("review_document").innerHTML = "${CommonModule.getCorrectStringJspPage(documentView)}";
+
+            <c:choose>
+            <c:when test="${((documentView != null)&&(documentView.contains('command-bar-buttons-accept-decline-'.concat(documentEdi.documentProperty.enName.toLowerCase()))))}">
+                document.getElementById("command-bar-buttons-accept-decline").innerHTML = document.getElementById("command-bar-buttons-accept-decline-${documentEdi.documentProperty.enName.toLowerCase()}").innerHTML;
+                document.getElementById("command-bar-buttons-accept-decline-${documentEdi.documentProperty.enName.toLowerCase()}").outerHTML = "";
+            </c:when>
+            </c:choose>
+
+            <c:choose>
+            <c:when test="${((documentView != null)&&(documentView.contains('command-bar-buttons-send-'.concat(documentEdi.documentProperty.enName.toLowerCase()))))}">
+                document.getElementById("command-bar-buttons-send").innerHTML = document.getElementById("command-bar-buttons-send-${documentEdi.documentProperty.enName.toLowerCase()}").innerHTML;
+                document.getElementById("command-bar-buttons-send-${documentEdi.documentProperty.enName.toLowerCase()}").outerHTML = "";
+            </c:when>
+            </c:choose>
+
         </c:when>
         </c:choose>
 
