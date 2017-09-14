@@ -47,9 +47,7 @@ import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {PageContainer.EXECUTOR_TASK_PAGE})
@@ -125,21 +123,12 @@ public class ExecutorTaskServlet extends HttpServlet {
                     if (Objects.nonNull(executorTask)) {
                         BusinessProcessSequence businessProcessSequence = BusinessProcessSequenceServiceImpl.INSTANCE.getBusinessProcessSequence(executorTask);
                         if (!businessProcessSequence.isViewed()) {
-
-                            if (documentEdi instanceof Message) {
-                                executorTask.setCompleted(true);
-                                executorTask.setDateCompleted(TimeModule.getCurrentDate());
-                                executorTask.setResult(ProcessResult.INFORMED);
-                                ExecutorTaskImpl.INSTANCE.update(executorTask);
-
-                                businessProcessSequence.setCompleted(true);
-                                businessProcessSequence.setDate(TimeModule.getCurrentDate());
-                                businessProcessSequence.setResult(ProcessResult.INFORMED);
-                            }
-
                             businessProcessSequence.setViewed(true);
                             BusinessProcessSequenceImpl.INSTANCE.update(businessProcessSequence);
+                        }
 
+                        if (documentEdi instanceof Message) {
+                            setBusinessProcessAction(documentEdi, executorTask, currentUser, true, "", Collections.emptyList());
                         }
                     }
 
@@ -379,22 +368,25 @@ public class ExecutorTaskServlet extends HttpServlet {
                             // I don't want to delete another executorTask which comes to this user.
                             // And I want to bind tasks (it'll be obvious when you look at comment),
                             // but I don't want to duplicate files, so we add files only in current executorTask
-                            for (UploadedFile uploadedFile : fileList) {
-                                uploadedFile.setDocument(documentEdi);
-                                uploadedFile.setExecutorTask(executorTask2);
-                                UploadedFileImpl.INSTANCE.save(uploadedFile);
+                            if (Objects.nonNull(fileList)) {
+                                for (UploadedFile uploadedFile : fileList) {
+                                    uploadedFile.setDocument(documentEdi);
+                                    uploadedFile.setExecutorTask(executorTask2);
+                                    UploadedFileImpl.INSTANCE.save(uploadedFile);
+                                }
                             }
 
                         }
 
                         businessProcessSequence.setCompleted(true);
+                        businessProcessSequence.setViewed(true);  // if BP completed it's already viewed
                         businessProcessSequence.setResult(executorTask2.getResult());
                         businessProcessSequence.setExecutorTask(executorTask2);
                         BusinessProcessSequenceImpl.INSTANCE.update(businessProcessSequence);
                     } else if (!businessProcessSequence.isCompleted()) bpCompleted = false;
 
                     if (((newTaskPosition + 1) == i) && businessProcessSequence.isCompleted())
-                        newTaskPosition++; // test it after set in block
+                        newTaskPosition++;
                 }
 
                 BusinessProcess currentBusinessProcess = businessProcessListEntry.getKey();
