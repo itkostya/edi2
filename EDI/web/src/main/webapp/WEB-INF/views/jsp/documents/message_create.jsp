@@ -65,10 +65,6 @@
 
         <c:set value="${(sessionDataElement.elementStatus == ElementStatus.CREATE || sessionDataElement.elementStatus == ElementStatus.ERROR)}" var="isNewElement"/>
 
-//        document.getElementById("menu_send_to_users").innerHTML = createMenuSendToUsers();
-//        document.getElementById("menu_choose_users").innerHTML = createMenuChooseUsers();
-        //setReviewOnload();
-        //setUsersOnPage();
         refreshChooseOneUser(document.getElementById("table_choose_one_user"),  <%=DocumentProperty.MESSAGE.getId()%>);
         setUsersWhomList();
         uploadedFileList = fillUploadedFiles();
@@ -136,7 +132,6 @@
                 clientWidth <= 1000 ? "94" :  clientWidth <= 1200 ? "95": "96")+ "%";
 
         addFilesAndResizeTable(uploadedFileList);
-        //resizeElementsSendDocument();
 
     }
 

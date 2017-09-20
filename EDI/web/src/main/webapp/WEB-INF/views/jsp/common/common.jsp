@@ -16,21 +16,29 @@
         row.insertCell(index).innerHTML = name;
     }
 
+    function getCreateDocumentPageName(documentPropertyString) {
+        switch (documentPropertyString.toUpperCase()) {
+            case "MEMORANDUM":
+                return "${PageContainer.getCreatePageStringByDocumentProperty('MEMORANDUM')}";
+            case "MESSAGE":
+                return "${PageContainer.getCreatePageStringByDocumentProperty('MESSAGE')}";
+        }
+        return "";
+    }
+
+    //noinspection JSUnusedLocalSymbols
+    function createNewDocument(documentPropertyString, documentCopyId) {
+        const formCreateDocument = document.forms["createDocument"];
+        formCreateDocument.action = getCreateDocumentPageName(documentPropertyString);
+        formCreateDocument.elements["documentCopyId"].value = documentCopyId;
+        formCreateDocument.elements["tempId"].value = getRandomInt();
+        formCreateDocument.submit();
+    }
+
     //noinspection JSUnusedLocalSymbols
     function onClickOpenTask(formName, documentId, executorTaskId, isExecutorTaskDraft, documentPropertyString) {
         const myForm = document.forms[formName];
-        let createPagePath = "";
-        if (isExecutorTaskDraft) {
-            switch (documentPropertyString.toUpperCase()) {
-                case "MEMORANDUM":
-                    createPagePath = "${PageContainer.getCreatePageStringByDocumentProperty('MEMORANDUM')}";
-                    break;
-                case "MESSAGE":
-                    createPagePath = "${PageContainer.getCreatePageStringByDocumentProperty('MESSAGE')}";
-                    break;
-            }
-        }
-        myForm.action = "${pageContext.request.contextPath}" + (isExecutorTaskDraft ? createPagePath: "${PageContainer.EXECUTOR_TASK_PAGE}");
+        myForm.action = "${pageContext.request.contextPath}" + (isExecutorTaskDraft ? getCreateDocumentPageName(documentPropertyString): "${PageContainer.EXECUTOR_TASK_PAGE}");
         myForm.elements["documentId"].value = documentId;
         myForm.elements["executorTaskId"].value = executorTaskId;
         myForm.elements["tempId"].value = getRandomInt();

@@ -175,7 +175,7 @@ public class MemorandumCreate extends HttpServlet {
 
                             case "save":
 
-                                documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomUser);
+                                documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomUser, "save");
                                 if (Objects.isNull(executorTask)) {
                                     executorTask = new ExecutorTask(timeStamp, null, true, currentUser, documentEdi, null, "", null, null, new java.sql.Timestamp(finalDate.getTime()), null, false, false, true);
                                     ExecutorTaskImpl.INSTANCE.save(executorTask);
@@ -216,7 +216,7 @@ public class MemorandumCreate extends HttpServlet {
 
                                     // --- Create document Memorandum, business_process' classes: BusinessProcess, BusinessProcessSequence, ExecutorTask ---
 
-                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomUser);
+                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomUser, "send");
                                     CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, documentEdi, executorTask, timeStamp, usersIdArray, orderTypeArray, processTypeArray, processTypeCommon, comment, new java.sql.Timestamp(finalDate.getTime()));
                                     sessionDataElement.setElementStatus(closeDocument ? ElementStatus.CLOSE : ElementStatus.STORE);
 
@@ -267,15 +267,15 @@ public class MemorandumCreate extends HttpServlet {
         }
     }
 
-    private AbstractDocumentEdi createOrUpdateDocument(HttpServletRequest req, AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, String theme, String textInfo, List<UploadedFile> fileList, User whomUser) {
+    private AbstractDocumentEdi createOrUpdateDocument(HttpServletRequest req, AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, String theme, String textInfo, List<UploadedFile> fileList, User whomUser, String operationType) {
 
         if (Objects.isNull(documentEdi)) {
-            documentEdi = new Memorandum(timeStamp, false, null, false, currentUser, CommonModule.getCorrectStringForWeb(theme), textInfo, ""+whomUser, whomUser);
+            documentEdi = new Memorandum(timeStamp, false, null, false, currentUser, CommonModule.getCorrectStringForWeb(theme), (operationType.equals("save") ? textInfo : CommonModule.getCorrectStringForWeb(textInfo)), ""+whomUser, whomUser);
             MemorandumImpl.INSTANCE.save((Memorandum) documentEdi);
         } else {
             documentEdi.setWhomString(whomUser.getFio());
             documentEdi.setTheme(CommonModule.getCorrectStringForWeb(theme));
-            documentEdi.setText(textInfo);
+            documentEdi.setText(operationType.equals("save") ? textInfo : CommonModule.getCorrectStringForWeb(textInfo));
             MemorandumImpl.INSTANCE.update((Memorandum) documentEdi);
         }
 

@@ -37,10 +37,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -95,6 +92,14 @@ public class MessageCreate extends HttpServlet {
                     req.setAttribute("textInfo", documentEdi.getText());
                     req.setAttribute("userWhomList", Arrays.stream(documentEdi.getWhomString().split(",")).map(s -> (  s.matches("[0-9]+") ? UserImpl.INSTANCE.getUserById(Long.valueOf(s)) : null)).toArray(User[]::new));
                     req.setAttribute("uploadedFiles", UploadedFileServiceImpl.INSTANCE.getListByDocument(documentEdi));
+                }else {
+                    Long documentCopyId = (Long) CommonModule.getNumberFromRequest(req, "documentCopyId", Long.class);
+                    if (Objects.nonNull(documentCopyId)) {
+                        AbstractDocumentEdi documentCopyEdi = AbstractDocumentEdiImpl.INSTANCE.getById(documentCopyId);
+                        req.setAttribute("theme", "Ответ на "+documentCopyEdi.getTheme());
+                        req.setAttribute("textInfo", CommonModule.getReplyString(documentCopyEdi.getText()));
+                        req.setAttribute("userWhomList", Collections.singletonList(documentCopyEdi.getAuthor()));
+                    }
                 }
 
                 if (sessionDataElement.getElementStatus() == ElementStatus.ERROR)
@@ -179,7 +184,7 @@ public class MessageCreate extends HttpServlet {
                                     whomString = req.getParameter("post_users[]");
                                     whomString = (whomString.length() > 255 ? whomString.substring(0,254): whomString);
 
-                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomString);
+                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomString, "save");
                                     if (Objects.isNull(executorTask)) {
                                         executorTask = new ExecutorTask(timeStamp, null, true, currentUser, documentEdi, null, "", null, null, new java.sql.Timestamp(finalDate.getTime()), null, false, false, true);
                                         ExecutorTaskImpl.INSTANCE.save(executorTask);
@@ -200,7 +205,7 @@ public class MessageCreate extends HttpServlet {
 
                                     // --- Create document Message, business_process' classes: BusinessProcess, BusinessProcessSequence, ExecutorTask ---
 
-                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomString);
+                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomString, "send");
                                     CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, (Message) documentEdi, executorTask, timeStamp, usersIdArray, null, null, processTypeCommon, null, new java.sql.Timestamp(finalDate.getTime()));
                                     sessionDataElement.setElementStatus(ElementStatus.CLOSE);
 
@@ -251,15 +256,15 @@ public class MessageCreate extends HttpServlet {
         }
     }
 
-    private AbstractDocumentEdi createOrUpdateDocument(HttpServletRequest req, AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, String theme, String textInfo, List<UploadedFile> fileList, String whomString) {
+    private AbstractDocumentEdi createOrUpdateDocument(HttpServletRequest req, AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, String theme, String textInfo, List<UploadedFile> fileList, String whomString, String operationType) {
 
         if (Objects.isNull(documentEdi)) {
-            documentEdi = new Message(timeStamp, false, null, false, currentUser, CommonModule.getCorrectStringForWeb(theme), textInfo, whomString);
+            documentEdi = new Message(timeStamp, false, null, false, currentUser, CommonModule.getCorrectStringForWeb(theme), (operationType.equals("save") ? textInfo : CommonModule.getCorrectStringForWeb(textInfo)), whomString);
             MessageImpl.INSTANCE.save((Message) documentEdi);
         } else {
             documentEdi.setWhomString(whomString);
             documentEdi.setTheme(CommonModule.getCorrectStringForWeb(theme));
-            documentEdi.setText(textInfo);
+            documentEdi.setText(operationType.equals("save") ? textInfo : CommonModule.getCorrectStringForWeb(textInfo));
             MessageImpl.INSTANCE.update((Message) documentEdi);
         }
 

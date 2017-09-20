@@ -27,7 +27,7 @@
 <html>
 
 <head>
-    <title>Edi - version 0.099 - beta</title>
+    <title>Edi - version 0.100 - beta</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/work_area/work_area_main.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
@@ -200,7 +200,7 @@
         row.ondblclick = function () {
             onClickOpenTask("formOpenTask", ${cell.document.id}, ${cell.id}, false, "${cell.document.documentProperty}");
             <c:choose><c:when test="${cell.document.documentProperty == DocumentProperty.MESSAGE}">
-                    setTimeout(function() {window.location.reload(true);}, 2500);
+                    setTimeout(function() {window.location.reload(true);}, 5000);
             </c:when></c:choose>
         };
 
@@ -345,22 +345,6 @@
     }
 
     //  -----  Work with tables END -----
-
-    function createNewDocument(documentPropertyItem) {
-
-        const formCreateDocument = document.forms["createDocument"];
-        switch (documentPropertyItem) {
-            case 'Message':
-                formCreateDocument.action = "${pageContext.request.contextPath}/doc_message_create";
-                break;
-            case 'Memorandum':
-                formCreateDocument.action = "${pageContext.request.contextPath}/doc_memorandum_create";
-                break;
-        }
-        formCreateDocument.tempId.value = getRandomInt();
-        formCreateDocument.submit();
-    }
-
 
 </script>
 
@@ -508,7 +492,7 @@
                                         <ul>
                                             <c:forEach var="cell" items="${DocumentProperty.values()}">
                                                 <li><a href="javascript:void(0)"
-                                                       onclick="createNewDocument('${cell.enName}')" target="_blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Создать ${cell.ruName}</a>
+                                                       onclick="createNewDocument('${cell.enName}','')" target="_blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Создать ${cell.ruName}</a>
                                                 </li>
                                             </c:forEach>
                                         </ul>
@@ -619,6 +603,7 @@
 
 <form hidden action="" id="createDocument" target="_blank">
     <input type="hidden" name="tempId"/>
+    <input type="hidden" name="documentCopyId"/>
 </form>
 
 <form hidden action="${pageContext.request.contextPath}/executor_task" id="formOpenTask" target="_blank">

@@ -38,7 +38,16 @@ public enum CommonModule {
     }
 
     public static String getCorrectStringJspPage(String base) {
-        return base.replace("\r\n", "").replace("\"","\'").replace("\r",""); // test - add .replace("\r","")  6/13/2017
+
+        // Should be replace("\r\n", "") ( should not be replace("\r\n", "</br>")) cause a lot of text can't change its position (at the head of *_view.jsp)
+        // Should be replace("\"","\'") cause in html we have: document.getElementById("review_document").innerHTML = "<html><div></div> ... </html>";
+        // and in this string can't be symbol " in string before main ending with "
+        return base.replace("\r\n", "").replace("\"","\'").replace("\r","");
+    }
+
+    public static String getReplyString(String base){
+        base = " \r\n>>> ".concat(base);
+        return base.replace("</br>","\r\n>>> ");
     }
 
     public static <T extends Number> Number getNumberFromRequest(HttpServletRequest req, String parameterName, Class<T> type) {
