@@ -199,11 +199,9 @@
 
         row.ondblclick = function () {
             onClickOpenTask("formOpenTask", ${cell.document.id}, ${cell.id}, false, "${cell.document.documentProperty}");
-            <c:choose>
-                <c:when test="${cell.document.documentProperty == DocumentProperty.MESSAGE}">
+            <c:choose><c:when test="${cell.document.documentProperty == DocumentProperty.MESSAGE}">
                     setTimeout(function() {window.location.reload(true);}, 2500);
-                </c:when>
-            </c:choose>
+            </c:when></c:choose>
         };
 
         </c:forEach>
