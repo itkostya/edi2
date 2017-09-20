@@ -590,7 +590,7 @@
                 </div>
             </div>
 
-            <c:choose><c:when test="${withdrawAvailable}">
+            <c:choose><c:when test="${(withdrawAvailable!=null) && (withdrawAvailable)}">
                 <div>
                     <button name="param" value="withdraw">
                         <img class="command-bar-withdraw"

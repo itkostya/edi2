@@ -170,7 +170,7 @@ public class ExecutorTaskServlet extends HttpServlet {
                     // Command bar
                     req.setAttribute("markedAvailable", markedAvailable(currentUser, documentEdi, executorTask));
                     req.setAttribute("isMarkedExecutorTask", ExecutorTaskFolderStructureServiceImpl.INSTANCE.isMarkedExecutorTask(currentUser, documentEdi, executorTask));
-                    req.setAttribute("withdrawAvailable", !ExecutorTaskServiceImpl.INSTANCE.getWithdrawAvailable(currentUser, documentEdi).isEmpty());
+                    req.setAttribute("withdrawAvailable", documentEdi.getDocumentProperty().getDeclinedFieldList().contains("withdrawAvailable") ? null : !ExecutorTaskServiceImpl.INSTANCE.getWithdrawAvailable(currentUser, documentEdi).isEmpty());
                     req.setAttribute("mapHistory", documentEdi.getDocumentProperty().getDeclinedFieldList().contains("mapHistory") ? null : BusinessProcessSequenceServiceImpl.INSTANCE.getHistoryByDocumentMap(documentEdi));
                     req.setAttribute("mapStop",  documentEdi.getDocumentProperty().getDeclinedFieldList().contains("mapStop")? null :BusinessProcessSequenceServiceImpl.INSTANCE.getNotCompletedSequenceByDocumentAndUser(documentEdi, currentUser));
 
