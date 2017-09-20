@@ -27,7 +27,7 @@
 <html>
 
 <head>
-    <title>Edi - version 0.098 - beta</title>
+    <title>Edi - version 0.099 - beta</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/work_area/work_area_main.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
@@ -198,7 +198,12 @@
         row.style = row_style;
 
         row.ondblclick = function () {
-            onClickOpenTask("formOpenTask", ${cell.document.id}, ${cell.id}, false, "${cell.document.documentProperty}")
+            onClickOpenTask("formOpenTask", ${cell.document.id}, ${cell.id}, false, "${cell.document.documentProperty}");
+            <c:choose>
+                <c:when test="${cell.document.documentProperty == DocumentProperty.MESSAGE}">
+                    setTimeout(function() {window.location.reload(true);}, 2500);
+                </c:when>
+            </c:choose>
         };
 
         </c:forEach>
