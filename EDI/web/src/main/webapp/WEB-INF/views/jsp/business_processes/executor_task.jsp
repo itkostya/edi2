@@ -529,7 +529,7 @@
 
 <%--- Command bar BEGIN ---%>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div class="command-bar">
         <div class="horizontal">
 
