@@ -342,13 +342,13 @@
         let mapParam = "";
         mapParam += "<span class='head-hidden-table'>" + "Отменить процессы" + "</span>";
         mapParam += "<div class='horizontal'>" +
-            "<div><a class='link-like-button' onclick='return stopBusinessProcesses()'><img class='command-bar-stop16' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='><span>Отменить</span></a></div>" +
+            "<div><a class='link-like-button' onclick='return stopBusinessProcesses()'><div class='command-bar-stop16'></div><span>Отменить</span></a></div>" +
             "<div>&nbsp;</div>" +
-            "<div><a href='#current_document' class='link-like-button'><img class='command-bar-close-blue' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='><span>Закрыть</span></a></div>" +
+            "<div><a href='#current_document' class='link-like-button'><div class='command-bar-close-blue'></div><span>Закрыть</span></a></div>" +
             "<div>&nbsp;</div>" +
-            "<div><a class='link-like-button'><img class='command-bar-set-checkbox-items' onclick='setItems(true)' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='></a></div>" +
+            "<div><a class='link-like-button'><div class='command-bar-set-checkbox-items' onclick='setItems(true)'></div></a></div>" +
             "<div>&nbsp;</div>" +
-            "<div><a class='link-like-button'><img class='command-bar-clear-checkbox-items' onclick='setItems(false)' src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='></a></div>" +
+            "<div><a class='link-like-button'><div class='command-bar-clear-checkbox-items' onclick='setItems(false)'></div></a></div>" +
             "</div>";
 
         mapParam += "<div onclick='treeToggle(arguments[0])'>";
@@ -654,7 +654,7 @@
                  class="command-bar-add-attachment">Добавить вложение
         </div>
         <button onclick="deleteRowInTableFiles()" formaction="javascript:void(0)">
-            <img class="command-bar-cancel" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+            <img class="command-bar-cancel" src="${pageContext.request.contextPath}/resources/images/command-bar/close.png">
             Удалить вложение
         </button>
         <div class="table-wrapper" style="width:95%; height:57%" id="div-table-wrapper">
