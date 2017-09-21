@@ -27,7 +27,7 @@
 <html>
 
 <head>
-    <title>Edi - version 0.100 - beta</title>
+    <title>Edi - version 0.101 - beta</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/work_area/work_area_main.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
@@ -492,7 +492,7 @@
                                         <ul>
                                             <c:forEach var="cell" items="${DocumentProperty.values()}">
                                                 <li><a href="javascript:void(0)"
-                                                       onclick="createNewDocument('${cell.enName}','')" target="_blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Создать ${cell.ruName}</a>
+                                                       onclick="createNewDocument('create', '${cell.enName}','')" target="_blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Создать ${cell.ruName}</a>
                                                 </li>
                                             </c:forEach>
                                         </ul>
@@ -604,6 +604,7 @@
 <form hidden action="" id="createDocument" target="_blank">
     <input type="hidden" name="tempId"/>
     <input type="hidden" name="documentCopyId"/>
+    <input type="hidden" name="operationType">
 </form>
 
 <form hidden action="${pageContext.request.contextPath}/executor_task" id="formOpenTask" target="_blank">

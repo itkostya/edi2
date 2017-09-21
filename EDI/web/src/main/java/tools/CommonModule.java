@@ -50,6 +50,12 @@ public enum CommonModule {
         return base.replace("</br>","\r\n>>> ");
     }
 
+    public static String getReferenceOnDocument(AbstractDocumentEdi documentEdi) {
+        // http://localhost:8080/executor_task?documentId=1361&tempId=731564742
+        // http://localhost:8080/executor_task?documentId=1367&executorTaskId=1370&tempId=663904949
+        return "http://localhost:8080/executor_task?documentId="+documentEdi.getId()+"&tempId="+getRandomInt();
+    }
+
     public static <T extends Number> Number getNumberFromRequest(HttpServletRequest req, String parameterName, Class<T> type) {
 
         String parameterString = req.getParameter(parameterName);

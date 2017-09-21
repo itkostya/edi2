@@ -15,6 +15,7 @@ public class SessionDataElement {
     private AbstractDocumentEdi documentEdi;
     private ExecutorTask executorTask;
     private String errorMessage;
+    private AbstractDocumentEdi documentCopyEdi;
 
     @SuppressWarnings("unused")
     public Long getId() {
@@ -58,6 +59,14 @@ public class SessionDataElement {
         this.errorMessage = errorMessage;
     }
 
+    public AbstractDocumentEdi getDocumentCopyEdi() {
+        return documentCopyEdi;
+    }
+
+    public void setDocumentCopyEdi(AbstractDocumentEdi documentCopyEdi) {
+        this.documentCopyEdi = documentCopyEdi;
+    }
+
     public SessionDataElement() {
     }
 
@@ -81,11 +90,12 @@ public class SessionDataElement {
         return Objects.equals(id, that.id) &&
                 elementStatus == that.elementStatus &&
                 Objects.equals(documentEdi, that.documentEdi) &&
-                Objects.equals(errorMessage, that.errorMessage);
+                Objects.equals(errorMessage, that.errorMessage) &&
+                Objects.equals(documentCopyEdi, that.documentCopyEdi);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, elementStatus, documentEdi, errorMessage);
+        return Objects.hash(id, elementStatus, documentEdi, errorMessage, documentCopyEdi);
     }
 }

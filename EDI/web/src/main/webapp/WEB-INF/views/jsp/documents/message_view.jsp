@@ -22,12 +22,12 @@
 <div id='command-bar-buttons-accept-decline-message' style="display: none"></div>
 
 <div id='command-bar-buttons-send-message' style="display: none">
-    <div><a href="#" class="link-like-button" onclick="return createSendForward();">
+    <div><a href="#" class="link-like-button" onclick=createNewDocument('forward','${documentEdi.documentProperty}','${documentEdi.id}')>
         <div class="command-bar-send-forward"></div>
         <span id="text-send-forward">Переслать</span></a></div>
     <div>
         <%-- createNewDocument without inverted commas or double ones --%>
-        <a href='javascript:void(0)' class='link-like-button' onclick=createNewDocument('${documentEdi.documentProperty}','${documentEdi.id}')>
+        <a href='javascript:void(0)' class='link-like-button' onclick=createNewDocument('reply','${documentEdi.documentProperty}','${documentEdi.id}')>
         <div class="command-bar-send-reply"></div>
         <span id="text-send-reply">Ответ</span></a></div>
 </div>
@@ -60,7 +60,8 @@
 
 <form hidden action="" id="createDocument" target="_blank">
     <input type="hidden" name="tempId"/>
-    <input type="hidden" name="documentCopyId"/>
+    <input type="hidden" name="documentCopyId">
+    <input type="hidden" name="operationType">
 </form>
 
 </body>

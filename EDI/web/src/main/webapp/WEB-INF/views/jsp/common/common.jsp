@@ -27,9 +27,10 @@
     }
 
     //noinspection JSUnusedLocalSymbols
-    function createNewDocument(documentPropertyString, documentCopyId) {
+    function createNewDocument(operationType, documentPropertyString, documentCopyId) {
         const formCreateDocument = document.forms["createDocument"];
         formCreateDocument.action = getCreateDocumentPageName(documentPropertyString);
+        formCreateDocument.elements["operationType"].value = operationType;
         formCreateDocument.elements["documentCopyId"].value = documentCopyId;
         formCreateDocument.elements["tempId"].value = getRandomInt();
         formCreateDocument.submit();
