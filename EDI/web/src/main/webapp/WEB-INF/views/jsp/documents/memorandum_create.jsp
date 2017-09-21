@@ -60,7 +60,7 @@
         <c:choose>
         <c:when test="${sessionDataElement.elementStatus == ElementStatus.CLOSE}">window.close();
         </c:when>
-        <%--<c:otherwise>window.alert("not close");</c:otherwise>--%>
+        <%--<c:otherwise>window.alert("element status: ${sessionDataElement.elementStatus}");</c:otherwise>--%>
         </c:choose>
 
         <c:set value="${(sessionDataElement.elementStatus == ElementStatus.CREATE || sessionDataElement.elementStatus == ElementStatus.ERROR)}" var="isNewElement"/>

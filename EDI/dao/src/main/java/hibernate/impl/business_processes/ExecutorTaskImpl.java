@@ -303,7 +303,7 @@ public enum ExecutorTaskImpl implements HibernateDAO<ExecutorTask> {
         query.setParameter("author", author);  // Maybe it's exaggerate
         query.setParameter("documentEdi", documentEdi);
 
-        ExecutorTask executorTask = query.getSingleResult();
+        ExecutorTask executorTask = query.stream().findFirst().orElse(null);  // better than query.getSingleResult() cause can return null
         session.close();
         return executorTask;
     }

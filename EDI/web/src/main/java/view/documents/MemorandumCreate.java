@@ -84,7 +84,8 @@ public class MemorandumCreate extends HttpServlet {
                     // Work with draft
                     documentEdi = MemorandumImpl.INSTANCE.getById(documentId);
                     sessionDataElement.setDocumentEdi(documentEdi);
-                    sessionDataElement.setElementStatus(ElementStatus.CREATE);
+                    if (Objects.nonNull(ExecutorTaskServiceImpl.INSTANCE.getDraft(currentUser, documentEdi)))
+                        sessionDataElement.setElementStatus(ElementStatus.CREATE);
                 } else if (Objects.nonNull(sessionDataElement.getDocumentEdi())) {
                     documentEdi = (Memorandum) sessionDataElement.getDocumentEdi();
                 }
