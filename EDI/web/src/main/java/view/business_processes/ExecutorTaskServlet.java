@@ -237,7 +237,6 @@ public class ExecutorTaskServlet extends HttpServlet {
                                     ExecutorTaskFolderStructureServiceImpl.INSTANCE.changeMarkedStatus(currentUser, documentEdi, executorTask);
                                     sessionDataElement.setElementStatus(ElementStatus.UPDATE);
                                 }
-                                doGet(req, resp);
                                 break;
                             case "send":
                                 String[] usersIdArray = "".equals(req.getParameter("post_users[]")) ? null : req.getParameter("post_users[]").split(",");
@@ -270,7 +269,6 @@ public class ExecutorTaskServlet extends HttpServlet {
                                 boolean deletionMark = param.equals("in-trash");
                                 ExecutorTaskFolderStructureServiceImpl.INSTANCE.checkDeletionMarkAndChangeFolder(currentUser, executorTask, deletionMark);
                                 ExecutorTaskServiceImpl.INSTANCE.checkAndSetDeletionDependOnUser(currentUser, executorTask, deletionMark);
-                                doGet(req, resp);
                                 break;
                             case "stop":
                                 Long[] businessProcessSequenceId = CommonModule.convertArray(req.getParameter("businessProcessSequenceId[]").split(","), Long::parseLong, Long[]::new);
@@ -281,7 +279,6 @@ public class ExecutorTaskServlet extends HttpServlet {
                                 CommonBusinessProcessServiceImpl.INSTANCE.withdrawExecutorTasks(currentUser, documentEdi, executorTask);
                                 sessionDataElement.setExecutorTask(executorTask);
                                 sessionDataElement.setElementStatus(ElementStatus.UPDATE);
-                                doGet(req, resp);
                                 break;
                         }
                     }
@@ -306,7 +303,7 @@ public class ExecutorTaskServlet extends HttpServlet {
                         e.getCause().getMessage()));
 
             }
-            req.getRequestDispatcher(PageContainer.EXECUTOR_TASK_JSP).forward(req, resp);
+            doGet(req, resp);
         }
         else {
             req.setAttribute("error_message", "Access denied");

@@ -68,6 +68,7 @@
 
 //        window.alert("onLoad");
         <%--window.alert("executorTask.result=${executorTask.result}");--%>
+        <%--window.alert("sessionDataElement.elementStatus: ${sessionDataElement.elementStatus}");--%>
 
         <c:choose>
         <c:when test="${sessionDataElement.elementStatus == ElementStatus.CLOSE}">window.close();
@@ -103,7 +104,7 @@
             replaceTextInHtmlElement(document.getElementById("command-bar-stop"), "Отменить", "");
             if (clientWidth < 1140) {
                 replaceTextInHtmlElement(document.getElementById("command-bar-trash"), "Корзина", "");
-                replaceTextInHtmlElement(document.getElementById("command-bar-restore"), " Восстановить", "");
+                replaceTextInHtmlElement(document.getElementById("command-bar-restore"), "Восстановить", "");
                 if (clientWidth < 1040) {
                     replaceTextInHtmlElement(document.getElementById("command-bar-history"), "История", "");
                     if (clientWidth < 925) {
@@ -135,17 +136,24 @@
         <c:set value="${(executorTask.deletedByAuthor && executorTask.author == currentUser)||(executorTask.deletedByExecutor && executorTask.executor == currentUser)}" var="isTrash"/>
 
         <c:choose>
-        <c:when test="${(executorTask != null)&&(isTrash)}">
-        command_bar_trash.innerHTML = '<div><button name="param" value="restore-trash" id="command-bar-restore">' +
-            '<img  class="command-bar-restore" src="${pageContext.request.contextPath}/resources/images/command-bar/restore.png">' +
-            ' Восстановить</button></div>';
-        </c:when>
-        <c:when test="${(executorTask != null)&&(!isTrash)}">
-        command_bar_trash.innerHTML = '<div><button name="param" value="in-trash" id="command-bar-trash">' +
-            '<img class="command-bar-trash" src="${pageContext.request.contextPath}/resources/images/command-bar/trash.png">' +
-            'Корзина</button></div>';
+        <c:when test="${(executorTask != null)}">
+            <c:choose>
+            <c:when test="${isTrash}">
+                command_bar_trash.innerHTML = '<div>' +
+                    '<a href="#" class="link-like-button" onclick="changeCommandBarParameter(\'restore-trash\',\'Восстановить\')">'+
+                    '<div class="command-bar-restore"></div>' +
+                    '<span id="command-bar-restore">Восстановить</span></a></div>';
+            </c:when>
+            <c:otherwise>
+                command_bar_trash.innerHTML = '<div>' +
+                    '<a href="#" class="link-like-button" onclick="changeCommandBarParameter(\'in-trash\',\'Корзина\')">'+
+                    '<div class="command-bar-trash"></div>' +
+                    '<span id="command-bar-trash">Корзина</span></a></div>';
+            </c:otherwise>
+            </c:choose>
         </c:when>
         </c:choose>
+
     }
 
     function setMainView() {
@@ -525,6 +533,26 @@
 
     }
 
+    function changeCommandBarParameter(parameterString, infoResultString) {
+
+        const formData = new FormData(document.forms["form_command_bar"]);
+        formData.append("param", parameterString);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "${pageContext.request.contextPath}", true);
+        xhr.send(formData);
+
+        xhr.onerror = function () {
+            afterErrorPageCheckResult(xhr);
+        };
+        xhr.onload = function () {
+            afterLoadingPageCheckResult(xhr, true);
+        };
+
+        document.getElementById("info_result").innerHTML = infoResultString+'... ';
+
+    }
+
 </script>
 
 <%--- Command bar BEGIN ---%>
@@ -535,10 +563,8 @@
 
             <c:choose><c:when test="${markedAvailable}">
                 <div>
-                    <button name="param" value="mark" ${isMarkedElement==true ? "class='marked_button'" : ""}>
-                        <img class="command-bar-mark"
-                            src="${pageContext.request.contextPath}/resources/images/command-bar/mark.png">
-                    </button>
+                    <a href="#" class="link-like-button" onclick="changeCommandBarParameter('mark', 'Флаг')">
+                        <div class="command-bar-mark ${isMarkedElement==true ? 'marked_button' : ''}"></div></a>
                 </div>
             </c:when></c:choose>
 
@@ -592,11 +618,9 @@
 
             <c:choose><c:when test="${(withdrawAvailable!=null) && (withdrawAvailable)}">
                 <div>
-                    <button name="param" value="withdraw">
-                        <img class="command-bar-withdraw"
-                             src="${pageContext.request.contextPath}/resources/images/command-bar/withdraw.png"/>
-                        Отозвать
-                    </button>
+                    <a href="#" class="link-like-button" onclick="changeCommandBarParameter('withdraw','Отозвать')">
+                        <div class="command-bar-withdraw"></div>
+                        <span>Отозвать</span></a>
                 </div>
             </c:when></c:choose>
 
@@ -624,7 +648,7 @@
 
 <%--- Modal forms BEGIN ---%>
 <a href="#" class="overlay_completed_task" id="form_completed_task"></a>
-<form method="post" class="modal_completed_task"
+<form class="modal_completed_task"
       name="executor_task" id="executor_task"
       onload="resizeMenuWidth()" accept-charset="UTF-8">
     <div style='font-weight: bold; font-size:14.0pt;font-family:"Times New Roman",serif'>
