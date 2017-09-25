@@ -271,7 +271,7 @@ public class MemorandumCreate extends HttpServlet {
     private AbstractDocumentEdi createOrUpdateDocument(HttpServletRequest req, AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, String theme, String textInfo, List<UploadedFile> fileList, User whomUser, String operationType) {
 
         if (Objects.isNull(documentEdi)) {
-            documentEdi = new Memorandum(timeStamp, false, null, false, currentUser, CommonModule.getCorrectStringForWeb(theme), (operationType.equals("save") ? textInfo : CommonModule.getCorrectStringForWeb(textInfo)), ""+whomUser, whomUser);
+            documentEdi = new Memorandum(timeStamp, false, null, false, currentUser, CommonModule.getCorrectStringForWeb(theme), (operationType.equals("save") ? textInfo : CommonModule.getCorrectStringForWeb(textInfo)), whomUser.getFio(), whomUser);
             MemorandumImpl.INSTANCE.save((Memorandum) documentEdi);
         } else {
             documentEdi.setWhomString(whomUser.getFio());

@@ -105,11 +105,38 @@ public enum ExecutorTaskFolderStructureServiceImpl {
         } else {
             boolean ascSorting = (sortingSequence.charAt(2) == '+' || sortingSequence.charAt(2) == 'n');
             switch (sortingSequence.charAt(0)) {
-                case '0':  // cell.executorTask.author.getFio()
-                    if (ascSorting)
-                        executorTaskFolderStructureList.sort(Comparator.comparing(o -> o.getExecutorTask().getAuthor().getFio()));
-                    else
-                        executorTaskFolderStructureList.sort((o1, o2) -> o2.getExecutorTask().getAuthor().getFio().compareTo(o1.getExecutorTask().getAuthor().getFio()));
+                case '0':
+                case '3':
+                    if (((sortingSequence.charAt(0)=='0')&& (folderStructure == FolderStructure.INBOX || folderStructure == FolderStructure.TRASH))
+                            || (sortingSequence.charAt(0)=='3' && folderStructure == FolderStructure.MARKED))
+                    {
+                        if (groupBy.equals("author")) {
+                            if (ascSorting)
+                                executorTaskFolderStructureList.sort(Comparator.comparing(o -> o.getExecutorTask().getDocument().getAuthor().getFio()));
+                            else
+                                executorTaskFolderStructureList.sort((o1, o2) -> o2.getExecutorTask().getDocument().getAuthor().getFio().compareTo(o1.getExecutorTask().getDocument().getAuthor().getFio()));
+                        } else if (groupBy.equals("sender")) {
+                            if (ascSorting)
+                                executorTaskFolderStructureList.sort(Comparator.comparing(o -> o.getExecutorTask().getAuthor().getFio()));
+                            else
+                                executorTaskFolderStructureList.sort((o1, o2) -> o2.getExecutorTask().getAuthor().getFio().compareTo(o1.getExecutorTask().getAuthor().getFio()));
+                        }
+                    } else if ((sortingSequence.charAt(0)=='0')&&(folderStructure == FolderStructure.SENT || folderStructure == FolderStructure.DRAFT || folderStructure == FolderStructure.MARKED)) {
+                        if (groupBy.equals("author")) {
+                            if (ascSorting)
+                                executorTaskFolderStructureList.sort(Comparator.comparing(o -> o.getExecutorTask().getDocument().getWhomString()));
+                            else
+                                executorTaskFolderStructureList.sort((o1, o2) -> o2.getExecutorTask().getDocument().getWhomString().compareTo(o1.getExecutorTask().getDocument().getWhomString()));
+                        } else if (groupBy.equals("sender") &&
+                                // condition below cause executorTask.executor = null for DRAFT
+                                (folderStructure == FolderStructure.SENT || folderStructure == FolderStructure.MARKED)) {
+                            if (ascSorting)
+                                executorTaskFolderStructureList.sort(Comparator.comparing(o -> o.getExecutorTask().getExecutor().getFio()));
+
+                            else
+                                executorTaskFolderStructureList.sort((o1, o2) -> o2.getExecutorTask().getExecutor().getFio().compareTo(o1.getExecutorTask().getExecutor().getFio()));
+                        }
+                    }else System.out.println("No!!! groupBy: "+groupBy+", sortingSequence.charAt(0): "+sortingSequence.charAt(0)+", ascSorting: "+ascSorting);
                     break;
                 case '1':  // cell.executorTask.processType.ruName + cell.executorTask.document.number + cell.executorTask.document.theme
                     // Draft doesn't have ProcessType that's why for this type sorting by 'Document number' + 'Document theme'

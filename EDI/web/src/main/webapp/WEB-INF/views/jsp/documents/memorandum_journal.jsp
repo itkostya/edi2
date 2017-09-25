@@ -135,9 +135,12 @@
 
         row = current_table.createTHead().insertRow(0);
         row.className = "first_row_tasks_list";
-        insertCellInRow(0, row, '<button name="sortColumn" class="btn-link2" value="0.' + getColOrder("0", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("0", colNum, colOrd, defSort, '') + '${groupBy=='sender' ? 'Отправитель' : 'Автор'}</button>');
+        insertCellInRow(0, row, '<button name="sortColumn" class="btn-link2" value="0.' + getColOrder("0", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("0", colNum, colOrd, defSort, '') + '${(FolderStructure.valueOf(bookMark2) == FolderStructure.INBOX || FolderStructure.valueOf(bookMark2) ==  FolderStructure.TRASH) ? (groupBy=='sender' ? 'Отправитель' : 'Автор') : (groupBy=='sender' ? 'Получатель' : 'Кому')}</button>');
         insertCellInRow(1, row, '<button name="sortColumn" class="btn-link2" value="1.' + getColOrder("1", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("1", colNum, colOrd, defSort, '') + 'Тема</button>');
         insertCellInRow(2, row, '<button name="sortColumn" class="btn-link2" value="2.' + getColOrder("2", colNum, colOrd, defSort, '+') + '">' + getColSymbol("2", colNum, colOrd, defSort, '&uarr;') + 'Дата</button>');  // Up (desc)
+        <c:choose><c:when test="${FolderStructure.valueOf(bookMark2) == FolderStructure.MARKED}">
+        insertCellInRow(1, row, '<button name="sortColumn" class="btn-link2" value="3.' + getColOrder("3", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("3", colNum, colOrd, defSort, '') + '${(groupBy=='sender' ? 'Отправитель' : 'Автор')}</button>');
+        </c:when></c:choose>
 
         body = current_table.appendChild(document.createElement('tbody'));
         <c:forEach var="cell" items="${tasksList}" varStatus="status">  //tasksList: List<ExecutorTaskFolderStructure> getExecutorList(User user, FolderStructure folderStructure)
@@ -156,7 +159,7 @@
         img_marked += 'src="${pageContext.request.contextPath}/resources/images/documents/memorandum/document_type.png">';
         </c:otherwise>
         </c:choose>
-        insertCellInRow(0, row, img_marked + getHighlightedText('  ${groupBy=='sender' ? cell.executorTask.author.fio : cell.executorTask.document.author.fio }', filterString));
+        insertCellInRow(0, row, img_marked + getHighlightedText('${(cell.folder == FolderStructure.INBOX || cell.folder ==  FolderStructure.TRASH) ? ((groupBy=='sender') ? cell.executorTask.author.fio : cell.executorTask.document.author.fio) : ((groupBy=='sender')? cell.executorTask.executor.fio : cell.executorTask.document.whomString) }', filterString));
 
         img_style = '<img class="image-for-table" ';
         <c:choose>
@@ -176,6 +179,10 @@
         insertCellInRow(1, row, img_style + getHighlightedText('  ${cell.executorTask.processType.ruName}, ${cell.executorTask.document.number}, ${CommonModule.getCorrectStringForWeb(cell.executorTask.document.theme)}', filterString));
 
         insertCellInRow(2, row, getHighlightedText('${TimeModule.getDate(cell.executorTask.date, 'dd.MM.yyyy HH:mm')}', filterString));
+
+        <c:choose><c:when test="${FolderStructure.valueOf(bookMark2) == FolderStructure.MARKED}">
+        insertCellInRow(1, row, img_marked + getHighlightedText('${groupBy=='sender' ? cell.executorTask.author.fio : cell.executorTask.document.author.fio}', filterString));
+        </c:when></c:choose>
 
         row_style = "";
         <c:choose><c:when test="${!cell.executorTask.completed}">row_style += "color:red; font: bold 100% serif;";
@@ -206,7 +213,7 @@
 
         </c:forEach>
 
-        current_table.createTHead().insertRow(1).outerHTML = "<tr class='second_row'><td class='td_sr'>1</td><td class='td_sr'>2</td><td class='td_sr'>3</td></tr>";
+        current_table.createTHead().insertRow(1).outerHTML = "<tr class='second_row'><td class='td_sr'>1</td><td class='td_sr'>2</td><td class='td_sr'>3</td><c:choose><c:when test='${FolderStructure.valueOf(bookMark2) == FolderStructure.MARKED}'><td class='td_sr'>4</td></c:when></c:choose></tr>";
 
     }
 

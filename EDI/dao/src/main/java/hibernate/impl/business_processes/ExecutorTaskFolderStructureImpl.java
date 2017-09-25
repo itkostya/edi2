@@ -74,9 +74,17 @@ public enum ExecutorTaskFolderStructureImpl implements HibernateDAO<ExecutorTask
                                 cb.equal(abstractDocumentJoin.type(), abstractDocumentEdiClass),
                                 ("".equals(filterString) || Objects.isNull(filterString)) ? cb.and() :
                                         cb.or(
-                                                ("author".equals(groupBy) ? cb.like(cb.lower(abstractDocumentJoin.get("author").get("fio")), "%" + filterString.toLowerCase() + "%") :
-                                                        "sender".equals(groupBy) ? cb.like(cb.lower(executorTaskJoin.get("author").get("fio")), "%" + filterString.toLowerCase() + "%") :
-                                                                cb.or()
+                                                ( (folderStructure == FolderStructure.INBOX || folderStructure == FolderStructure.TRASH)&&("author".equals(groupBy)) ? cb.like(cb.lower(abstractDocumentJoin.get("author").get("fio")), "%" + filterString.toLowerCase() + "%") :
+                                                  (folderStructure == FolderStructure.INBOX || folderStructure == FolderStructure.TRASH)&&("sender".equals(groupBy)) ? cb.like(cb.lower(executorTaskJoin.get("author").get("fio")), "%" + filterString.toLowerCase() + "%") :
+                                                  (folderStructure == FolderStructure.SENT || folderStructure == FolderStructure.DRAFT)&&("author".equals(groupBy)) ? cb.like(cb.lower(abstractDocumentJoin.get("whomString")), "%" + filterString.toLowerCase() + "%") :
+                                                  (folderStructure == FolderStructure.SENT || folderStructure == FolderStructure.DRAFT)&&("sender".equals(groupBy)) ? cb.like(cb.lower(executorTaskJoin.get("executor").get("fio")), "%" + filterString.toLowerCase() + "%") :
+                                                  (folderStructure == FolderStructure.MARKED)&&("sender".equals(groupBy)) ?
+                                                          cb.or(cb.like(cb.lower(executorTaskJoin.get("author").get("fio")), "%" + filterString.toLowerCase() + "%"),
+                                                                cb.like(cb.lower(executorTaskJoin.get("executor").get("fio")), "%" + filterString.toLowerCase() + "%")  ) :
+                                                  (folderStructure == FolderStructure.MARKED)&&("author".equals(groupBy)) ?
+                                                                  cb.or(cb.like(cb.lower(abstractDocumentJoin.get("author").get("fio")), "%" + filterString.toLowerCase() + "%"),
+                                                                          cb.like(cb.lower(abstractDocumentJoin.get("whomString")), "%" + filterString.toLowerCase() + "%")  ) :
+                                                          cb.or()
                                                 ),
                                                 (Arrays.stream(ProcessType.values()).filter(n -> n.getRuName().toLowerCase().contains(filterString.toLowerCase())).count() == 0 ? cb.or() :
                                                         executorTaskJoin.get("processType").in(Arrays.stream(ProcessType.values()).filter(n -> n.getRuName().toLowerCase().contains(filterString.toLowerCase())).collect(Collectors.toList()))),
