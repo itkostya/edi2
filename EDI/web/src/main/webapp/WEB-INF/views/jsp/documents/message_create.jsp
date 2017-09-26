@@ -170,7 +170,8 @@
                 afterLoadingPageCheckResult(xhr, true);
             };
 
-            document.getElementById("info_result").innerHTML = stringInfoResultProcess;
+            document.getElementById("info_result").innerHTML = stringInfoResultProcess + getHtmlBlackoutAndLoading();
+
         }
 
 

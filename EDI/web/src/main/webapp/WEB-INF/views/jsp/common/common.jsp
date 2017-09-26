@@ -224,8 +224,17 @@
 
     //  -----  Check result after sending document END -----
 
+    //noinspection JSUnusedLocalSymbols
     function replaceTextInHtmlElement(htmlElement, basicText, newText){
         if (htmlElement !== null) htmlElement.innerHTML = htmlElement.innerHTML.replace(basicText, newText);
+    }
+
+    //noinspection JSUnusedLocalSymbols
+    function getHtmlBlackoutAndLoading() {
+
+        return "<div style='background: #000;top: 0; left: 0; position:fixed; height: 100%;width: 100%;opacity: 0.5; z-index: 9990;'></div>" +
+            "<img  style='position:absolute; left:40%; top:40%;' src='${pageContext.request.contextPath}/resources/images/gif/loading.gif' >";
+
     }
 
 </script>

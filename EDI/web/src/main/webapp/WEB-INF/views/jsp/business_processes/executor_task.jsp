@@ -528,7 +528,7 @@
                 afterLoadingPageCheckResult(xhr, true);
             };
 
-            document.getElementById("info_result").innerHTML = "Отправка...";
+            document.getElementById("info_result").innerHTML = "Отправка..." + getHtmlBlackoutAndLoading();
         }
 
     }

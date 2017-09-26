@@ -149,7 +149,7 @@
             };
 
             let button = document.getElementById("info_result");
-            button.innerHTML = 'Сохранение...';
+            button.innerHTML = "Сохранение..." + getHtmlBlackoutAndLoading();
             button.disabled = true;
         }
 
