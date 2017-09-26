@@ -4,7 +4,6 @@ import abstract_entity.AbstractDocumentEdi;
 import business_processes.ExecutorTask;
 import business_processes.ExecutorTaskFolderStructure;
 import categories.User;
-import documents.Memorandum;
 import enumerations.FolderStructure;
 import enumerations.ProcessType;
 import hibernate.HibernateDAO;

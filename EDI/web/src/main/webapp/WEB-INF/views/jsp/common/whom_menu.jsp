@@ -82,7 +82,7 @@
         }
         </c:forEach>
 
-        if (count === 1) getUserFromPopUpMenu(currentUser, currentUserId, currentPositionInCompany, documentPropertyId);
+        if (count === 1) getUserFromPopUpMenu(currentUser, currentUserId, currentPositionInCompany);
         else if (count > maxCountOfUsers) selectMenuUser.innerHTML+='<li tabindex = '+(count+1)+'>... и еще '+(count - maxCountOfUsers)+' сотрудника(-ов)</li>';
 
     }
@@ -112,7 +112,7 @@
             while (count++ < newPosition) currentChild = currentChild.nextSibling;
             if (currentChild!== null) currentChild.focus();
 
-            if (event.keyCode === 13) getUserFromPopUpMenu(currentChild.children[0].innerHTML, currentChild.id, currentChild.children[1].innerHTML, documentPropertyId);
+            if (event.keyCode === 13) getUserFromPopUpMenu(currentChild.children[0].innerHTML, currentChild.id, currentChild.children[1].innerHTML);
         }
 
     }

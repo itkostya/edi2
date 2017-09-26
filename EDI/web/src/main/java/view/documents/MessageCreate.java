@@ -184,7 +184,7 @@ public class MessageCreate extends HttpServlet {
 
                         } else {
 
-                            String whomString = "";
+                            String whomString;
 
                             switch (param) {
 

@@ -5,7 +5,6 @@ import categories.User;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.Objects;

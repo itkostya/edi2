@@ -6,8 +6,6 @@ import hibernate.HibernateDAO;
 import hibernate.HibernateUtil;
 import org.hibernate.Session;
 
-import javax.persistence.PersistenceException;
-
 /*
 * 12/16/2016
 * Actually I have AbstractDocumentEdiImpl. But I don't sure it will be later

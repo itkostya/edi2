@@ -15,7 +15,6 @@ import hibernate.impl.business_processes.ExecutorTaskFolderStructureImpl;
 import hibernate.impl.business_processes.ExecutorTaskImpl;
 import hibernate.impl.categories.UploadedFileImpl;
 import hibernate.impl.categories.UserImpl;
-import hibernate.impl.documents.AbstractDocumentEdiImpl;
 import hibernate.impl.documents.MemorandumImpl;
 import impl.business_processes.CommonBusinessProcessServiceImpl;
 import impl.business_processes.ExecutorTaskServiceImpl;
