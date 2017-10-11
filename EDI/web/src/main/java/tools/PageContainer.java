@@ -1,6 +1,11 @@
 package tools;
 
+import abstract_entity.AbstractDocumentEdi;
+import documents.Memorandum;
+import documents.Message;
 import exсeption.PageContainerNotFoundException;
+
+import javax.servlet.http.HttpServletRequest;
 
 /*
  * Created by kostya on 9/2/2016.
@@ -46,5 +51,33 @@ public enum PageContainer {
         throw new PageContainerNotFoundException("documentProperty");
 
     }
+
+    public static String getPageName(String requestURI){
+
+        switch (requestURI){
+            case PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_PAGE: return "Memorandum";
+            case PageContainer.DOCUMENT_MESSAGE_JOURNAL_PAGE: return "Message";
+        }
+        return "";
+    }
+
+    public static String getJspName(String requestURI){
+
+        switch (requestURI){
+            case PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_PAGE: return PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_JSP;
+            case PageContainer.DOCUMENT_MESSAGE_JOURNAL_PAGE: return PageContainer.DOCUMENT_MESSAGE_JOURNAL_JSP;
+        }
+        return "";
+    }
+
+    public static Class<? extends AbstractDocumentEdi> getAbstractDocumentClass(String requestURI){
+
+        switch (requestURI){
+            case PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_PAGE: return  Memorandum.class;
+            case PageContainer.DOCUMENT_MESSAGE_JOURNAL_PAGE: return  Message.class;
+        }
+        return null;
+    }
+
 
 }

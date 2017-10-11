@@ -37,7 +37,10 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -233,21 +236,7 @@ public class MessageCreate extends HttpServlet {
                                 e.getMessage());
                     }
 
-
-                    if (Objects.nonNull(sessionDataElement)) {
-                        if (Objects.isNull(documentEdi) || Objects.isNull(documentEdi.getId()) || sessionDataElement.getElementStatus() == ElementStatus.ERROR) {
-                            // Some error - stay on page
-                            if (sessionDataElement.getElementStatus() != ElementStatus.ERROR) {
-                                sessionDataElement.setElementStatus(ElementStatus.ERROR);
-                                sessionDataElement.setErrorMessage("Document hasn't been created");
-                            }
-                            req.setAttribute("infoResult", sessionDataElement.getErrorMessage());
-
-                        } else {
-                            // Ok - document saved or send
-                            sessionDataElement.setDocumentEdi(documentEdi);
-                        }
-                    }
+                    DocumentCreate.setResultDocumentCreation(req, sessionDataElement, documentEdi);
 
                 }
             }
@@ -279,7 +268,7 @@ public class MessageCreate extends HttpServlet {
         }
 
         if (Objects.nonNull(documentCopyEdi)) {
-            List<UploadedFile> uploadedFilesForCopyFromRequest = getUploadedFileListFromRequest(req, documentCopyEdi);
+            List<UploadedFile> uploadedFilesForCopyFromRequest = DocumentCreate.getUploadedFileListFromRequest(req, documentCopyEdi);
             for (UploadedFile uploadedFileForCopy : uploadedFilesForCopyFromRequest){
                 UploadedFile uploadedFileNew = new UploadedFile();
                 uploadedFileNew.setDocument(documentEdi);
@@ -291,35 +280,16 @@ public class MessageCreate extends HttpServlet {
 
         }else {
             // files from request should be the same as the files in database - if this condition doesn't work we should delete files in database
-            List<UploadedFile> uploadedFilesFromRequest = getUploadedFileListFromRequest(req, documentEdi);
+            List<UploadedFile> uploadedFilesFromRequest = DocumentCreate.getUploadedFileListFromRequest(req, documentEdi);
             List<UploadedFile> filesInDatabase = UploadedFileServiceImpl.INSTANCE.getListByDocument(documentEdi);
             filesInDatabase.removeAll(uploadedFilesFromRequest);
             for (UploadedFile uploadedFile : filesInDatabase)
                 UploadedFileImpl.INSTANCE.delete(uploadedFile);
         }
 
-        // add files to this document
-        for (UploadedFile uploadedFile : fileList) {
-            UploadedFile uploadedFileInBase = UploadedFileServiceImpl.INSTANCE.getByFileNameAndDocument(uploadedFile.getFileName(), documentEdi, null);
-            if (Objects.isNull(uploadedFileInBase)) {
-                uploadedFile.setDocument(documentEdi);
-                UploadedFileImpl.INSTANCE.save(uploadedFile);
-            }
-        }
+        DocumentCreate.addFilesToDocument(fileList, documentEdi);
 
         return documentEdi;
     }
-
-    private List<UploadedFile> getUploadedFileListFromRequest(HttpServletRequest req, AbstractDocumentEdi documentEdi) {
-
-        List<UploadedFile> result = new ArrayList<>();
-        String uploadedFileArrayString[] = req.getParameter("uploadedFileString").split(";");
-
-        for (String fileName : uploadedFileArrayString)
-            result.add(UploadedFileServiceImpl.INSTANCE.getByFileNameAndDocument(fileName, documentEdi, null));
-
-        return result;
-    }
-
 
 }
