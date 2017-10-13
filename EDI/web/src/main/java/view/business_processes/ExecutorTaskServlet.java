@@ -261,7 +261,7 @@ public class ExecutorTaskServlet extends HttpServlet {
                                     finalDate = java.sql.Date.valueOf(req.getParameter("finalDate")); //java.sql.Date.valueOf("2015-01-21")
 
                                     // Create document Memorandum, business_process' classes: BusinessProcess, BusinessProcessSequence, ExecutorTask
-                                    CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, (Memorandum) documentEdi, null, TimeModule.getCurrentDate(), usersIdArray, orderTypeArray, processTypeArray, processTypeCommon, comment, new java.sql.Timestamp(finalDate.getTime()));
+                                    CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, documentEdi, null, TimeModule.getCurrentDate(), usersIdArray, orderTypeArray, processTypeArray, processTypeCommon, comment, new java.sql.Timestamp(finalDate.getTime()));
                                 }
                                 break;
                             case "in-trash":
