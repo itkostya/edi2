@@ -150,6 +150,7 @@
 
     }
 
+    //noinspection JSUnusedLocalSymbols
     function setUsersWhomList() {
 
         <c:choose>

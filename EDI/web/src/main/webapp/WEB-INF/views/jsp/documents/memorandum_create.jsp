@@ -34,10 +34,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/resources/css/common/modal_forms.css"/>" rel="stylesheet" type="text/css">
+    <jsp:include page="../common/add_files.jsp"/>
     <jsp:include page="../common/common.jsp"/>
     <jsp:include page="../common/send_document.jsp"/>
     <jsp:include page="../common/whom_menu.jsp"/>
-    <jsp:include page="../common/add_files.jsp"/>
 </head>
 
 <body>
@@ -76,18 +76,6 @@
         window.addEventListener('resize', resizeElements);
 
     };
-
-    function fillUploadedFiles() {
-
-        uploadedFileList.length = 0;
-        <c:forEach var="cell" items="${uploadedFiles}" varStatus="status">
-        uploadedFileList[${status.index}] = [];
-        uploadedFileList[${status.index}][0] = "${cell.name}";
-        uploadedFileList[${status.index}][1] = "${cell.fileName}";  // File's md5Hex sum
-        </c:forEach>
-
-        return uploadedFileList;
-    }
 
     function resizeElements() {
 

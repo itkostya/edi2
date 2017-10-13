@@ -5,8 +5,6 @@ import documents.Memorandum;
 import documents.Message;
 import exсeption.PageContainerNotFoundException;
 
-import javax.servlet.http.HttpServletRequest;
-
 /*
  * Created by kostya on 9/2/2016.
  */

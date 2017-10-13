@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%--@elvariable id="uploadedFiles" type="java.util.List<categories.UploadedFile>"--%>
+
 <html>
 <head>
     <%--Should be included in documents (memorandum_create, executor_task, etc.) before including this file.--%>
@@ -11,6 +13,18 @@
 
 <script>
 
+    //noinspection JSUnusedLocalSymbols
+    function fillUploadedFiles() {
+
+        uploadedFileList.length = 0;
+        <c:forEach var="cell" items="${uploadedFiles}" varStatus="status">
+        uploadedFileList[${status.index}] = [];
+        uploadedFileList[${status.index}][0] = "${cell.name}";
+        uploadedFileList[${status.index}][1] = "${cell.fileName}";  // File's md5Hex sum
+        </c:forEach>
+
+        return uploadedFileList;
+    }
 
     //noinspection JSUnusedLocalSymbols
     function addFilesAndResizeTable(uploadedFileList = null) {
@@ -136,7 +150,6 @@
 
         }
     }
-
 
 </script>
 
