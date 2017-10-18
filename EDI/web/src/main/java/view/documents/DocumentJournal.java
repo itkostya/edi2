@@ -4,7 +4,6 @@ import categories.User;
 import enumerations.FolderStructure;
 import impl.business_processes.ExecutorTaskFolderStructureServiceImpl;
 import model.SessionParameter;
-import tools.CommonModule;
 import tools.PageContainer;
 
 import javax.servlet.ServletException;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Objects;
 
 @WebServlet(urlPatterns = {
@@ -43,15 +41,14 @@ public class DocumentJournal extends HttpServlet {
 
         if (SessionParameter.INSTANCE.accessAllowed(req)) {
 
-            Map<String, String> mapSort = SessionParameter.INSTANCE.getUserSettings(req).getMapSort(pageName+"Journal");
-
             SessionParameter.INSTANCE.getUserSettings(req).getMapFilter(pageName+"Journal").keySet().stream().filter(s -> Objects.nonNull(req.getParameter((s+"FilterString")))).
-                    forEach( s1 -> SessionParameter.INSTANCE.getUserSettings(req).setMapFilter(pageName+"Journal", s1, req.getParameter(s1+"FilterString")));
+                    forEach( s1 -> SessionParameter.INSTANCE.getUserSettings(req).setMapFilterParameter(pageName+"Journal", s1, req.getParameter(s1+"FilterString")));
 
             StringBuilder sortColumnNumber = new StringBuilder(Objects.isNull(req.getParameter("sortColumn")) ? "" : req.getParameter("sortColumn"));
-            if (Objects.nonNull(req.getParameter("bookMark1"))) bookMark1 = req.getParameter("bookMark1"); else bookMark1 = mapSort.get("bookMark1");
-            CommonModule.INSTANCE.replaceSortingParameter(mapSort, bookMark1, sortColumnNumber);
-            mapSort.put("bookMark1", bookMark1);
+            if (Objects.nonNull(req.getParameter("bookMark1"))) bookMark1 = req.getParameter("bookMark1"); else bookMark1 = SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName+"Journal","bookMark1");
+
+            SessionParameter.INSTANCE.getUserSettings(req).setMapSortParameterChanged(pageName+"Journal", bookMark1, sortColumnNumber);
+            SessionParameter.INSTANCE.getUserSettings(req).setMapSortParameter(pageName+"Journal", "bookMark1", bookMark1);
 
             doGet(req, resp);
         }
@@ -64,37 +61,42 @@ public class DocumentJournal extends HttpServlet {
 
     private void setAttributesDependOnBookMark(HttpServletRequest req, String pageName) {
 
-        String bookMark1, bookMark2, groupBy;
-        Map<String, String> mapSort = SessionParameter.INSTANCE.getUserSettings(req).getMapSort(pageName+"Journal");
-        Map<String, String> mapFilter = SessionParameter.INSTANCE.getUserSettings(req).getMapFilter(pageName+"Journal");
         SessionParameter.INSTANCE.getUserSettings(req).setDocumentPropertyMap(pageName);
-        Map<String, Map<FolderStructure, Integer>> documentPropertyMap = SessionParameter.INSTANCE.getUserSettings(req).getDocumentPropertyMap();
 
-        if (req.getParameter("bookMark1") != null) bookMark1 = req.getParameter("bookMark1"); else bookMark1 = mapSort.get("bookMark1");
-        if (req.getParameter("bookMark2") != null) bookMark2 = req.getParameter("bookMark2"); else bookMark2 = mapSort.get("bookMark2");
-        if (req.getParameter("groupBy") != null) groupBy = req.getParameter("groupBy"); else groupBy = mapSort.get("groupBy");
+        String bookMark1 = ((Objects.nonNull(req.getParameter("bookMark1"))) ? req.getParameter("bookMark1"): SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName+"Journal", "bookMark1"));
+        String bookMark2 = ((Objects.nonNull(req.getParameter("bookMark2"))) ? req.getParameter("bookMark2"): SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName+"Journal", "bookMark2"));
+        String groupBy = ((Objects.nonNull(req.getParameter("groupBy"))) ? req.getParameter("groupBy"): SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName+"Journal", "groupBy"));
 
         req.setAttribute("bookMark1", bookMark1);
         req.setAttribute("bookMark2", bookMark2);
         req.setAttribute("groupBy", groupBy);
-        req.setAttribute("propertyMap", documentPropertyMap.get(pageName));
+        req.setAttribute("propertyMap", SessionParameter.INSTANCE.getUserSettings(req).getDocumentPropertyMap(pageName));
 
-        mapSort.put("bookMark2", bookMark2);
-        mapSort.put("groupBy", groupBy);
+        SessionParameter.INSTANCE.getUserSettings(req).setMapSortParameter(pageName+"Journal","bookMark2", bookMark2);
+        SessionParameter.INSTANCE.getUserSettings(req).setMapSortParameter(pageName+"Journal","groupBy", groupBy);
+
         User currentUser = SessionParameter.INSTANCE.getCurrentUser(req);
 
         switch (bookMark1) {
             case "tasksListByGroup":
-                req.setAttribute("tasksList", ExecutorTaskFolderStructureServiceImpl.INSTANCE.getTasksByFolder(currentUser, FolderStructure.valueOf(bookMark2), groupBy, mapSort.get(bookMark1), mapFilter.get(bookMark1), PageContainer.getAbstractDocumentClass(req.getRequestURI())));
-                req.setAttribute("mapSortValue", mapSort.get(bookMark1));
+                req.setAttribute("tasksList",
+                        ExecutorTaskFolderStructureServiceImpl.INSTANCE.getTasksByFolder(currentUser,
+                                FolderStructure.valueOf(bookMark2), groupBy,
+                                SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName+"Journal", bookMark1),
+                                SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter(pageName+"Journal", bookMark1),
+                                PageContainer.getAbstractDocumentClass(req.getRequestURI())));
                 break;
             case "fullTasksList":
-                req.setAttribute("tasksList", ExecutorTaskFolderStructureServiceImpl.INSTANCE.getCommonList(currentUser,  mapSort.get(bookMark1), mapFilter.get(bookMark1), PageContainer.getAbstractDocumentClass(req.getRequestURI())));
-                req.setAttribute("mapSortValue", mapSort.get(bookMark1));
+                req.setAttribute("tasksList",
+                        ExecutorTaskFolderStructureServiceImpl.INSTANCE.getCommonList(currentUser,
+                        SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName+"Journal", bookMark1),
+                        SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter(pageName+"Journal", bookMark1),
+                        PageContainer.getAbstractDocumentClass(req.getRequestURI())));
                 break;
         }
 
-        req.setAttribute("filterString", mapFilter.get(bookMark1));
+        req.setAttribute("mapSortValue", SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName+"Journal", bookMark1));
+        req.setAttribute("filterString", SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter(pageName+"Journal", bookMark1));
 
     }
 

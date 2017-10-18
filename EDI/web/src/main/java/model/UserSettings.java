@@ -7,9 +7,7 @@ import enumerations.FolderStructure;
 import hibernate.impl.business_processes.ExecutorTaskFolderStructureImpl;
 import tools.CommonModule;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /*
  * Created by kostya on 3/2/2017.
@@ -27,20 +25,14 @@ public class UserSettings {
             put("controlledTasksList", "default");  // Sorting ("Тип процесса", "Исполнить до", "Дата")
             put("markedTasksList", "default");      // Sorting ("Выполнена", "Дата")
         }});
-        put("MemorandumJournal", new HashMap<String, String>() {{
-            put("bookMark1", "tasksListByGroup");   // Current table - "tasksListByGroup" or "fullTasksList"
-            put("bookMark2", "INBOX");              // FolderStructure - INBOX, ..., TRASH
-            put("groupBy", "author");               // GroupBy (author, sender)
-            put("tasksListByGroup", "default");     // Sorting (completed asc, date desc)
-            put("fullTasksList", "default");        // Sorting (completed asc, date desc)
-        }});
-        put("MessageJournal", new HashMap<String, String>() {{
-            put("bookMark1", "tasksListByGroup");   // Current table - "tasksListByGroup" or "fullTasksList"
-            put("bookMark2", "INBOX");              // FolderStructure - INBOX, ..., TRASH
-            put("groupBy", "author");               // GroupBy (author, sender)
-            put("tasksListByGroup", "default");     // Sorting (completed asc, date desc)
-            put("fullTasksList", "default");        // Sorting (completed asc, date desc)
-        }});
+        for (String mapName: Arrays.asList("MemorandumJournal", "MessageJournal"))
+            put(mapName, new HashMap<String, String>() {{
+                put("bookMark1", "tasksListByGroup");   // Current table - "tasksListByGroup" or "fullTasksList"
+                put("bookMark2", "INBOX");              // FolderStructure - INBOX, ..., TRASH
+                put("groupBy", "author");               // GroupBy (author, sender)
+                put("tasksListByGroup", "default");     // Sorting (completed asc, date desc)
+                put("fullTasksList", "default");        // Sorting (completed asc, date desc)
+            }});
     }};
 
     private final Map<String, Map<String, String>> mapFilter = new HashMap<String, Map<String, String>>(){{
@@ -50,25 +42,20 @@ public class UserSettings {
             put("markedTasksList", "");
             put("coworkersList", "");
         }});
-        put("MemorandumJournal", new HashMap<String, String>() {{
-            put("tasksListByGroup", "");
-            put("fullTasksList", "");
-        }});
-        put("MessageJournal", new HashMap<String, String>() {{
-            put("tasksListByGroup", "");
-            put("fullTasksList", "");
-        }});
+        for (String mapName: Arrays.asList("MemorandumJournal", "MessageJournal"))
+            put(mapName, new HashMap<String, String>() {{
+                put("tasksListByGroup", "");
+                put("fullTasksList", "");
+            }});
     }};
 
     private final Map<Long, SessionDataElement> sessionDataMap = new TreeMap<>(); // Creating new documents
 
     private final Map<String, Map<FolderStructure, Integer>> documentPropertyMap = new HashMap<String, Map<FolderStructure, Integer>>(){{
-        put("Message", new HashMap<FolderStructure, Integer>() {{
-            for (FolderStructure folderStructure: FolderStructure.values()) put(folderStructure, 0);
-        }});
-        put("Memorandum", new HashMap<FolderStructure, Integer>() {{
-            for (FolderStructure folderStructure: FolderStructure.values()) put(folderStructure, 0);
-        }});
+        for (String mapName: Arrays.asList("Memorandum", "Message"))
+            put(mapName, new HashMap<FolderStructure, Integer>() {{
+              for (FolderStructure folderStructure: FolderStructure.values()) put(folderStructure, 0);
+            }});
     }};
 
     public User getUser() {
@@ -80,29 +67,36 @@ public class UserSettings {
         this.user = user;
     }
 
-    public Map<String, String> getMapSort(String mapName) {
+    private Map<String, String> getMapSort(String mapName) {
         return mapSort.get(mapName);
     }
-    
-    public void setMapSort(Map<String, String> mapSort, String mapName, StringBuilder sortColumnNumber){
 
-        // TODO - replace public void replaceSortingParameter(Map<String, String> mapSort, String bookmarkInMap, StringBuilder sortColumnNumber) {
-//        if (Objects.nonNull(sortColumnNumber) && (sortColumnNumber.length() == 3) && Objects.nonNull(mapSort.get(mapName))) {
-//            if (sortColumnNumber.charAt(0) == mapSort.get(mapName).charAt(0)) {
-//                switch ( mapSort.get(mapName).charAt(2)) {
-//                    case 'n':
-//                        sortColumnNumber.replace(2, 3, "-");
-//                        break;
-//                    case '+':
-//                        sortColumnNumber.replace(2, 3, "-");
-//                        break;
-//                    case '-':
-//                        sortColumnNumber.replace(2, 3, "+");
-//                        break;
-//                }
-//            }
-//            mapSort.put(mapName, sortColumnNumber.toString());
-//        }
+    public String getMapSortParameter(String mapName, String mapParameter){
+        return getMapSort(mapName).get(mapParameter);
+    }
+
+    public void setMapSortParameter(String mapName, String mapParameter, String newValue){
+        getMapSort(mapName).put(mapParameter, newValue);
+    }
+
+    public void setMapSortParameterChanged(String mapName, String mapParameter, StringBuilder sortColumnNumber){
+
+        if (Objects.nonNull(sortColumnNumber) && (sortColumnNumber.length() == 3) && Objects.nonNull(mapSort.get(mapName))) {
+            if (sortColumnNumber.charAt(0) == mapSort.get(mapName).get(mapParameter).charAt(0)) {
+                switch ( mapSort.get(mapName).get(mapParameter).charAt(2)) {
+                    case 'n':
+                        sortColumnNumber.replace(2, 3, "-");
+                        break;
+                    case '+':
+                        sortColumnNumber.replace(2, 3, "-");
+                        break;
+                    case '-':
+                        sortColumnNumber.replace(2, 3, "+");
+                        break;
+                }
+            }
+            setMapSortParameter(mapName, mapParameter, sortColumnNumber.toString());
+        }
         
     }
 
@@ -110,9 +104,13 @@ public class UserSettings {
         return mapFilter.get(mapName);
     }
 
-    public void setMapFilter(String mapName, String bookmark, String filterString) {
+    public String getMapFilterParameter(String mapName, String mapParameter){
+        return getMapFilter(mapName).get(mapParameter);
+    }
+
+    public void setMapFilterParameter(String mapName, String bookmark, String filterString) {
         filterString = CommonModule.getCorrectStringForWeb(filterString);
-        this.mapFilter.get(mapName).put(bookmark, filterString);
+        getMapFilter(mapName).put(bookmark, filterString);
     }
 
     @SuppressWarnings("unused")
@@ -129,9 +127,18 @@ public class UserSettings {
 
     }
 
-    public Map<String, Map<FolderStructure, Integer>> getDocumentPropertyMap() {
+    public Map<FolderStructure, Integer> getDocumentPropertyMap(String documentName) {
 
-        return documentPropertyMap;
+        return documentPropertyMap.get(documentName);
+    }
+
+    public Integer getMapDocumentPropertyParameter(String documentName, FolderStructure folderStructure){
+        return getDocumentPropertyMap(documentName).get(folderStructure);
+    }
+
+    @SuppressWarnings("unused")
+    public void setMapDocumentPropertyParameter(String documentName, FolderStructure folderStructure, Integer newValue){
+        getDocumentPropertyMap(documentName).put(folderStructure, newValue);
     }
 
     public void setDocumentPropertyMap(String documentName){

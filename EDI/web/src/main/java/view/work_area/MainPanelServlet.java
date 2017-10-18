@@ -6,7 +6,6 @@ import impl.business_processes.ExecutorTaskFolderStructureServiceImpl;
 import impl.business_processes.ExecutorTaskServiceImpl;
 import impl.categories.UserServiceImpl;
 import model.SessionParameter;
-import tools.CommonModule;
 import tools.PageContainer;
 
 import javax.servlet.ServletException;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Objects;
 
 /*
@@ -46,17 +44,15 @@ public class MainPanelServlet extends HttpServlet {
 
         if (SessionParameter.INSTANCE.accessAllowed(req)) {
 
-            Map<String, String> mapSort = SessionParameter.INSTANCE.getUserSettings(req).getMapSort("MainPanelServlet");
-
             SessionParameter.INSTANCE.getUserSettings(req).getMapFilter("MainPanelServlet").keySet().stream().filter(s -> Objects.nonNull(req.getParameter((s+"FilterString")))).
-                    forEach( s1 -> SessionParameter.INSTANCE.getUserSettings(req).setMapFilter("MainPanelServlet", s1, req.getParameter(s1+"FilterString")));
+                    forEach( s1 -> SessionParameter.INSTANCE.getUserSettings(req).setMapFilterParameter("MainPanelServlet", s1, req.getParameter(s1+"FilterString")));
 
             if (Objects.nonNull(req.getParameter("bookMark"))) bookMark = req.getParameter("bookMark");
-            else bookMark = mapSort.get("bookMark");
+            else bookMark = SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter("MainPanelServlet", "bookMark");
 
             StringBuilder sortColumnNumber = new StringBuilder(Objects.isNull(req.getParameter("sortColumn")) ? "" : req.getParameter("sortColumn"));
-            CommonModule.INSTANCE.replaceSortingParameter(mapSort, bookMark, sortColumnNumber);
-            mapSort.put("bookMark", bookMark);
+            SessionParameter.INSTANCE.getUserSettings(req).setMapSortParameterChanged("MainPanelServlet", bookMark, sortColumnNumber);
+            SessionParameter.INSTANCE.getUserSettings(req).setMapSortParameter("MainPanelServlet", "bookMark", bookMark);
 
             doGet(req, resp);
 
@@ -71,40 +67,46 @@ public class MainPanelServlet extends HttpServlet {
         String bookMark;
 
         User currentUser = SessionParameter.INSTANCE.getCurrentUser(req);
-        Map<String, String> mapSort = SessionParameter.INSTANCE.getUserSettings(req).getMapSort("MainPanelServlet");
-        Map<String, String> mapFilter = SessionParameter.INSTANCE.getUserSettings(req).getMapFilter("MainPanelServlet");
         SessionParameter.INSTANCE.getUserSettings(req).setDocumentPropertyMap("Memorandum");
         SessionParameter.INSTANCE.getUserSettings(req).setDocumentPropertyMap("Message");
 
-
-        Map<String, Map<FolderStructure, Integer>> documentPropertyMap = SessionParameter.INSTANCE.getUserSettings(req).getDocumentPropertyMap();
         if (Objects.nonNull(req.getParameter("bookMark"))) bookMark = req.getParameter("bookMark");
-        else bookMark = mapSort.get("bookMark");
+        else bookMark = SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter("MainPanelServlet", "bookMark");
 
         req.setAttribute("userPresentation", currentUser.getFio());
         req.setAttribute("bookMark", bookMark);
-        req.setAttribute("memorandumCount", documentPropertyMap.get("Memorandum").get(FolderStructure.INBOX));
-        req.setAttribute("messageCount", documentPropertyMap.get("Message").get(FolderStructure.INBOX));
+        req.setAttribute("memorandumCount", SessionParameter.INSTANCE.getUserSettings(req).getMapDocumentPropertyParameter("Memorandum",FolderStructure.INBOX)); // documentPropertyMap.get("Memorandum").get(FolderStructure.INBOX));
+        req.setAttribute("messageCount", SessionParameter.INSTANCE.getUserSettings(req).getMapDocumentPropertyParameter("Message",FolderStructure.INBOX));    // documentPropertyMap.get("Message").get(FolderStructure.INBOX));
 
         switch (bookMark) {
             case "reviewTasksList":
-                req.setAttribute("reviewTasksList", ExecutorTaskServiceImpl.INSTANCE.getReviewTask(currentUser, mapSort.get(bookMark), mapFilter.get(bookMark)));
-                req.setAttribute("mapSortValue", mapSort.get(bookMark));
+                req.setAttribute("reviewTasksList",
+                        ExecutorTaskServiceImpl.INSTANCE.getReviewTask(currentUser,
+                                SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter("MainPanelServlet", bookMark),
+                                SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter("MainPanelServlet", bookMark)));
+                req.setAttribute("mapSortValue", SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter("MainPanelServlet", bookMark));
                 break;
             case "controlledTasksList":
-                req.setAttribute("controlledTasksList", ExecutorTaskServiceImpl.INSTANCE.getControlledTask(currentUser, mapSort.get(bookMark), mapFilter.get(bookMark)));
-                req.setAttribute("mapSortValue", mapSort.get(bookMark));
+                req.setAttribute("controlledTasksList",
+                        ExecutorTaskServiceImpl.INSTANCE.getControlledTask(currentUser,
+                                SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter("MainPanelServlet", bookMark),
+                                SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter("MainPanelServlet", bookMark)));
+                req.setAttribute("mapSortValue", SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter("MainPanelServlet", bookMark));
                 break;
             case "markedTasksList":
-                req.setAttribute("markedTasksList", ExecutorTaskFolderStructureServiceImpl.INSTANCE.getMarkedTask(currentUser, mapSort.get(bookMark), mapFilter.get(bookMark)));
-                req.setAttribute("mapSortValue", mapSort.get(bookMark));
+                req.setAttribute("markedTasksList",
+                        ExecutorTaskFolderStructureServiceImpl.INSTANCE.getMarkedTask(currentUser,
+                                SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter("MainPanelServlet", bookMark),
+                                SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter("MainPanelServlet", bookMark)));
+                req.setAttribute("mapSortValue", SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter("MainPanelServlet", bookMark));
                 break;
             case "coworkersList":
-                req.setAttribute("coworkersList", UserServiceImpl.INSTANCE.getCoworkers(mapFilter.get(bookMark)));
+                req.setAttribute("coworkersList", UserServiceImpl.INSTANCE.getCoworkers(
+                        SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter("MainPanelServlet", bookMark)));
                 break;
         }
 
-        req.setAttribute("filterString", mapFilter.get(bookMark));
+        req.setAttribute("filterString", SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter("MainPanelServlet", bookMark));
 
     }
 

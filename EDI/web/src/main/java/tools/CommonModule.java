@@ -78,28 +78,6 @@ public enum CommonModule {
         return ThreadLocalRandom.current().nextInt(min, max + 1);   // http://stackoverflow.com/questions/363681/how-to-generate-random-integers-within-a-specific-range-in-java
     }
 
-    // Will be replaced by UserSettings.setMapSort(Map<String, String> mapSort, String mapName, StringBuilder sortColumnNumber){
-    public void replaceSortingParameter(Map<String, String> mapSort, String bookmarkInMap, StringBuilder sortColumnNumber) {
-
-        if (Objects.nonNull(sortColumnNumber) && (sortColumnNumber.length() == 3) && Objects.nonNull(mapSort.get(bookmarkInMap))) {
-            if (sortColumnNumber.charAt(0) == mapSort.get(bookmarkInMap).charAt(0)) {
-                switch ( mapSort.get(bookmarkInMap).charAt(2)) {
-                    case 'n':
-                        sortColumnNumber.replace(2, 3, "-");
-                        break;
-                    case '+':
-                        sortColumnNumber.replace(2, 3, "-");
-                        break;
-                    case '-':
-                        sortColumnNumber.replace(2, 3, "+");
-                        break;
-                }
-            }
-            mapSort.put(bookmarkInMap, sortColumnNumber.toString());
-        }
-
-    }
-
     public static String getDocumentLinkView(String str){
 
 //      Example:
