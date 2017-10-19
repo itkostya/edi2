@@ -3,6 +3,7 @@ package hibernate.impl.documents;
 import abstract_entity.AbstractDocumentEdi;
 import documents.DocumentNumeration;
 import documents.DocumentProperty;
+import documents.Memorandum;
 import exсeption.DocumentNumerationException;
 import hibernate.HibernateDAO;
 import hibernate.HibernateUtil;
@@ -71,8 +72,9 @@ public enum DocumentNumerationImpl implements HibernateDAO<DocumentNumeration> {
 
     }
 
-    public String getNextNumber(DocumentProperty documentProperty, String prefix) {
+    public String getNextNumber(AbstractDocumentEdi abstractDocumentEdi, String prefix) {
 
+        DocumentProperty documentProperty = abstractDocumentEdi.getDocumentProperty();
         String currentPrefix = ((Objects.isNull(prefix) || prefix.equals("")) ? documentProperty.getDefaultPrefix(): prefix);
         StringBuilder result = new StringBuilder();
 
@@ -91,8 +93,9 @@ public enum DocumentNumerationImpl implements HibernateDAO<DocumentNumeration> {
         return result.toString();
     }
 
-    public String getNextNumberUsingMax(DocumentProperty documentProperty, String prefix) {
+    public String getNextNumberUsingMax(AbstractDocumentEdi abstractDocumentEdi, String prefix) {
 
+        DocumentProperty documentProperty = abstractDocumentEdi.getDocumentProperty();
         String currentPrefix = ((Objects.isNull(prefix) || prefix.equals("")) ? documentProperty.getDefaultPrefix(): prefix);
         StringBuilder result = new StringBuilder();
         Long number;
@@ -105,15 +108,19 @@ public enum DocumentNumerationImpl implements HibernateDAO<DocumentNumeration> {
             // SELECT number FROM edi.doc_abstract_document_edi where date = (select max(date) FROM edi.doc_abstract_document_edi);
             // SELECT number FROM edi.doc_abstract_document_edi order by date desc limit 1;
 
-            Query query = session.createQuery("from AbstractDocumentEdi " +
-                    "order by date desc ");
+            // Create new number using existed documents in database - get max number and increase it
+
+            Query query = session.createQuery("from AbstractDocumentEdi as abstractdocument " +
+                    "where type(abstractdocument)= :abstractDocumentEdiClass " +
+                    "order by date desc");
+            query.setParameter("abstractDocumentEdiClass", abstractDocumentEdi.getClass());
             query.setMaxResults(1);
 
-            AbstractDocumentEdi abstractDocumentEdi = (AbstractDocumentEdi) query.uniqueResult();
+            AbstractDocumentEdi maxAbstractDocumentEdi = (AbstractDocumentEdi) query.uniqueResult();
 
-            if (Objects.nonNull(abstractDocumentEdi)) {
+            if (Objects.nonNull(maxAbstractDocumentEdi)) {
 
-                String stringMaxNumber = abstractDocumentEdi.getNumber();
+                String stringMaxNumber = maxAbstractDocumentEdi.getNumber();
 
                 if (!stringMaxNumber.isEmpty()) {
                     if (stringMaxNumber.contains(currentPrefix)) {
@@ -130,7 +137,7 @@ public enum DocumentNumerationImpl implements HibernateDAO<DocumentNumeration> {
                                 if (stringMaxNumber.charAt(i) != '-') newPrefix.insert(0, stringMaxNumber.charAt(i));
                             }
                         }
-                        if (Objects.nonNull(newPrefix)) currentPrefix = newPrefix.toString();
+                        if (newPrefix.length() > 0) currentPrefix = newPrefix.toString();
                     }
                     number = Long.parseLong(result.toString());
                     DocumentNumeration documentNumeration = getDocumentNumeration(session, documentProperty, currentPrefix, ++number);

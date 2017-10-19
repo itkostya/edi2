@@ -18,7 +18,7 @@ public enum AbstractDocumentEdiImpl{
 
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
-        abstractDocumentEdi.setNumber(DocumentNumerationImpl.INSTANCE.getNextNumber(abstractDocumentEdi.getDocumentProperty(), ""));
+        abstractDocumentEdi.setNumber(DocumentNumerationImpl.INSTANCE.getNextNumber(abstractDocumentEdi, ""));
         session.save(abstractDocumentEdi);
         try {
             session.getTransaction().commit();
@@ -28,7 +28,7 @@ public enum AbstractDocumentEdiImpl{
                     session.close();
                     session = HibernateUtil.getSession();
                     session.beginTransaction();
-                    abstractDocumentEdi.setNumber(DocumentNumerationImpl.INSTANCE.getNextNumberUsingMax(abstractDocumentEdi.getDocumentProperty(), ""));
+                    abstractDocumentEdi.setNumber(DocumentNumerationImpl.INSTANCE.getNextNumberUsingMax(abstractDocumentEdi, ""));
                     session.save(abstractDocumentEdi);
                     session.getTransaction().commit();
                 }
