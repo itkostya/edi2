@@ -152,6 +152,11 @@ public enum CommonModule {
         return result;
     }
 
+    public static String getFormattedText(String format, Object... args)
+    {
+        return String.format(format, args);
+    }
+
 
     // ********* Lambda begin ***********************
     // Today it's here but someday it'll probably be in the service

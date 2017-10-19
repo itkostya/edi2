@@ -573,7 +573,7 @@
 
             <div id="command-bar-buttons-accept-decline">
                 <div style="${isTrash==true ? "display:none" : ""}">
-                    <c:forEach var="cell" items="${processType.getAvailableStatus()}" varStatus="status">
+                    <c:forEach var="cell" items="${processType.availableStatus}" varStatus="status">
                         <a href="#form_completed_task" class="link-like-button"
                            onclick="return setProcessType('${cell}', ${status.index});">
                             <c:choose>
@@ -596,7 +596,7 @@
                             <div class="command-bar-send"></div>
                             Отправить ▼
                             <ul>
-                                <c:forEach var="cell" items="${documentEdi.getDocumentProperty().getProcessTypeList()}"
+                                <c:forEach var="cell" items="${documentEdi.documentProperty.processTypeList}"
                                            varStatus="status">
                                     <li><a href="#form_send_to_users" class="button"
                                            onclick="return checkParameterAndSetTypeProcess(${status.index});">

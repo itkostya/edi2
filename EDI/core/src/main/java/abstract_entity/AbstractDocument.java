@@ -91,6 +91,5 @@ public abstract class AbstractDocument {
     @Override
     public int hashCode() {
         return Objects.hash(date, deletionMark, number, posted);
-
     }
 }

@@ -12,6 +12,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <%--@elvariable id="bookMark2" type="java.lang.String"--%>
 <%--@elvariable id="filterString" type="java.lang.String"--%>
@@ -36,12 +37,12 @@
         let isBold = (true === ${propertyMap.containsKey(cell)&&propertyMap[cell]>0} ? 'bold' : '');
         classNameText = '<div class="open2 ' + isBold + '">';
         insertCellInRow(0, row,
-            classNameText + '<img class="image-for-table" src="${pageContext.request.contextPath}/resources/images/enumerators/FolderStructure/${cell.enName.toLowerCase()}.png"><span class="folder_name">&nbsp;${(String.format("%-13s",cell.ruName)).replace(" ","&nbsp;")}</span><span style=" word-break: normal;">${propertyMap.containsKey(cell) ? (String.format("%3s",propertyMap[cell])).replace(" ","&nbsp;"):""}</span></div>');
+            classNameText + '<img class="image-for-table" src="${pageContext.request.contextPath}/resources/images/enumerators/FolderStructure/${cell.enName.toLowerCase()}.png"><span class="folder_name">&nbsp;${(CommonModule.getFormattedText("%-13s",cell.ruName)).replace(" ","&nbsp;")}</span><span style=" word-break: normal;">${propertyMap.containsKey(cell) ? (CommonModule.getFormattedText("%3s",propertyMap[cell])).replace(" ","&nbsp;"):""}</span></div>');
         </c:when>
         <c:otherwise>
         classNameText = (true === ${propertyMap.containsKey(cell)&&propertyMap[cell]>0} ? '<div class="bold">' : '');
         insertCellInRow(0, row,
-            classNameText + '<img class="image-for-table" src="${pageContext.request.contextPath}/resources/images/enumerators/FolderStructure/${cell.enName.toLowerCase()}.png" onclick="document.getElementById(${cell.id}).click();"><button type="submit" name="bookMark2" value=${cell.name()} class="btn-link2 ${propertyMap.containsKey(cell)&&propertyMap[cell]>0 ? "bold":""}" id=${cell.id}><span class="folder_name">&nbsp;${(String.format("%-13s",cell.ruName)).replace(" ","&nbsp;")}</span><span style=" word-break: normal;">${propertyMap.containsKey(cell) ? (String.format("%3s",propertyMap[cell])).replace(" ","&nbsp;"):""}</span></button></div>');
+            classNameText + '<img class="image-for-table" src="${pageContext.request.contextPath}/resources/images/enumerators/FolderStructure/${cell.enName.toLowerCase()}.png" onclick="document.getElementById(${cell.id}).click();"><button type="submit" name="bookMark2" value=${cell.name()} class="btn-link2 ${propertyMap.containsKey(cell)&&propertyMap[cell]>0 ? "bold":""}" id=${cell.id}><span class="folder_name">&nbsp;${(CommonModule.getFormattedText("%-13s",cell.ruName)).replace(" ","&nbsp;")}</span><span style=" word-break: normal;">${propertyMap.containsKey(cell) ? (CommonModule.getFormattedText("%3s",propertyMap[cell])).replace(" ","&nbsp;"):""}</span></button></div>');
         </c:otherwise>
         </c:choose>
         </c:forEach>

@@ -27,7 +27,7 @@
 <html>
 
 <head>
-    <title>Edi - version 0.110 - beta</title>
+    <title>Edi - version 0.111 - beta</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/work_area/work_area_main.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
@@ -182,14 +182,14 @@
         insertCellInRow(5, row, getHighlightedText('${TimeModule.getDate(cell.finalDate, 'dd.MM.yyyy')}', filterString));
 
         <c:choose>
-        <c:when test="${TimeModule.startOfDay(TimeModule.getCurrentDate()).equals(TimeModule.startOfDay(cell.finalDate))}">
+        <c:when test="${TimeModule.startOfCurrentDay().equals(TimeModule.startOfDay(cell.finalDate))}">
         row.cells[2].style = "font: bold 100% serif;";
         row.cells[5].style = "font: bold 100% serif;";
         </c:when>
         </c:choose>
 
         row_style = "";
-        <c:choose><c:when test="${TimeModule.startOfDay(cell.finalDate) < TimeModule.startOfDay(TimeModule.getCurrentDate())}">
+        <c:choose><c:when test="${TimeModule.startOfDay(cell.finalDate) < TimeModule.startOfCurrentDay()}">
         row_style += "color:red;";
         </c:when></c:choose>
         <c:choose><c:when test="${(status.index % 2) == 0}">
@@ -241,14 +241,14 @@
         insertCellInRow(4, row, getHighlightedText('${TimeModule.getDate(cell.finalDate, 'dd.MM.yyyy')}', filterString));
 
         <c:choose>
-        <c:when test="${TimeModule.startOfDay(TimeModule.getCurrentDate()).equals(TimeModule.startOfDay(cell.finalDate))}">
+        <c:when test="${TimeModule.startOfCurrentDay().equals(TimeModule.startOfDay(cell.finalDate))}">
         row.cells[2].style = "font: bold 100% serif;";
         row.cells[4].style = "font: bold 100% serif;";
         </c:when>
         </c:choose>
 
         row_style = "";
-        <c:choose><c:when test="${TimeModule.startOfDay(cell.finalDate) < TimeModule.startOfDay(TimeModule.getCurrentDate())}">
+        <c:choose><c:when test="${TimeModule.startOfDay(cell.finalDate) < TimeModule.startOfCurrentDay()}">
         row_style += "color:red;";
         </c:when></c:choose>
         <c:choose><c:when test="${(status.index % 2) == 0}">

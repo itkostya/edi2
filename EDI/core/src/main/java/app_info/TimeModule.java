@@ -19,7 +19,6 @@ public enum TimeModule {
         return "" + (Objects.isNull(timestamp) ? "" : new SimpleDateFormat(dateFormat).format(timestamp));
     }
 
-
     public static Timestamp getCurrentDate(){
         return new Timestamp(new java.util.Date().getTime());
     }
@@ -35,6 +34,10 @@ public enum TimeModule {
 
         return new Timestamp(c.getTime().getTime());
 
+    }
+
+    public static Timestamp startOfCurrentDay(){
+        return startOfDay(getCurrentDate());
     }
 
     public static java.sql.Date getFinalDateOfProcess(){
