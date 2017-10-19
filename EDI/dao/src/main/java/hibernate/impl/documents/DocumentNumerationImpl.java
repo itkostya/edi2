@@ -3,7 +3,6 @@ package hibernate.impl.documents;
 import abstract_entity.AbstractDocumentEdi;
 import documents.DocumentNumeration;
 import documents.DocumentProperty;
-import documents.Memorandum;
 import exсeption.DocumentNumerationException;
 import hibernate.HibernateDAO;
 import hibernate.HibernateUtil;

@@ -42,6 +42,7 @@ window.onload = function () {
     <%--<jsp:include page="../common/common.jsp"/>--%>
 </head>
 
+<%--suppress JSUnusedLocalSymbols --%>
 <script>
 
     //noinspection JSUnusedLocalSymbols
@@ -97,6 +98,7 @@ window.onload = function () {
         setVisibilityOfColumns();
     }
 
+    //noinspection JSUnusedLocalSymbols
     function addUsers() {
 
         const orderMenu = getOrderMenu(0);
@@ -190,6 +192,7 @@ window.onload = function () {
 
     }
 
+    //noinspection JSUnusedLocalSymbols
     function changeOrder(row_index, selectedIndex) {
 
         recipients_row_index = row_index;
@@ -198,6 +201,7 @@ window.onload = function () {
         table_recipients.tBodies[0].rows[recipients_row_index].cells[1].innerHTML = menu.replace('row_number', row_index);
     }
 
+    //noinspection JSUnusedLocalSymbols
     function changeProcessType(row_index, selectedIndex) {
 
         recipients_row_index = row_index;
@@ -207,7 +211,7 @@ window.onload = function () {
         table_recipients.tBodies[0].rows[recipients_row_index].cells[2].innerHTML = menu.replace('row_number', row_index);
     }
 
-
+    //noinspection JSUnusedLocalSymbols
     function checkRow(row_index) {
         recipients_row_index = row_index;
         setMarkOfLine();
@@ -244,6 +248,7 @@ window.onload = function () {
 
     }
 
+    //noinspection JSUnusedLocalSymbols
     function deleteElement() {
 
         let current_row;
@@ -270,6 +275,7 @@ window.onload = function () {
 
     }
 
+    //noinspection JSUnusedLocalSymbols
     function moveUpElement() {
 
         if ((table_recipients !== null) && (  table_recipients.tBodies[0].rows.length >= 3) && (recipients_row_index > 0)) {
@@ -280,6 +286,7 @@ window.onload = function () {
 
     }
 
+    //noinspection JSUnusedLocalSymbols
     function moveDownElement() {
 
         if ((table_recipients !== null) && ( table_recipients.tBodies[0].rows.length >= 3) && (table_recipients.tBodies[0].rows.length - 2 > recipients_row_index)) {
@@ -378,6 +385,7 @@ window.onload = function () {
             '</table>';
     }
 
+    //noinspection JSUnusedLocalSymbols
     function createUsersSequence() {
 
         const post_users = [];
