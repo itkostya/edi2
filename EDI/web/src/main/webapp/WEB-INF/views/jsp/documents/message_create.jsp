@@ -44,10 +44,6 @@
 
 <script>
 
-//    let table_users;
-//    let table_recipients;
-//    let process_type = -1;
-//    let recipients_row_index = -1;
     let fileList = [];
     let uploadedFileList = [];
     let rowMarkedTableIndex = -1;

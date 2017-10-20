@@ -103,24 +103,24 @@ public enum CreateData {
 
         // Memorandums
 
-        User user_itkostya = UserImpl.INSTANCE.getUserByLogin("itkostya");
-        User it_admin1 = UserImpl.INSTANCE.getUserByLogin("it_admin1");
-        User it_admin2 = UserImpl.INSTANCE.getUserByLogin("it_admin2");
-        User it_director = UserImpl.INSTANCE.getUserByLogin("it_director");
-        User hr_director = UserImpl.INSTANCE.getUserByLogin("hr_director");
-        User hr_manager1 = UserImpl.INSTANCE.getUserByLogin("hr_manager1");
-        User hr_manager2 = UserImpl.INSTANCE.getUserByLogin("hr_manager2");
-
-        java.sql.Timestamp d1 = java.sql.Timestamp.valueOf("2015-01-21 01:00:00");
-        java.sql.Timestamp d2 = java.sql.Timestamp.valueOf("2015-01-23 01:00:00");
-        java.sql.Timestamp d3 = java.sql.Timestamp.valueOf("2015-02-25 01:00:00");
-        java.sql.Timestamp d4 = java.sql.Timestamp.valueOf("2015-02-26 01:00:00");
-        java.sql.Timestamp d5 = java.sql.Timestamp.valueOf("2015-02-27 01:00:00");
-        java.sql.Timestamp d6 = java.sql.Timestamp.valueOf("2015-03-07 01:00:00");
-        java.sql.Timestamp d7 = java.sql.Timestamp.valueOf("2015-03-11 01:00:00");
-        java.sql.Timestamp d8 = java.sql.Timestamp.valueOf("2015-03-12 01:00:00");
-        java.sql.Timestamp d9 = java.sql.Timestamp.valueOf("2015-03-15 01:00:00");
-        java.sql.Timestamp d10 = java.sql.Timestamp.valueOf("2015-03-25 01:00:00");
+//        User user_itkostya = UserImpl.INSTANCE.getUserByLogin("itkostya");
+//        User it_admin1 = UserImpl.INSTANCE.getUserByLogin("it_admin1");
+//        User it_admin2 = UserImpl.INSTANCE.getUserByLogin("it_admin2");
+//        User it_director = UserImpl.INSTANCE.getUserByLogin("it_director");
+//        User hr_director = UserImpl.INSTANCE.getUserByLogin("hr_director");
+//        User hr_manager1 = UserImpl.INSTANCE.getUserByLogin("hr_manager1");
+//        User hr_manager2 = UserImpl.INSTANCE.getUserByLogin("hr_manager2");
+//
+//        java.sql.Timestamp d1 = java.sql.Timestamp.valueOf("2015-01-21 01:00:00");
+//        java.sql.Timestamp d2 = java.sql.Timestamp.valueOf("2015-01-23 01:00:00");
+//        java.sql.Timestamp d3 = java.sql.Timestamp.valueOf("2015-02-25 01:00:00");
+//        java.sql.Timestamp d4 = java.sql.Timestamp.valueOf("2015-02-26 01:00:00");
+//        java.sql.Timestamp d5 = java.sql.Timestamp.valueOf("2015-02-27 01:00:00");
+//        java.sql.Timestamp d6 = java.sql.Timestamp.valueOf("2015-03-07 01:00:00");
+//        java.sql.Timestamp d7 = java.sql.Timestamp.valueOf("2015-03-11 01:00:00");
+//        java.sql.Timestamp d8 = java.sql.Timestamp.valueOf("2015-03-12 01:00:00");
+//        java.sql.Timestamp d9 = java.sql.Timestamp.valueOf("2015-03-15 01:00:00");
+//        java.sql.Timestamp d10 = java.sql.Timestamp.valueOf("2015-03-25 01:00:00");
 
 //        MemorandumImpl.INSTANCE.save(new Memorandum(d1, false, null, false, user_itkostya, ""+it_director,"Анкета_СЭД", "Анкета Документооборот", it_director));
 //        MemorandumImpl.INSTANCE.save(new Memorandum(d2, false, null, false, user_itkostya, ""+it_director, "Перепопенко", "Подключение сотрудника к Документообороту",it_director));
@@ -151,10 +151,6 @@ public enum CreateData {
 
     public static void createBusinessProcess() {
 
-        java.sql.Date d1 = java.sql.Date.valueOf("2015-01-21");
-        java.sql.Date d2 = java.sql.Date.valueOf("2015-01-23");
-        java.sql.Date d3 = java.sql.Date.valueOf("2015-02-25");
-
         java.sql.Timestamp t1 = java.sql.Timestamp.valueOf("2015-01-21 09:05:00");
         java.sql.Timestamp t2 = java.sql.Timestamp.valueOf("2015-02-21 19:05:00");
         java.sql.Timestamp t3 = java.sql.Timestamp.valueOf("2015-03-19 15:08:07");
@@ -176,10 +172,6 @@ public enum CreateData {
     }
 
     public static void createBusinessProcessSequence() {
-
-        java.sql.Date d1 = java.sql.Date.valueOf("2015-01-21");
-        java.sql.Date d2 = java.sql.Date.valueOf("2015-01-23");
-        java.sql.Date d3 = java.sql.Date.valueOf("2015-02-25");
 
         java.sql.Timestamp t1 = java.sql.Timestamp.valueOf("2015-01-21 09:05:00");
         java.sql.Timestamp t2 = java.sql.Timestamp.valueOf("2015-02-21 19:05:00");
@@ -216,10 +208,6 @@ public enum CreateData {
     }
 
     public static void createExecutorTasks() {
-
-        java.sql.Date d1 = java.sql.Date.valueOf("2015-01-21");
-        java.sql.Date d2 = java.sql.Date.valueOf("2015-01-23");
-        java.sql.Date d3 = java.sql.Date.valueOf("2015-02-25");
 
         java.sql.Timestamp t1 = java.sql.Timestamp.valueOf("2015-01-21 09:05:00");
         java.sql.Timestamp t2 = java.sql.Timestamp.valueOf("2015-02-21 19:05:00");
@@ -322,10 +310,6 @@ public enum CreateData {
         UserImpl.INSTANCE.save(hr_manager1);
         UserImpl.INSTANCE.save(hr_manager2);
 
-        java.sql.Date d1 = java.sql.Date.valueOf("2015-01-21");
-        java.sql.Date d2 = java.sql.Date.valueOf("2015-01-23");
-        java.sql.Date d3 = java.sql.Date.valueOf("2015-02-25");
-
         java.sql.Timestamp t1 = java.sql.Timestamp.valueOf("2015-01-21 09:05:00");
         java.sql.Timestamp t2 = java.sql.Timestamp.valueOf("2015-02-21 19:05:00");
         java.sql.Timestamp t3 = java.sql.Timestamp.valueOf("2015-03-19 15:08:07");
@@ -420,8 +404,6 @@ public enum CreateData {
     }
 
     public static void createCheckFileFolder(){
-
-        final String folderName = System.getProperty("catalina.home");
 
         File dir = new File(System.getProperty("catalina.home")+ File.separator+"files");
         boolean created = dir.mkdir();
