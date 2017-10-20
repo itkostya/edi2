@@ -162,7 +162,7 @@
                 <c:choose>
                 <c:when test="${not empty cell}">
                     row = currentTable.tBodies.item(0).rows[0];
-                    insertCellInRow(0, row, '<div class="vR"><span class="vN"><div class="vT">'+getFioAbbreviated("${cell.fio}")+'</div><div class="hidden-id" hidden>${cell.id}</div><div class="vM" onclick="event.currentTarget.offsetParent.outerHTML = \'\'; resizeElements();"></div></span></div>');
+                    insertCellInRow(0, row, '<div class="vR"><div class="vN"><div class="vT">'+getFioAbbreviated("${cell.fio}")+'</div><div class="hidden-id" hidden>${cell.id}</div><div class="vM" onclick="event.currentTarget.offsetParent.outerHTML = \'\'; resizeElements();"></div></div></div>');
                 </c:when>
                 </c:choose>
             </c:forEach>
@@ -178,7 +178,7 @@
         if (documentTypeId === <%=DocumentProperty.MESSAGE.getId()%>) {
             const currentTable = document.getElementById("table-whom-selected");
             let row = currentTable.tBodies.item(0).rows[0];
-            insertCellInRow(0, row, '<div class="vR"><span class="vN"><div class="vT">'+getFioAbbreviated(userFio)+'</div><div class="hidden-id" hidden>'+id+'</div><div class="vM" onclick="event.currentTarget.offsetParent.outerHTML = \'\'; resizeElements();"></div></span></div>');
+            insertCellInRow(0, row, '<div class="vR"><div class="vN"><div class="vT">'+getFioAbbreviated(userFio)+'</div><div class="hidden-id" hidden>'+id+'</div><div class="vM" onclick="event.currentTarget.offsetParent.outerHTML = \'\'; resizeElements();"></div></div></div>');
             resizeElements();
         }else {
             document.getElementById("selectedUser").value = userFio.replace("&nbsp", " ").replace("&nbsp", " ");
