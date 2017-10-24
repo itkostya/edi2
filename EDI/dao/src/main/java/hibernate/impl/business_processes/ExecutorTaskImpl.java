@@ -279,6 +279,7 @@ public enum ExecutorTaskImpl implements HibernateDAO<ExecutorTask> {
                         ),
                 LinkedHashMap::putAll);
 
+        //noinspection ResultOfMethodCallIgnored
         mapSignaturesWithUploadedFiles.entrySet().stream().sorted(Comparator.comparing(o -> o.getKey().getDateCompleted())).map(Map.Entry::getKey).collect(Collectors.toList());
 
         session.close();

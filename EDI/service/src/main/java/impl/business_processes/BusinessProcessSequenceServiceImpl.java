@@ -38,6 +38,7 @@ public enum BusinessProcessSequenceServiceImpl {
                                 LinkedHashMap::new,
                                 Collectors.toList()));
 
+        //noinspection ResultOfMethodCallIgnored
         linkedHashMap.entrySet().stream().sorted(Comparator.comparing(o -> o.getKey().getDate())).map(Map.Entry::getKey).collect(Collectors.toList());
 
         return linkedHashMap;
