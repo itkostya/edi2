@@ -46,12 +46,14 @@
 
     let fileList = [];
     let uploadedFileList = [];
-    let rowMarkedTableIndex = -1;
-    let rowMarkedIndex = -1;
+    let rowMarkedTableIndex;
+    let rowMarkedIndex;
 
     window.onload = function () {
 
         //window.alert("onLoad message");
+        rowMarkedTableIndex = -1;
+        rowMarkedIndex = -1;
 
         <c:choose>
         <c:when test="${sessionDataElement.elementStatus == ElementStatus.CLOSE}">window.close();

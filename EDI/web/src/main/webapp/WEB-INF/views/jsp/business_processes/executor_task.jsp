@@ -57,18 +57,25 @@
 
     let table_users;
     let table_recipients;
-    let process_type = -1;
-    let recipients_row_index = -1;
+    let process_type;
+    let recipients_row_index;
     const fileList = [];
-    let uploadedFileList = null;   // hasn't been used (yet?) - add for common work with add_files.jsp
-    let rowMarkedTableIndex = -1;  // works only with 1-st table (in add_files.jsp 2 tables - 0, 1 )
-    let rowMarkedIndex = -1;
+    let uploadedFileList;   // hasn't been used (yet?) - add for common work with add_files.jsp
+    let rowMarkedTableIndex;  // works only with 1-st table (in add_files.jsp 2 tables - 0, 1 )
+    let rowMarkedIndex;
 
     window.onload = function () {
 
 //        window.alert("onLoad");
         <%--window.alert("executorTask.result=${executorTask.result}");--%>
         <%--window.alert("sessionDataElement.elementStatus: ${sessionDataElement.elementStatus}");--%>
+        table_users = null;         // Filled in send_document.jsp
+        table_recipients = null;    // Filled in send_document.jsp
+        process_type = -1;
+        recipients_row_index = -1;
+        uploadedFileList = null;
+        rowMarkedTableIndex = -1;
+        rowMarkedIndex = -1;
 
         <c:choose>
         <c:when test="${sessionDataElement.elementStatus == ElementStatus.CLOSE}">window.close();
@@ -241,6 +248,7 @@
 
     }
 
+    //noinspection JSUnusedLocalSymbols
     function downloadFile(uploadedFileName, uploadedName, executorTaskId) {
 
         const downloadFileForm = document.forms["downloadFileForm"];
@@ -390,6 +398,7 @@
 
     }
 
+    //noinspection JSUnusedLocalSymbols
     function setChildItems(event) {
 
         const list = event.srcElement.parentElement.lastElementChild.children;
@@ -400,6 +409,7 @@
 
     }
 
+    //noinspection JSUnusedLocalSymbols
     function treeToggle(event) {
         event = event || window.event;
         const clickedElem = event.target || event.srcElement;
@@ -426,6 +436,7 @@
         return new RegExp("(^|\\s)" + className + "(\\s|$)").test(elem.className)
     }
 
+    //noinspection JSUnusedLocalSymbols
     function setItems(checked) {
 
         const list1 = document.getElementById("mainTreeContainer").children;
@@ -440,6 +451,7 @@
         }
     }
 
+    //noinspection JSUnusedLocalSymbols
     function stopBusinessProcesses() {
 
         const businessProcessSequenceId = [];
@@ -471,9 +483,9 @@
 
     //  ***** Tree end *****
 
+    //noinspection JSUnusedLocalSymbols
     function changePageOnPanelCompletedTask(pageNumber) {
 
-        const panelCompletedTask = document.getElementById("panelCompletedTask");
         const page0 = document.getElementById("page0");
         const page1 = document.getElementById("page1");
         const page0_a = document.getElementById("page0_a");

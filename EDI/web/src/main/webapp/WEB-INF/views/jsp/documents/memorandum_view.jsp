@@ -17,6 +17,7 @@
 <%--@elvariable id="userFrom" type="java.lang.String"--%>
 <%--@elvariable id="userTo" type="java.lang.String"--%>
 
+<%--suppress HtmlUnknownAttribute --%>
 <html xmlns:o="urn:schemas-microsoft-com:office:office"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="urn:schemas-microsoft-com:office:office" >

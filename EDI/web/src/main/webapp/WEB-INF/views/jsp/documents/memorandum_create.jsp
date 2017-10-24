@@ -46,16 +46,22 @@
 
     let table_users;
     let table_recipients;
-    let process_type = -1;
-    let recipients_row_index = -1;
+    let process_type;
+    let recipients_row_index;
     let fileList = [];
     let uploadedFileList = [];
-    let rowMarkedTableIndex = -1;
-    let rowMarkedIndex = -1;
+    let rowMarkedTableIndex;
+    let rowMarkedIndex;
 
     window.onload = function () {
 
         //window.alert("onLoad memorandum");
+        table_users = null;         // Filled in send_document.jsp
+        table_recipients = null;    // Filled in send_document.jsp
+        process_type = -1;
+        recipients_row_index = -1;
+        rowMarkedTableIndex = -1;
+        rowMarkedIndex = -1;
 
         <c:choose>
         <c:when test="${sessionDataElement.elementStatus == ElementStatus.CLOSE}">window.close();
