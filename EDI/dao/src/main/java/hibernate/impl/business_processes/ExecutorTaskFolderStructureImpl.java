@@ -288,7 +288,7 @@ public enum ExecutorTaskFolderStructureImpl implements HibernateDAO<ExecutorTask
         query.setParameter("user", user);
         query.setParameter("abstractDocumentEdiClass", abstractDocumentEdiClass);
 
-        List<HashMap<String, Object>> list = query.list(); // This type because you can't get everything from the query
+        @SuppressWarnings("unchecked") List<HashMap<String, Object>> list = query.list(); // This type because you can't get everything from the query
 
         HashMap<FolderStructure, Integer> mapFolderStructure
                 = list.stream().filter(t -> Objects.nonNull(t.get("0")) && Objects.nonNull(t.get("1"))).collect(HashMap::new,

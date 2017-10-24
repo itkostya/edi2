@@ -263,7 +263,7 @@ public enum ExecutorTaskImpl implements HibernateDAO<ExecutorTask> {
         query.setParameter("documentEdi", documentEdi);
         query.setParameter("processResultCanceled", ProcessResult.CANCELED);
 
-        List<HashMap<String, Object>> list = query.list();
+        @SuppressWarnings("unchecked") List<HashMap<String, Object>> list = query.list();
 
         // Type LinkedHashMap because we need sorting list after creating (HashMap doesn't let it)
         LinkedHashMap<ExecutorTask, List<UploadedFile>> mapSignaturesWithUploadedFiles

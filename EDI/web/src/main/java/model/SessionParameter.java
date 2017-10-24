@@ -14,7 +14,7 @@ public enum SessionParameter {
 
     INSTANCE;
 
-    private final Map<String, UserSettings> activeUsers = new TreeMap();
+    private final Map<String, UserSettings> activeUsers = new TreeMap<>();
 
     public User getCurrentUser(HttpServletRequest req) {
         return activeUsers.get(req.getRequestedSessionId()).getUser();
