@@ -152,9 +152,6 @@ public class MemorandumCreate extends HttpServlet {
                     Long whomId = (Long) CommonModule.getNumberFromRequest(req, "whomId", Long.class);
                     User whomUser = (Objects.isNull(whomId) ? null : UserImpl.INSTANCE.getUserById(whomId));
 
-                    String closeDocumentString = req.getParameter("closeDocument");
-                    Boolean closeDocument = (!Objects.isNull(closeDocumentString) && "on".equals(closeDocumentString));
-
                     Long tempId = (Long) CommonModule.getNumberFromRequest(req, "tempId", Long.class);
                     SessionDataElement sessionDataElement = SessionParameter.INSTANCE.getUserSettings(req).getSessionDataElement(tempId);
 
@@ -186,40 +183,42 @@ public class MemorandumCreate extends HttpServlet {
 
                             case "send":
 
+                                documentEdi = sendData(req, sessionDataElement, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomUser, executorTask);
+
                                 // --- Parse data ---
-                                String[] usersIdArray = "".equals(req.getParameter("post_users[]")) ? null : req.getParameter("post_users[]").split(",");
-
-                                if (Objects.isNull(usersIdArray)) {
-                                    sessionDataElement.setElementStatus(ElementStatus.ERROR);
-                                    sessionDataElement.setErrorMessage("Не выбран(ы) получатели документа");
-                                } else {
-
-                                    // Order type
-                                    String[] orderTypeArray = "".equals(req.getParameter("post_order_type[]")) ? null : req.getParameter("post_order_type[]").split(",");
-
-                                    // Process type
-                                    int processTypeParameter = Integer.valueOf(req.getParameter("process_type"));  // scenario - a lot of different process
-                                    String[] processTypeArray = null;
-                                    ProcessType processTypeCommon = null;
-                                    if (processTypeParameter == Constant.SCENARIO_NUMBER) {
-                                        String postProcessType = req.getParameter("post_process_type[]");
-                                        processTypeArray = postProcessType.split(",");
-                                    } else {
-                                        processTypeCommon = DocumentProperty.MEMORANDUM.getProcessTypeList().get(processTypeParameter);
-                                    }
-
-                                    String comment = req.getParameter("comment");
-                                    if (Objects.nonNull(comment))
-                                        comment = CommonModule.getCorrectStringForWeb(comment);
-                                    finalDate = java.sql.Date.valueOf(req.getParameter("finalDate")); //java.sql.Date.valueOf("2015-01-21")
-
-                                    // --- Create document Memorandum, business_process' classes: BusinessProcess, BusinessProcessSequence, ExecutorTask ---
-
-                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomUser, "send");
-                                    CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, documentEdi, executorTask, timeStamp, usersIdArray, orderTypeArray, processTypeArray, processTypeCommon, comment, new java.sql.Timestamp(finalDate.getTime()));
-                                    sessionDataElement.setElementStatus(closeDocument ? ElementStatus.CLOSE : ElementStatus.STORE);
-
-                                }
+//                                String[] usersIdArray = "".equals(req.getParameter("post_users[]")) ? null : req.getParameter("post_users[]").split(",");
+//
+//                                if (Objects.isNull(usersIdArray)) {
+//                                    sessionDataElement.setElementStatus(ElementStatus.ERROR);
+//                                    sessionDataElement.setErrorMessage("Не выбран(ы) получатели документа");
+//                                } else {
+//
+//                                    // Order type
+//                                    String[] orderTypeArray = "".equals(req.getParameter("post_order_type[]")) ? null : req.getParameter("post_order_type[]").split(",");
+//
+//                                    // Process type
+//                                    int processTypeParameter = Integer.valueOf(req.getParameter("process_type"));  // scenario - a lot of different process
+//                                    String[] processTypeArray = null;
+//                                    ProcessType processTypeCommon = null;
+//                                    if (processTypeParameter == Constant.SCENARIO_NUMBER) {
+//                                        String postProcessType = req.getParameter("post_process_type[]");
+//                                        processTypeArray = postProcessType.split(",");
+//                                    } else {
+//                                        processTypeCommon = DocumentProperty.MEMORANDUM.getProcessTypeList().get(processTypeParameter);
+//                                    }
+//
+//                                    String comment = req.getParameter("comment");
+//                                    if (Objects.nonNull(comment))
+//                                        comment = CommonModule.getCorrectStringForWeb(comment);
+//                                    finalDate = java.sql.Date.valueOf(req.getParameter("finalDate")); //java.sql.Date.valueOf("2015-01-21")
+//
+//                                    // --- Create document Memorandum, business_process' classes: BusinessProcess, BusinessProcessSequence, ExecutorTask ---
+//
+//                                    documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomUser, "send");
+//                                    CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, documentEdi, executorTask, timeStamp, usersIdArray, orderTypeArray, processTypeArray, processTypeCommon, comment, new java.sql.Timestamp(finalDate.getTime()));
+//                                    sessionDataElement.setElementStatus(closeDocument ? ElementStatus.CLOSE : ElementStatus.STORE);
+//
+//                                }
                                 break;
                         }
 
@@ -252,6 +251,49 @@ public class MemorandumCreate extends HttpServlet {
         }
     }
 
+    private AbstractDocumentEdi sendData(HttpServletRequest req, SessionDataElement sessionDataElement,  AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, String theme, String textInfo, List<UploadedFile> fileList, User whomUser, ExecutorTask executorTask)
+    {
+        // --- Parse data ---
+        String[] usersIdArray = "".equals(req.getParameter("post_users[]")) ? null : req.getParameter("post_users[]").split(",");
+
+        if (Objects.isNull(usersIdArray)) {
+            sessionDataElement.setElementStatus(ElementStatus.ERROR);
+            sessionDataElement.setErrorMessage("Не выбран(ы) получатели документа");
+        } else {
+
+            String closeDocumentString = req.getParameter("closeDocument");
+            Boolean closeDocument = (!Objects.isNull(closeDocumentString) && "on".equals(closeDocumentString));
+
+            // Order type
+            String[] orderTypeArray = "".equals(req.getParameter("post_order_type[]")) ? null : req.getParameter("post_order_type[]").split(",");
+
+            // Process type
+            int processTypeParameter = Integer.valueOf(req.getParameter("process_type"));  // scenario - a lot of different process
+            String[] processTypeArray = null;
+            ProcessType processTypeCommon = null;
+            if (processTypeParameter == Constant.SCENARIO_NUMBER) {
+                String postProcessType = req.getParameter("post_process_type[]");
+                processTypeArray = postProcessType.split(",");
+            } else {
+                processTypeCommon = DocumentProperty.MEMORANDUM.getProcessTypeList().get(processTypeParameter);
+            }
+
+            String comment = req.getParameter("comment");
+            if (Objects.nonNull(comment))
+                comment = CommonModule.getCorrectStringForWeb(comment);
+            finalDate = java.sql.Date.valueOf(req.getParameter("finalDate")); //java.sql.Date.valueOf("2015-01-21")
+
+            // --- Create document Memorandum, business_process' classes: BusinessProcess, BusinessProcessSequence, ExecutorTask ---
+
+            documentEdi = createOrUpdateDocument(req, documentEdi, timeStamp, currentUser, theme, textInfo, fileList, whomUser, "send");
+            CommonBusinessProcessServiceImpl.INSTANCE.createAndStartBusinessProcess(currentUser, documentEdi, executorTask, timeStamp, usersIdArray, orderTypeArray, processTypeArray, processTypeCommon, comment, new java.sql.Timestamp(finalDate.getTime()));
+            sessionDataElement.setElementStatus(closeDocument ? ElementStatus.CLOSE : ElementStatus.STORE);
+
+        }
+
+        return documentEdi;
+    }
+
     private AbstractDocumentEdi createOrUpdateDocument(HttpServletRequest req, AbstractDocumentEdi documentEdi, java.sql.Timestamp timeStamp, User currentUser, String theme, String textInfo, List<UploadedFile> fileList, User whomUser, String operationType) {
 
         if (Objects.isNull(documentEdi)) {
@@ -275,8 +317,5 @@ public class MemorandumCreate extends HttpServlet {
 
         return documentEdi;
     }
-
-
-
 
 }
