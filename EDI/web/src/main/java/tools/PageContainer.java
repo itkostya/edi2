@@ -25,12 +25,14 @@ public enum PageContainer {
     public static final String WORK_AREA_JSP = "WEB-INF/views/jsp/work_area/work_area_main.jsp";
 
     public static final String DOCUMENT_MEMORANDUM_JOURNAL_PAGE = "/doc_memorandum_journal";
+    @SuppressWarnings("WeakerAccess")
     public static final String DOCUMENT_MEMORANDUM_JOURNAL_JSP = "WEB-INF/views/jsp/documents/memorandum_journal.jsp";
 
     public static final String DOCUMENT_MEMORANDUM_CREATE_PAGE = "/doc_memorandum_create";
     public static final String DOCUMENT_MEMORANDUM_CREATE_JSP = "WEB-INF/views/jsp/documents/memorandum_create.jsp";
 
     public static final String DOCUMENT_MESSAGE_JOURNAL_PAGE = "/doc_message_journal";
+    @SuppressWarnings("WeakerAccess")
     public static final String DOCUMENT_MESSAGE_JOURNAL_JSP = "WEB-INF/views/jsp/documents/message_journal.jsp";
 
     public static final String DOCUMENT_MESSAGE_CREATE_PAGE = "/doc_message_create";

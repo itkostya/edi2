@@ -41,6 +41,7 @@ public enum FolderStructure {
         this.ruName = ruName;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public long getId() {
         return id;
     }
@@ -50,6 +51,7 @@ public enum FolderStructure {
         this.id = id;
     }
 
+    @SuppressWarnings("WeakerAccess")
     public String getEnName() {
         return enName;
     }

@@ -24,6 +24,7 @@ public enum TimeModule {
         return new Timestamp(new java.util.Date().getTime());
     }
 
+    @SuppressWarnings("WeakerAccess")
     public static Timestamp startOfDay(Timestamp timestamp){
 
         Calendar c = Calendar.getInstance();
