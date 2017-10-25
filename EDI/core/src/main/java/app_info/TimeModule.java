@@ -12,6 +12,7 @@ import java.util.Objects;
 */
 public enum TimeModule {
 
+    @SuppressWarnings("unused")
     INSTANCE;
 
     // for use string on jsp page

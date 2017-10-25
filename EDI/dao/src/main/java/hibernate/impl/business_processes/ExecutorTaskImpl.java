@@ -3,7 +3,6 @@ package hibernate.impl.business_processes;
 import abstract_entity.AbstractDocumentEdi;
 import app_info.Constant;
 import app_info.TimeModule;
-import business_processes.BusinessProcess;
 import business_processes.ExecutorTask;
 import categories.UploadedFile;
 import categories.User;
@@ -54,14 +53,6 @@ public enum ExecutorTaskImpl implements HibernateDAO<ExecutorTask> {
         return executorTask;
     }
 
-//    public ExecutorTask getByDocument(Long id) {
-//        Session session = HibernateUtil.getSession();
-//        ExecutorTask executorTask = session.get(ExecutorTask.class, id);
-//        if (executorTask == null) throw new ExecutorTaskNotFoundException(id);
-//        session.close();
-//        return executorTask;
-//    }
-
     public List<ExecutorTask> getReviewTask(User executor, String filterString) {
 
         Session session = HibernateUtil.getSession();
@@ -95,16 +86,6 @@ public enum ExecutorTaskImpl implements HibernateDAO<ExecutorTask> {
 
         session.close();
         return list;
-
-//        Session session = HibernateUtil.getSession();
-//        Query<ExecutorTask> query = session.createQuery("select e from ExecutorTask e " +
-//                "inner join AbstractDocumentEdi as abstractdocument on abstractdocument.id = e.document.id " +
-//                "where e.executor =:executor and e.completed = false and type(abstractdocument)!= Message", ExecutorTask.class);
-//
-//        query.setParameter("executor", executor);
-//        List<ExecutorTask> list = query.getResultList();
-//        session.close();
-//        return list;
 
     }
 
@@ -143,27 +124,6 @@ public enum ExecutorTaskImpl implements HibernateDAO<ExecutorTask> {
         session.close();
         return list;
 
-//        Session session = HibernateUtil.getSession();
-//        Query<ExecutorTask> query = session.createQuery("select e from ExecutorTask e " +
-//                "inner join AbstractDocumentEdi as abstractdocument on abstractdocument.id = e.document.id " +
-//                "where e.author =:author and e.completed = false and type(abstractdocument)!= Message", ExecutorTask.class);
-//
-//        query.setParameter("author", author);
-//        List<ExecutorTask> list = query.getResultList();
-//        session.close();
-//        return list;
-    }
-
-    public List<ExecutorTask> getFilterByBusinessProcess(BusinessProcess businessProcess) {
-
-        Session session = HibernateUtil.getSession();
-        Query<ExecutorTask> query = session.createQuery("select e from ExecutorTask e " +
-                "where e.businessProcess =:businessProcess", ExecutorTask.class);
-
-        query.setParameter("businessProcess", businessProcess);
-        List<ExecutorTask> list = query.getResultList();
-        session.close();
-        return list;
     }
 
     public List<ExecutorTask> getFilterByExecutorAndDocument(User executor, AbstractDocumentEdi documentEdi) {
@@ -209,21 +169,6 @@ public enum ExecutorTaskImpl implements HibernateDAO<ExecutorTask> {
         List<ExecutorTask> list = query.getResultList();
         session.close();
 
-        return list;
-    }
-
-    public List<ExecutorTask> getSignatures(AbstractDocumentEdi documentEdi) {
-
-        Session session = HibernateUtil.getSession();
-
-        Query<ExecutorTask> query = session.createQuery("select e from ExecutorTask e " +
-                "where e.document =:documentEdi and e.completed = true and e.result != :processResultCanceled " +
-                "order by e.dateCompleted, e.date, e.executor.id", ExecutorTask.class);
-
-        query.setParameter("documentEdi", documentEdi);
-        query.setParameter("processResultCanceled", ProcessResult.CANCELED);
-        List<ExecutorTask> list = query.getResultList();
-        session.close();
         return list;
     }
 

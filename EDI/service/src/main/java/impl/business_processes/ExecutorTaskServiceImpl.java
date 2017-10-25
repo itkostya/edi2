@@ -1,7 +1,6 @@
 package impl.business_processes;
 
 import abstract_entity.AbstractDocumentEdi;
-import business_processes.BusinessProcess;
 import business_processes.ExecutorTask;
 import categories.UploadedFile;
 import categories.User;
@@ -100,14 +99,6 @@ public enum ExecutorTaskServiceImpl {
         }
 
         return executorTaskList;
-    }
-
-    public List<ExecutorTask> getFilterByBusinessProcess(BusinessProcess businessProcess) {
-        return ExecutorTaskImpl.INSTANCE.getFilterByBusinessProcess(businessProcess);
-    }
-
-    public List<ExecutorTask> getSignaturesByList(AbstractDocumentEdi abstractDocumentEdi) {
-        return ExecutorTaskImpl.INSTANCE.getSignatures(abstractDocumentEdi);
     }
 
     public Map<ExecutorTask, List<UploadedFile>> getSignaturesByMap(AbstractDocumentEdi abstractDocumentEdi){

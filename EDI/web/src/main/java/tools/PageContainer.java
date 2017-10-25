@@ -10,6 +10,7 @@ import exсeption.PageContainerNotFoundException;
  */
 public enum PageContainer {
 
+    @SuppressWarnings("unused")
     INSTANCE;
 
     public static final String ADMIN_PAGE = "/admin";

@@ -15,6 +15,7 @@ import hibernate.impl.business_processes.ExecutorTaskFolderStructureImpl;
 import hibernate.impl.business_processes.ExecutorTaskImpl;
 import hibernate.impl.categories.UploadedFileImpl;
 import hibernate.impl.categories.UserImpl;
+import hibernate.impl.documents.AbstractDocumentEdiImpl;
 import hibernate.impl.documents.MemorandumImpl;
 import impl.business_processes.CommonBusinessProcessServiceImpl;
 import impl.business_processes.ExecutorTaskServiceImpl;
@@ -80,7 +81,7 @@ public class MemorandumCreate extends HttpServlet {
                 Long documentId = (Long) CommonModule.getNumberFromRequest(req, "documentId", Long.class);
                 if (Objects.nonNull(documentId)) {
                     // Work with draft
-                    documentEdi = MemorandumImpl.INSTANCE.getById(documentId);
+                    documentEdi = (Memorandum) AbstractDocumentEdiImpl.INSTANCE.getById(documentId);
                     sessionDataElement.setDocumentEdi(documentEdi);
                     if (Objects.nonNull(ExecutorTaskServiceImpl.INSTANCE.getDraft(currentUser, documentEdi)))
                         sessionDataElement.setElementStatus(ElementStatus.CREATE);

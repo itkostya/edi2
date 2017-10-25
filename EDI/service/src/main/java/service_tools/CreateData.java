@@ -33,6 +33,7 @@ import java.util.List;
  */
 public enum CreateData {
 
+    @SuppressWarnings("unused")
     INSTANCE;
 
     public static void createDepartments() {
@@ -102,6 +103,7 @@ public enum CreateData {
     public static void createMemorandums() {
 
         // Memorandums
+        System.out.println();
 
 //        User user_itkostya = UserImpl.INSTANCE.getUserByLogin("itkostya");
 //        User it_admin1 = UserImpl.INSTANCE.getUserByLogin("it_admin1");

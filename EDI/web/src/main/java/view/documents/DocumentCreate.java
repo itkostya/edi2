@@ -14,6 +14,7 @@ import java.util.Objects;
 
 public enum DocumentCreate {
 
+    @SuppressWarnings("unused")
     INSTANCE;
 
     public static void setResultDocumentCreation(HttpServletRequest req, SessionDataElement sessionDataElement, AbstractDocumentEdi documentEdi) {

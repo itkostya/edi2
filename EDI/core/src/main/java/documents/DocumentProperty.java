@@ -94,6 +94,7 @@ public enum DocumentProperty {
         return declinedFieldList;
     }
 
+    @SuppressWarnings("unused")
     public void setDeclinedFieldList(List<String> declinedFieldList) {
         this.declinedFieldList = declinedFieldList;
     }

@@ -14,6 +14,7 @@ import java.time.YearMonth;
 */
 public enum Constant {
 
+    @SuppressWarnings("unused")
     INSTANCE;
 
     public static final int SCENARIO_NUMBER = 100;

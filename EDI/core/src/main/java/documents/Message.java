@@ -37,10 +37,12 @@ public class Message extends AbstractDocumentEdi {
         return DocumentProperty.MESSAGE;
     }
 
+    @SuppressWarnings("unused")
     public String getMessageField() {
         return messageField;
     }
 
+    @SuppressWarnings("unused")
     public void setMessageField(String messageField) {
         this.messageField = messageField;
     }

@@ -4,7 +4,7 @@ import categories.User;
 import documents.Memorandum;
 import documents.Message;
 import enumerations.FolderStructure;
-import hibernate.impl.business_processes.ExecutorTaskFolderStructureImpl;
+import impl.business_processes.ExecutorTaskFolderStructureServiceImpl;
 import tools.CommonModule;
 
 import java.util.*;
@@ -145,10 +145,10 @@ public class UserSettings {
 
         switch (documentName){
             case "Memorandum":
-                documentPropertyMap.put("Memorandum", ExecutorTaskFolderStructureImpl.INSTANCE.getTaskCountByFolders(user, Memorandum.class));
+                documentPropertyMap.put("Memorandum", ExecutorTaskFolderStructureServiceImpl.INSTANCE.getTaskCountByFolders(user, Memorandum.class));
                 break;
             case "Message":
-                documentPropertyMap.put("Message", ExecutorTaskFolderStructureImpl.INSTANCE.getTaskCountByFolders(user, Message.class));
+                documentPropertyMap.put("Message", ExecutorTaskFolderStructureServiceImpl.INSTANCE.getTaskCountByFolders(user, Message.class));
                 break;
         }
     }

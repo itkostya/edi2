@@ -43,10 +43,12 @@ public class Memorandum extends AbstractDocumentEdi {
         return DocumentProperty.MEMORANDUM;
     }
 
+    @SuppressWarnings("unused")
     public String getMemorandumField() {
         return memorandumField;
     }
 
+    @SuppressWarnings("unused")
     public void setMemorandumField(String memorandumField) {
         this.memorandumField = memorandumField;
     }
@@ -55,6 +57,7 @@ public class Memorandum extends AbstractDocumentEdi {
         return whom;
     }
 
+    @SuppressWarnings("unused")
     public void setWhom(User whom) {
         this.whom = whom;
     }

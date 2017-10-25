@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
  */
 public enum CommonModule {
 
+    @SuppressWarnings("unused")
     INSTANCE;
 
     public static String getCorrectStringForWeb(String base) {

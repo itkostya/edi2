@@ -1,7 +1,6 @@
 package hibernate.impl.documents;
 
 import documents.Message;
-import exсeption.AbstractDocumentEdiNotFoundException;
 import hibernate.HibernateDAO;
 import hibernate.HibernateUtil;
 import org.hibernate.Session;
@@ -33,13 +32,4 @@ public enum MessageImpl implements HibernateDAO<Message> {
         HibernateUtil.closeSessionWithTransaction(session);
     }
 
-    public Message getById(Long id){
-
-        Session session = HibernateUtil.getSession();
-        Message documentEdi = session.get(Message.class,id);
-        if (documentEdi == null) throw new AbstractDocumentEdiNotFoundException(id);
-        session.close();
-
-        return documentEdi;
-    }
 }
