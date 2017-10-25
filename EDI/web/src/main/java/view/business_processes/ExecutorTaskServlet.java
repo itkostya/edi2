@@ -320,12 +320,8 @@ public class ExecutorTaskServlet extends HttpServlet {
 
         if (Objects.nonNull(documentEdi) && Objects.nonNull(executorTask) && Objects.nonNull(executorTask.getProcessType())) {
 
-            java.sql.Timestamp timeStamp = new Timestamp(new java.util.Date().getTime());
-
-            Map<BusinessProcess, List<BusinessProcessSequence>> mapBusinessProcess = BusinessProcessSequenceServiceImpl.INSTANCE.getHistoryByDocumentMap(documentEdi);
-            for (Map.Entry<BusinessProcess, List<BusinessProcessSequence>> businessProcessListEntry : mapBusinessProcess.entrySet()) {
+            for (Map.Entry<BusinessProcess, List<BusinessProcessSequence>> businessProcessListEntry : BusinessProcessSequenceServiceImpl.INSTANCE.getHistoryByDocumentMap(documentEdi).entrySet()) {
                 boolean bpCompleted = true;
-                boolean bpDeclined = false;
                 int newTaskPosition = -1;
 
                 for (int i = 0; i < businessProcessListEntry.getValue().size(); i++) {
@@ -341,18 +337,12 @@ public class ExecutorTaskServlet extends HttpServlet {
 
                         ExecutorTask executorTask2 = businessProcessSequence.getExecutorTask();
 
-                        //boolean isCurrentExecutorTask = executorTask.equals(executorTask2);
                         boolean isCurrentExecutorTask = executorTask.getId().equals(executorTask2.getId());
 
                         executorTask2.setCompleted(true);
-                        executorTask2.setDateCompleted(timeStamp);
+                        executorTask2.setDateCompleted(new Timestamp(new java.util.Date().getTime()));
                         executorTask2.setComment(comment);
-                        if (accepted) {
-                            executorTask2.setResult(ProcessResultServiceImpl.INSTANCE.getProcessResult(executorTask.getProcessType()));
-                        } else {
-                            executorTask2.setResult(ProcessResult.DECLINED);
-                            bpDeclined = true;
-                        }
+                        executorTask2.setResult(accepted ? ProcessResultServiceImpl.INSTANCE.getProcessResult(executorTask.getProcessType()) : ProcessResult.DECLINED);
                         ExecutorTaskImpl.INSTANCE.update(executorTask2);
 
                         if (isCurrentExecutorTask) {
@@ -372,7 +362,6 @@ public class ExecutorTaskServlet extends HttpServlet {
                                     UploadedFileImpl.INSTANCE.save(uploadedFile);
                                 }
                             }
-
                         }
 
                         businessProcessSequence.setCompleted(true);
@@ -382,37 +371,45 @@ public class ExecutorTaskServlet extends HttpServlet {
                         BusinessProcessSequenceImpl.INSTANCE.update(businessProcessSequence);
                     } else if (!businessProcessSequence.isCompleted()) bpCompleted = false;
 
-                    if (((newTaskPosition + 1) == i) && businessProcessSequence.isCompleted())
-                        newTaskPosition++;
+                    if (((newTaskPosition + 1) == i) && businessProcessSequence.isCompleted()) newTaskPosition++;
                 }
 
-                BusinessProcess currentBusinessProcess = businessProcessListEntry.getKey();
+                checkAndCreateNewExecutorTasks(documentEdi, businessProcessListEntry, bpCompleted, accepted, newTaskPosition);
 
-                if (bpCompleted || bpDeclined) {
-                    currentBusinessProcess.setCompleted(true);
-                    currentBusinessProcess.setResult(bpDeclined ? ProcessResult.NEGATIVE : ProcessResult.POSITIVE);
-                    BusinessProcessImpl.INSTANCE.update(currentBusinessProcess);
-                } else if (newTaskPosition != -1) {
-                    for (int i = newTaskPosition + 1; i < businessProcessListEntry.getValue().size(); i++) {
-                        BusinessProcessSequence businessProcessSequence = businessProcessListEntry.getValue().get(i);
+            }
+        }
 
-                        if (Objects.isNull(businessProcessSequence.getExecutorTask())) {
+    }
 
-                            ExecutorTask executorTask2 = new ExecutorTask(timeStamp, currentBusinessProcess, false, currentBusinessProcess.getAuthor(), documentEdi, null, "", null, businessProcessSequence.getProcessType(), new java.sql.Timestamp(finalDate.getTime()), businessProcessSequence.getExecutor(), false, false, false);
-                            ExecutorTaskImpl.INSTANCE.save(executorTask2);
+    private void checkAndCreateNewExecutorTasks(AbstractDocumentEdi documentEdi, Map.Entry<BusinessProcess, List<BusinessProcessSequence>> businessProcessListEntry, boolean bpCompleted, boolean accepted, int newTaskPosition){
 
-                            businessProcessSequence.setDate(timeStamp);
-                            businessProcessSequence.setExecutorTask(executorTask2);
-                            BusinessProcessSequenceImpl.INSTANCE.update(businessProcessSequence);
+        java.sql.Timestamp timeStamp = new Timestamp(new java.util.Date().getTime());
 
-                            ExecutorTaskFolderStructureImpl.INSTANCE.save(new ExecutorTaskFolderStructure(FolderStructure.SENT, executorTask2.getAuthor(), executorTask2, false));
-                            ExecutorTaskFolderStructureImpl.INSTANCE.save(new ExecutorTaskFolderStructure(FolderStructure.INBOX, executorTask2.getExecutor(), executorTask2, false));
+        BusinessProcess currentBusinessProcess = businessProcessListEntry.getKey();
 
-                            if (businessProcessSequence.getOrderBp().equals(ProcessOrderType.AFTER))
-                                i = businessProcessListEntry.getValue().size();
-                        } else i = businessProcessListEntry.getValue().size();
-                    }
-                }
+        if (bpCompleted || !accepted) {
+            currentBusinessProcess.setCompleted(true);
+            currentBusinessProcess.setResult(accepted ? ProcessResult.POSITIVE : ProcessResult.NEGATIVE);
+            BusinessProcessImpl.INSTANCE.update(currentBusinessProcess);
+        } else if (newTaskPosition != -1) {
+            for (int i = newTaskPosition + 1; i < businessProcessListEntry.getValue().size(); i++) {
+                BusinessProcessSequence businessProcessSequence = businessProcessListEntry.getValue().get(i);
+
+                if (Objects.isNull(businessProcessSequence.getExecutorTask())) {
+
+                    ExecutorTask executorTask2 = new ExecutorTask(timeStamp, currentBusinessProcess, false, currentBusinessProcess.getAuthor(), documentEdi, null, "", null, businessProcessSequence.getProcessType(), new java.sql.Timestamp(finalDate.getTime()), businessProcessSequence.getExecutor(), false, false, false);
+                    ExecutorTaskImpl.INSTANCE.save(executorTask2);
+
+                    businessProcessSequence.setDate(timeStamp);
+                    businessProcessSequence.setExecutorTask(executorTask2);
+                    BusinessProcessSequenceImpl.INSTANCE.update(businessProcessSequence);
+
+                    ExecutorTaskFolderStructureImpl.INSTANCE.save(new ExecutorTaskFolderStructure(FolderStructure.SENT, executorTask2.getAuthor(), executorTask2, false));
+                    ExecutorTaskFolderStructureImpl.INSTANCE.save(new ExecutorTaskFolderStructure(FolderStructure.INBOX, executorTask2.getExecutor(), executorTask2, false));
+
+                    if (businessProcessSequence.getOrderBp().equals(ProcessOrderType.AFTER))
+                        i = businessProcessListEntry.getValue().size();
+                } else i = businessProcessListEntry.getValue().size();
             }
         }
 
