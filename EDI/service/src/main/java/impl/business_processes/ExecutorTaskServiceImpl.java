@@ -38,6 +38,7 @@ public enum ExecutorTaskServiceImpl {
                 case '1':  // cell.author.getFio()
                     if (ascSorting) executorTaskList.sort(Comparator.comparing(o -> o.getAuthor().getFio()));
                     else executorTaskList.sort((o1, o2) -> o2.getAuthor().getFio().compareTo(o1.getAuthor().getFio()));
+                    break;
                 case '2':  //cell.document.getDocumentView("dd.MM.yyyy HH:mm:ss")
                     // Just by date. Or it could be document property + date
                     if (ascSorting) executorTaskList.sort(Comparator.comparing(o -> o.getDocument().getDate()));
