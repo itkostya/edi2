@@ -31,57 +31,61 @@ public enum CommonBusinessProcessServiceImpl {
 
     INSTANCE;
 
-    public void createAndStartBusinessProcess(User currentUser, AbstractDocumentEdi m1, ExecutorTask draftExecutorTask, java.sql.Timestamp timeStamp,
+    public void createAndStartBusinessProcess(User currentUser, AbstractDocumentEdi documentEdi, ExecutorTask draftExecutorTask, java.sql.Timestamp timeStamp,
                                                      String[] usersIdArray, String[] orderTypeArray, String[] processTypeArray,
                                                      ProcessType processTypeCommon, String comment, java.sql.Timestamp finalDate) {
 
-        BusinessProcess businessProcess = new BusinessProcess(timeStamp, false, currentUser, finalDate, m1, comment, null);
-        BusinessProcessImpl.INSTANCE.save(businessProcess);
+        if (Objects.nonNull(documentEdi)) {
 
-        boolean createNewTask = true;
+            BusinessProcess businessProcess = new BusinessProcess(timeStamp, false, currentUser, finalDate, documentEdi, comment, null);
+            BusinessProcessImpl.INSTANCE.save(businessProcess);
 
-        for (int k = 0; k < usersIdArray.length; k++) {
+            boolean createNewTask = true;
 
-            ProcessOrderType processOrderType = (Objects.nonNull(orderTypeArray) && (k < orderTypeArray.length) ? ProcessOrderType.values()[Integer.valueOf(orderTypeArray[k])] : null);
+            for (int k = 0; k < usersIdArray.length; k++) {
 
-            ProcessType processType = (Objects.isNull(processTypeCommon) ? (k < processTypeArray.length ? ProcessType.values()[Integer.valueOf(processTypeArray[k])] : null) : processTypeCommon);
+                ProcessOrderType processOrderType = (Objects.nonNull(orderTypeArray) && (k < orderTypeArray.length) ? ProcessOrderType.values()[Integer.valueOf(orderTypeArray[k])] : null);
 
-            User userExecutor = UserImpl.INSTANCE.getUserById(Long.valueOf(usersIdArray[k]));
+                ProcessType processType = (Objects.nonNull(processTypeCommon) ? processTypeCommon :
+                    (k < processTypeArray.length ? documentEdi.getDocumentProperty().getProcessTypeList().get(Integer.valueOf(processTypeArray[k])) : null));
 
-            BusinessProcessSequence businessProcessSequence =
-                    new BusinessProcessSequence(null, businessProcess, userExecutor, false, processOrderType, null, processType, false, null);
-            BusinessProcessSequenceImpl.INSTANCE.save(businessProcessSequence);
+                User userExecutor = UserImpl.INSTANCE.getUserById(Long.valueOf(usersIdArray[k]));
 
-            if ((k == 0) || (createNewTask)) {
-                ExecutorTask executorTask;
-                if (k == 0 && Objects.nonNull(draftExecutorTask)) {
-                    executorTask = draftExecutorTask;
-                    executorTask.setBusinessProcess(businessProcess);
-                    executorTask.setCompleted(false);
-                    executorTask.setProcessType(processType);
-                    executorTask.setExecutor(userExecutor);
-                    executorTask.setDraft(false);
-                    ExecutorTaskImpl.INSTANCE.update(executorTask);
+                BusinessProcessSequence businessProcessSequence =
+                        new BusinessProcessSequence(null, businessProcess, userExecutor, false, processOrderType, null, processType, false, null);
+                BusinessProcessSequenceImpl.INSTANCE.save(businessProcessSequence);
 
-                    for (ExecutorTaskFolderStructure executorTaskFolderStructure : ExecutorTaskFolderStructureImpl.INSTANCE.getExecutorTaskFolderStructureByUser(currentUser, executorTask))
-                        ExecutorTaskFolderStructureImpl.INSTANCE.delete(executorTaskFolderStructure);
+                if ((k == 0) || (createNewTask)) {
+                    ExecutorTask executorTask;
+                    if (k == 0 && Objects.nonNull(draftExecutorTask)) {
+                        executorTask = draftExecutorTask;
+                        executorTask.setBusinessProcess(businessProcess);
+                        executorTask.setCompleted(false);
+                        executorTask.setProcessType(processType);
+                        executorTask.setExecutor(userExecutor);
+                        executorTask.setDraft(false);
+                        ExecutorTaskImpl.INSTANCE.update(executorTask);
 
-                } else {
-                    executorTask = new ExecutorTask(timeStamp, businessProcess, false, currentUser, m1, null, "", null, processType, finalDate, userExecutor, false, false, false);
-                    ExecutorTaskImpl.INSTANCE.save(executorTask);
+                        for (ExecutorTaskFolderStructure executorTaskFolderStructure : ExecutorTaskFolderStructureImpl.INSTANCE.getExecutorTaskFolderStructureByUser(currentUser, executorTask))
+                            ExecutorTaskFolderStructureImpl.INSTANCE.delete(executorTaskFolderStructure);
+
+                    } else {
+                        executorTask = new ExecutorTask(timeStamp, businessProcess, false, currentUser, documentEdi, null, "", null, processType, finalDate, userExecutor, false, false, false);
+                        ExecutorTaskImpl.INSTANCE.save(executorTask);
+                    }
+
+                    businessProcessSequence.setDate(timeStamp);
+                    businessProcessSequence.setExecutorTask(executorTask);
+                    BusinessProcessSequenceImpl.INSTANCE.update(businessProcessSequence);
+
+                    ExecutorTaskFolderStructureImpl.INSTANCE.save(new ExecutorTaskFolderStructure(FolderStructure.SENT, executorTask.getAuthor(), executorTask, false));
+                    ExecutorTaskFolderStructureImpl.INSTANCE.save(new ExecutorTaskFolderStructure(FolderStructure.INBOX, executorTask.getExecutor(), executorTask, false));
+
+                    if (processOrderType == ProcessOrderType.AFTER) createNewTask = false;
+
                 }
 
-                businessProcessSequence.setDate(timeStamp);
-                businessProcessSequence.setExecutorTask(executorTask);
-                BusinessProcessSequenceImpl.INSTANCE.update(businessProcessSequence);
-
-                ExecutorTaskFolderStructureImpl.INSTANCE.save(new ExecutorTaskFolderStructure(FolderStructure.SENT, executorTask.getAuthor(), executorTask, false));
-                ExecutorTaskFolderStructureImpl.INSTANCE.save(new ExecutorTaskFolderStructure(FolderStructure.INBOX, executorTask.getExecutor(), executorTask, false));
-
-                if (processOrderType == ProcessOrderType.AFTER) createNewTask = false;
-
             }
-
         }
 
     }
