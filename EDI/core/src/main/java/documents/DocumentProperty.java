@@ -13,7 +13,7 @@ import java.util.List;
 
 public enum DocumentProperty {
 
-    MESSAGE (0, "Message", "Сообщение", Collections.singletonList(ProcessType.INFORMATION), "ПС", 10,  Arrays.asList("mapHistory","mapStop", "withdrawAvailable")),
+    MESSAGE (0, "Message", "Сообщение", Collections.singletonList(ProcessType.INFORMATION), "ПС", 9,  Arrays.asList("mapHistory","mapStop", "withdrawAvailable")),
     MEMORANDUM(1, "Memorandum", "Служебная записка", Arrays.asList(ProcessType.ACCOMMODATION, ProcessType.INFORMATION, ProcessType.EXECUTION, ProcessType.AFFIRMATION, ProcessType.VISA),"СЗ", 10, Collections.EMPTY_LIST);
 
     private int id;
