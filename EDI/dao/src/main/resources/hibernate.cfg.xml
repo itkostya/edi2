@@ -21,6 +21,7 @@
         <mapping class="abstract_entity.AbstractCategory"/>
         <mapping class="categories.Department"/>
         <mapping class="categories.Position"/>
+        <mapping class="categories.ProposalTemplate"/>
         <mapping class="categories.UploadedFile"/>
         <mapping class="categories.User"/>
 

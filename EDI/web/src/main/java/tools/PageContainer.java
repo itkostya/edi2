@@ -24,6 +24,10 @@ public enum PageContainer {
     public static final String WORK_AREA_PAGE = "/work_area";
     public static final String WORK_AREA_JSP = "WEB-INF/views/jsp/work_area/work_area_main.jsp";
 
+    public static final String CATEGORY_DEPARTMENT_JOURNAL_PAGE = "/cat_department_journal";
+
+    public static final String CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_PAGE = "/cat_proposal_template_journal";
+
     public static final String DOCUMENT_MEMORANDUM_JOURNAL_PAGE = "/doc_memorandum_journal";
     @SuppressWarnings("WeakerAccess")
     public static final String DOCUMENT_MEMORANDUM_JOURNAL_JSP = "WEB-INF/views/jsp/documents/memorandum_journal.jsp";

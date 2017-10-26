@@ -22,6 +22,12 @@ public class Department extends AbstractCategory {
     @OneToMany(mappedBy = "department")
     private Set<User> users = new HashSet<>();
 
+    @OneToMany(mappedBy = "departmentResponsible")
+    private Set<ProposalTemplate> departmentsResponsible = new HashSet<>();
+
+    @OneToMany(mappedBy = "departmentDestination")
+    private Set<ProposalTemplate> departmentsDestination = new HashSet<>();
+
     public Department() {
         super();
     }
@@ -44,4 +50,19 @@ public class Department extends AbstractCategory {
         this.users = users;
     }
 
+    public Set<ProposalTemplate> getDepartmentsResponsible() {
+        return departmentsResponsible;
+    }
+
+    public void setDepartmentsResponsible(Set<ProposalTemplate> departmentsResponsible) {
+        this.departmentsResponsible = departmentsResponsible;
+    }
+
+    public Set<ProposalTemplate> getDepartmentsDestination() {
+        return departmentsDestination;
+    }
+
+    public void setDepartmentsDestination(Set<ProposalTemplate> departmentsDestination) {
+        this.departmentsDestination = departmentsDestination;
+    }
 }
