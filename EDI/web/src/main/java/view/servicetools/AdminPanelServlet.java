@@ -57,7 +57,7 @@ public class AdminPanelServlet extends HttpServlet {
             case 20:
                 CreateData.createCheckFileFolder();
                 break;
-            case 101:
+            case 21:
                 CreateData.createAll();
                 break;
         }

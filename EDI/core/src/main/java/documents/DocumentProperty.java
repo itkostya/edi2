@@ -35,7 +35,7 @@ public enum DocumentProperty {
     }
 
     @SuppressWarnings("unused")
-    public long getId() {
+    public int getId() {
         return id;
     }
 

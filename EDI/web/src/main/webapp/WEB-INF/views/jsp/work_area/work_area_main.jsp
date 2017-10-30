@@ -369,7 +369,7 @@
                         <div>
                             <a href='${pageContext.request.contextPath}/doc_message_journal'>
                                 <img src="${pageContext.request.contextPath}/resources/images/documents/message/work_area.png"
-                                     alt="Сообщение" class="doc_button_blue" name="doc-image"></a>
+                                     alt="Сообщение" class="button_blue" name="doc-image"></a>
                         </div>
                         <div class="number_in_circle" ${isExistsMessageCount ? '' : 'style="background: none;"'}
                              onclick="window.alert('Количество входящих сообщений');">
@@ -381,7 +381,7 @@
                         <div>
                             <a href='${pageContext.request.contextPath}/doc_memorandum_journal'>
                                 <img src="${pageContext.request.contextPath}/resources/images/documents/memorandum/work_area.png"
-                                     alt="Служебная записка" class="doc_button_lime" name="doc-image"></a>
+                                     alt="Служебная записка" class="button_lime" name="doc-image"></a>
                         </div>
                         <div class="number_in_circle" ${isExistsMemorandumCount ? '' : 'style="background: none;"'}
                              onclick="window.alert('Количество входящих служебных записок');">

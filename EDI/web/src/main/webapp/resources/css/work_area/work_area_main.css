@@ -6,13 +6,25 @@
     height: 3%;
 }
 
-.doc_button_blue {
+.button_blue {
     background: rgb(102, 207, 227);
     height: 72px;
     width: 72px;
 }
 
-.doc_button_lime {
+.button_dark_green {
+    background: rgb(60, 159, 113);
+    height: 72px;
+    width: 72px;
+}
+
+.button_golden_rod {
+    background: rgb(200, 150, 50);
+    height: 72px;
+    width: 72px;
+}
+
+.button_lime {
     background: rgb(26, 219, 8);
     height: 72px;
     width: 72px;
