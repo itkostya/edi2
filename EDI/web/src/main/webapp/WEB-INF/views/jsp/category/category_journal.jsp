@@ -1,17 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%--@elvariable id="PageContainer" type="tools"--%>
+<%@ page import="tools.PageContainer"%>
+
 <%--@elvariable id="columnSet" type="Set<? extends SingularAttribute<? extends AbstractCategory, ?>>"--%>
 <%--@elvariable id="ruPluralShortName" type="java.lang.String"--%>
 <%--@elvariable id="ruPluralFullName" type="java.lang.String"--%>
 
 <html>
+
 <head>
     <title>${ruPluralShortName}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
     <jsp:include page="../common/common.jsp"/>
 </head>
+
 <body>
 <script>
 
@@ -29,7 +34,6 @@
         let filterString = '${filterString}';
 
         row = current_table.createTHead().insertRow(0);
-        row.className = "first_row_task_table";
         <c:forEach var="cellCol" items="${columnSet}" varStatus="statusCol">
             insertCellInRow(${statusCol.index}, row, '<button name="sortColumn" class="btn-link2" value="0.' + getColOrder("0", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("0", colNum, colOrd, defSort, '') + '${cellCol.name}</button>'); // Down
         </c:forEach>
@@ -47,8 +51,19 @@
             </c:when></c:choose>
             row.style = row_style;
 
-        </c:forEach>
+            row.ondblclick = function () {
+                onClickOpenElement(${cell.id});
+            };
 
+        </c:forEach>
+    }
+
+    function onClickOpenElement(elementId) {
+        const myForm = document.forms["formOpenElement"];
+        myForm.action = "${pageContext.request.contextPath}${PageContainer.CATEGORY_USER_ELEMENT_PAGE}";
+        myForm.elements["elementId"].value = elementId;
+        myForm.elements["tempId"].value = getRandomInt();
+        myForm.submit();
     }
 
 </script>
@@ -68,7 +83,7 @@
                             Обновить
                         </button>
                     </td>
-                    <td>Снять</td>
+                    <td></td>
                 </tr>
             </table>
         </div>
@@ -76,7 +91,7 @@
                                           onkeyup="onKeyupSearchString(arguments[0],'work_area')"
                                           value="${filterString}"/></div>
     </div>
-    <div style="height:75.5%;" id="div-for-main-table">
+    <div style="height:90%;" id="div-for-main-table">
         <div class="table-wrapper">
             <div class="table-scroll-review-tasks">
                 <table class="table-category" id="table-category"></table>
@@ -85,5 +100,11 @@
     </div>
 
 </form>
+
+<form hidden id="formOpenElement" target="_blank">
+    <input type="hidden" name="elementId"/>
+    <input type="hidden" name="tempId"/>
+</form>
+
 </body>
 </html>

@@ -1,8 +1,12 @@
 package hibernate.impl.categories;
 
 import abstract_entity.AbstractCategory;
+import abstract_entity.AbstractDocumentEdi;
 import categories.Department;
 import categories.Position;
+import categories.User;
+import exсeption.AbstractCategoryNotFoundException;
+import exсeption.AbstractDocumentEdiNotFoundException;
 import hibernate.HibernateDAO;
 import hibernate.HibernateUtil;
 import org.hibernate.Session;
@@ -36,6 +40,17 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
         Session session = HibernateUtil.getSessionWithTransaction();
         session.delete(abstractCategory);
         HibernateUtil.closeSessionWithTransaction(session);
+    }
+
+    public AbstractCategory getById(Class<? extends AbstractCategory> abstractCategoryClass, Long id) {
+
+        Session session = HibernateUtil.getSession();
+        AbstractCategory abstractCategory = session.get(abstractCategoryClass, id);
+        if (abstractCategory == null) throw new AbstractCategoryNotFoundException(abstractCategoryClass, id);
+        session.close();
+
+        return abstractCategory;
+
     }
 
     public List<AbstractCategory> getCategoryTable(Class<? extends AbstractCategory> abstractCategoryClass, String filterString) {

@@ -282,7 +282,8 @@ a.button-disabled{
 .table-tasks,
 .table-whom,
 .table-files,
-.table-category
+.table-category,
+.table-attributes
 {
     width: 100%;
     border-collapse: collapse;
@@ -300,7 +301,8 @@ a.button-disabled{
 .table-tasks TBODY TD,
 .table-whom TBODY TD,
 .table-files TBODY TD,
-.table-category TBODY TD
+.table-category TBODY TD,
+.table-attributes TBODY TD
 {
     margin:0;
     padding:0;
@@ -313,7 +315,8 @@ a.button-disabled{
 .table-tasks THEAD TD,
 .table-whom THEAD TD,
 .table-files THEAD TD,
-.table-category THEAD TD
+.table-category THEAD TD,
+.table-attributes THEAD TD
 {
     margin:0;
     padding:0;
@@ -322,7 +325,8 @@ a.button-disabled{
 
 .table-tasks tbody tr:hover,
 .table-whom tbody tr:hover,
-.table-category tbody tr:hover
+.table-category tbody tr:hover,
+.table-attributes tbody tr:hover
 {
     background: rgb(204, 255, 204) !important;
 }
@@ -336,7 +340,8 @@ a.button-disabled{
 .table-coworkers thead,
 .table-whom thead,
 .table-files thead,
-.table-category thead
+.table-category thead,
+.table-attributes thead
 {
     background: rgb(240, 255, 240) !important;
 }
