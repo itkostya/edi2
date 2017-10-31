@@ -9,6 +9,7 @@
 <head>
     <title>${ruPluralShortName}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
     <jsp:include page="../common/common.jsp"/>
 </head>
 <body>
