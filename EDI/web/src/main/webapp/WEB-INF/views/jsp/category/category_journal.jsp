@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%--@elvariable id="columnSet" type="Set<? extends SingularAttribute<? extends AbstractCategory, ?>>"--%>
 <%--@elvariable id="ruPluralShortName" type="java.lang.String"--%>
 <%--@elvariable id="ruPluralFullName" type="java.lang.String"--%>
 
@@ -36,7 +37,7 @@
         <c:forEach var="cell" items="${categoryTable}" varStatus="status">
             row = body.insertRow(${status.index});
             <c:forEach var="cellCol" items="${columnSet}" varStatus="statusCol">
-                insertCellInRow(${statusCol.index}, row, '${cell[cellCol.name]}', filterString);
+                insertCellInRow(${statusCol.index}, row, '${((cellCol.getType().getPersistenceType() == "BASIC")? cell[cellCol.name]: cell[cellCol.name].name)}', filterString);
             </c:forEach>
 
             row_style = "";

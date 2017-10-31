@@ -1,17 +1,19 @@
 package hibernate.impl.categories;
 
 import abstract_entity.AbstractCategory;
+import categories.Department;
+import categories.Position;
 import hibernate.HibernateDAO;
 import hibernate.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.metamodel.internal.SingularAttributeImpl;
 
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import javax.persistence.metamodel.SingularAttribute;
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
@@ -41,9 +43,9 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
 
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery(abstractCategoryClass);
-        Root categoryRoot = cq.from(abstractCategoryClass);
-//        Join<AbstractCategory, Position> positionJoin = userRoot.join("position", JoinType.LEFT);
-//        Join<AbstractCategory, Department> departmentJoin = userRoot.join("department", JoinType.LEFT);
+        Root<AbstractCategory> categoryRoot = cq.from(abstractCategoryClass);
+//        Join<AbstractCategory, Position> positionJoin = categoryRoot.join("position", JoinType.LEFT);
+//        Join<AbstractCategory, Department> departmentJoin = categoryRoot.join("department", JoinType.LEFT);
 
         cq.where((("".equals(filterString) || Objects.isNull(filterString)) ? cb.and() :
                         cb.or(
@@ -66,16 +68,17 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
     public Set<? extends SingularAttribute<? extends AbstractCategory, ?>> getCategoryColumns(Class<? extends AbstractCategory> abstractCategoryClass, String filterString) {
             Session session = HibernateUtil.getSession();
 
+        // TODO: Union of 2 sets should be type casted
         Set<? extends SingularAttribute<? extends AbstractCategory, ?>> set = new HashSet<>(HibernateUtil.getSession().getMetamodel().managedType(abstractCategoryClass).getDeclaredSingularAttributes()) ;
         Set set2 = new HashSet<>(HibernateUtil.getSession().getMetamodel().managedType(AbstractCategory.class).getDeclaredSingularAttributes());
         set.addAll(set2);
         set = set.stream().filter(
-                o -> !o.getName().equals("position")
-               // && !o.getName().equals("department")
-                && !o.getName().equals("isFolder")
+                o ->
+                !o.getName().equals("isFolder")
         ).collect(Collectors.toSet());
 
         session.close();
+
         return set;
     }
 
