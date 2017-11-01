@@ -27,14 +27,14 @@
 
         row = current_table.createTHead().insertRow(0);
         insertCellInRow(0, row, 'Field', "");
-        insertCellInRow(0, row, 'Value', "");
+        insertCellInRow(1, row, 'Value', "");
 
         body = current_table.appendChild(document.createElement('tbody'));
         <c:forEach var="cellCol" items="${columnSet}" varStatus="statusCol">
 
             row = body.insertRow(${statusCol.index});
             insertCellInRow(0, row, '${cellCol.name}', "");
-            insertCellInRow(1, row, '<div contenteditable>${((cellCol.getType().getPersistenceType() == "BASIC")? categoryElement[cellCol.name]: categoryElement[cellCol.name].name)}</div>', "");
+            insertCellInRow(1, row, '<div ${((cellCol.name=="id") ? "": "contenteditable")}>${((cellCol.getType().getPersistenceType() == "BASIC")? categoryElement[cellCol.name]: categoryElement[cellCol.name].name)}</div>', "");
 
             row_style = "";
             <c:choose><c:when test="${(statusCol.index % 2) == 0}">
@@ -42,16 +42,45 @@
             </c:when></c:choose>
             row.style = row_style;
 
-            <%--row.ondblclick = function () {--%>
-                <%--onClickOpenElement(${cellCol.id});--%>
-            <%--};--%>
+            row.onkeyup = function () {
+                onKeyUpElement(${cellCol.id});
+            };
 
         </c:forEach>
 
     }
 
+    function onKeyUpElement(elementId) {
+        event.currentTarget.cells[1].style = " color: red ";
+    }
+
+    function saveData() {
+        const formData = new FormData(document.forms["formSaveElement"]);
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "${pageContext.request.contextPath}${PageContainer.CATEGORY_USER_ELEMENT_PAGE}", true);
+
+        //var json = JSON.stringify([{ domain: "kkk", id:"10L"}, { domain: "kkk2", id: "100L"}]);
+        var json = JSON.stringify([{ field: "kkk", value:"10L"}, { field: "kkk2", value: "100L"}]);
+
+        formData.append("param", json);
+        xhr.send(formData);
+    }
+
 </script>
-</body>
+
+<div class="horizontal">
+    <div class="div-like-button"
+         onclick="saveData();" id="command-save">
+        <div class="command-bar-save"></div>
+        Save
+    </div>
+
+    <div>
+        <button name="param" value="close" id="command-bar-close" onClick="window.close();">
+            <img class="command-bar-close" src="${pageContext.request.contextPath}/resources/images/command-bar/close.png"/>Close
+        </button>
+    </div>
+</div>
 
 <div style="height:90%;" id="div-for-table-attributes">
     <div class="table-wrapper">
@@ -60,5 +89,11 @@
         </div>
     </div>
 </div>
+
+<form hidden id="formSaveElement">
+    <input type="hidden" name="elementId"/>
+</form>
+
+</body>
 
 </html>
