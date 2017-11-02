@@ -60,7 +60,8 @@
 
     function onClickOpenElement(elementId) {
         const myForm = document.forms["formOpenElement"];
-        myForm.action = "${pageContext.request.contextPath}${PageContainer.CATEGORY_USER_ELEMENT_PAGE}";
+        // TODO: I need analogue of location.pathname in jsp instead of PageContainer.CATEGORY_USER_JOURNAL_PAGE
+        myForm.action = "${pageContext.request.contextPath}${PageContainer.getElementFromJournal( PageContainer.CATEGORY_USER_JOURNAL_PAGE)}";
         myForm.elements["elementId"].value = elementId;
         myForm.elements["tempId"].value = getRandomInt();
         myForm.submit();

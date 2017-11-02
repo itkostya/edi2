@@ -23,8 +23,7 @@ public class CategoryJournal extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        //if (SessionParameter.INSTANCE.accessAllowed(req)) {
-        if (true){
+        if (SessionParameter.INSTANCE.accessAllowed(req)) {
             setAttributesForCategory(req, PageContainer.getPageName(req.getRequestURI()));
             req.getRequestDispatcher(PageContainer.getJspName(req.getRequestURI())).forward(req, resp);
         }

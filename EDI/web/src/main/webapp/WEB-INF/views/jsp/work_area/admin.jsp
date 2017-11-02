@@ -13,6 +13,12 @@
 </head>
 
 <body>
+
+<div>${pageContext.request.pathInfo} </div>
+<div>${pageContext.request.requestURI} </div>
+<div>${pageContext.request.requestURL} </div>
+<div>${pageContext.request.servletPath} </div>
+
 <div class="container form-welcome">
 
     <h2 class="form-welcome-heading">Administration Panel</h2>
@@ -35,6 +41,10 @@
         <div>
             <button name="param" value= "20" hidden> Create (check) folder for files</button>
             <button name="param" value= "21" hidden> Create ALL</button>
+        </div>
+
+        <div>
+            <button name="param" value= "31"> Admin access (temp) </button>
         </div>
 
         <div>

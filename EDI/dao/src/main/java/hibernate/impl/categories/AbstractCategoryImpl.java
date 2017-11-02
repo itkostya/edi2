@@ -89,7 +89,8 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
         set.addAll(set2);
         set = set.stream().filter(
                 o ->
-                !o.getName().equals("isFolder")
+                    //!o.getName().equals("fio") &&
+                    !o.getName().equals("isFolder")
         ).collect(Collectors.toSet());
 
         session.close();

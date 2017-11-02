@@ -6,7 +6,10 @@ package abstract_entity;
 * Created by kostya on 9/2/2016.
 */
 
+import categories.User;
+
 import javax.persistence.*;
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 @MappedSuperclass
@@ -27,7 +30,7 @@ public abstract class AbstractCategory {
     private Long code;  // String and Long ?
 
 //    @Column(name = "PARENT")
- //   private AbstractCategory parent;
+    //   private AbstractCategory parent;
 
     @Column(name = "is_folder")
     private boolean isFolder;

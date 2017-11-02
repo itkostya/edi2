@@ -1,9 +1,14 @@
+<%--@elvariable id="ElementStatus" type="enumerations"--%>
+<%@ page import="model.ElementStatus" %>
+
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--@elvariable id="categoryElement" type="abstract_entity.AbstractCategory"--%>
 <%--@elvariable id="columnSet" type="Set<? extends SingularAttribute<? extends AbstractCategory, ?>>"--%>
+<%--@elvariable id="infoResult" type="java.lang.String"--%>
 <%--@elvariable id="ruPluralShortName" type="java.lang.String"--%>
+<%--@elvariable id="sessionDataElement" type="model.SessionDataElement"--%>
 
 <html>
 <head>
@@ -17,6 +22,10 @@
 <script>
 
     window.onload = function () {
+        <c:choose>
+        <c:when test="${sessionDataElement.elementStatus == ElementStatus.CLOSE}">window.close();
+        </c:when>
+        </c:choose>
         refreshAttributes(document.getElementById("table-attributes"));
     };
 
@@ -57,13 +66,34 @@
     function saveData() {
         const formData = new FormData(document.forms["formSaveElement"]);
         const xhr = new XMLHttpRequest();
-        xhr.open("POST", "${pageContext.request.contextPath}${PageContainer.CATEGORY_USER_ELEMENT_PAGE}", true);
 
-        //var json = JSON.stringify([{ domain: "kkk", id:"10L"}, { domain: "kkk2", id: "100L"}]);
-        var json = JSON.stringify([{ field: "kkk", value:"10L"}, { field: "kkk2", value: "100L"}]);
+        // location.pathname
+        xhr.open("POST", "${pageContext.request.contextPath}${ PageContainer.CATEGORY_USER_ELEMENT_PAGE}", true);
 
-        formData.append("param", json);
+        let current_table = document.getElementById("table-attributes");
+        let body;
+        let jsonString = "";
+
+        body = current_table.tBodies[0];
+        <c:forEach var="cellCol" items="${columnSet}" varStatus="statusCol">
+            if (body.rows[${statusCol.index}].cells[1].firstChild.innerHTML !== ""){
+                jsonString+= " "+body.rows[${statusCol.index}].cells[0].innerHTML+": '"+body.rows[${statusCol.index}].cells[1].firstChild.innerHTML+"',";
+            }
+        </c:forEach>
+
+        formData.append("param", "{"+jsonString.slice(0, jsonString.length - 1)+" }");
         xhr.send(formData);
+
+        xhr.onerror = function () {
+            afterErrorPageCheckResult(xhr);
+        };
+        xhr.onload = function () {
+            afterLoadingPageCheckResult(xhr, false);
+        };
+
+        let button = document.getElementById("info_result");
+        button.innerHTML = "Сохранение..." + getHtmlBlackoutAndLoading();
+        button.disabled = true;
     }
 
 </script>
@@ -80,6 +110,9 @@
             <img class="command-bar-close" src="${pageContext.request.contextPath}/resources/images/command-bar/close.png"/>Close
         </button>
     </div>
+
+    <div id="info_result">${infoResult}</div>
+
 </div>
 
 <div style="height:90%;" id="div-for-table-attributes">

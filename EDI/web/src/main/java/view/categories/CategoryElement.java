@@ -1,12 +1,13 @@
 package view.categories;
 
+import categories.User;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonSyntaxException;
 import hibernate.impl.categories.AbstractCategoryImpl;
 import impl.categories.AbstractCategoryServiceImpl;
+import model.ElementStatus;
+import model.SessionDataElement;
+import model.SessionParameter;
 import tools.CommonModule;
 import tools.PageContainer;
 
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
+import java.util.Objects;
 
 @WebServlet(urlPatterns = {
         PageContainer.CATEGORY_DEPARTMENT_ELEMENT_PAGE,
@@ -31,9 +32,13 @@ public class CategoryElement extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        //if (SessionParameter.INSTANCE.accessAllowed(req)) {
-        if (true){
+        if (SessionParameter.INSTANCE.accessAllowed(req)) {
+
+            Long tempId = (Long) CommonModule.getNumberFromRequest(req, "tempId", Long.class);
+            SessionDataElement sessionDataElement = SessionParameter.INSTANCE.getUserSettings(req).getSessionDataElement(tempId);
+
             setAttributesForCategory(req, PageContainer.getPageName(req.getRequestURI()));
+            req.setAttribute("sessionDataElement", sessionDataElement);
             req.getRequestDispatcher(PageContainer.getJspName(req.getRequestURI())).forward(req, resp);
         }
         else {
@@ -45,19 +50,36 @@ public class CategoryElement extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("doPost CategoryElement");
 
-//        java.lang.reflect.Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
-//        Gson gson = new Gson();
-//        Map<String, Object> result = gson.fromJson(req.getParameter("param"), mapType );
+        User userEdit = null;
 
-        //https://stackoverflow.com/questions/443499/convert-json-to-map
+        Long tempId = (Long) CommonModule.getNumberFromRequest(req, "tempId", Long.class);
+        SessionDataElement sessionDataElement = SessionParameter.INSTANCE.getUserSettings(req).getSessionDataElement(tempId);
 
-        JsonElement root = new JsonParser().parse(req.getParameter("param"));
-        //JsonObject object = root.getAsJsonArray().getAsJsonObject().get("shopping_list").getAsJsonObject();
-        Map<String, Object> result = null;
+        Gson gson = new Gson();  //https://stackoverflow.com/questions/443499/convert-json-to-map
+        try {
+            userEdit = gson.fromJson(req.getParameter("param"), User.class);
+        }catch (JsonSyntaxException e){
+            e.printStackTrace();
+            sessionDataElement.setErrorMessage("JsonSyntaxException");
+            sessionDataElement.setElementStatus(ElementStatus.ERROR);
+        }
 
-        System.out.println(result);
+        if (Objects.nonNull(userEdit)
+                && Objects.nonNull(userEdit.getId())){
+            Long elementId = (Long) CommonModule.getNumberFromRequest(req, "elementId", Long.class);
+            if (userEdit.getId().equals(elementId)){
+                // Update element
+                AbstractCategoryImpl.INSTANCE.update(userEdit);
+                sessionDataElement.setElementStatus(ElementStatus.CLOSE);
+            }
+        }
+
+        req.setAttribute("infoResult", sessionDataElement.getErrorMessage());
+        req.setAttribute("sessionDataElement", sessionDataElement);
+
+        req.getRequestDispatcher(PageContainer.getJspName(req.getRequestURI())).forward(req, resp);
+
        }
 
    private void setAttributesForCategory(HttpServletRequest req, String pageName){

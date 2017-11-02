@@ -1,6 +1,9 @@
 package view.servicetools;
 
 
+import categories.User;
+import hibernate.impl.categories.UserImpl;
+import model.SessionParameter;
 import service_tools.CreateData;
 import tools.PageContainer;
 
@@ -60,9 +63,14 @@ public class AdminPanelServlet extends HttpServlet {
             case 21:
                 CreateData.createAll();
                 break;
+            case 31:
+                SessionParameter.INSTANCE.setCurrentUser(req, UserImpl.INSTANCE.getUserById(9L));
+                break;
         }
 
         System.out.println(param);
+
+        doGet(req, resp);
 
     }
 }

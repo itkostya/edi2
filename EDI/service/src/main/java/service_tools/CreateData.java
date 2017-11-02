@@ -7,6 +7,7 @@ import business_processes.ExecutorTaskFolderStructure;
 import categories.Department;
 import categories.Position;
 import categories.User;
+import documents.DocumentProperty;
 import documents.Memorandum;
 import documents.Message;
 import enumerations.FolderStructure;
