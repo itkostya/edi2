@@ -1,6 +1,5 @@
 package view.categories;
 
-import categories.User;
 import impl.categories.AbstractCategoryServiceImpl;
 import model.SessionParameter;
 import tools.PageContainer;
@@ -35,7 +34,7 @@ public class CategoryJournal extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("doPost CategoryJournal");
+        doGet(req, resp);
     }
 
     private void setAttributesForCategory(HttpServletRequest req, String pageName){
@@ -46,6 +45,8 @@ public class CategoryJournal extends HttpServlet {
                 AbstractCategoryServiceImpl.INSTANCE.getCategoryTable( PageContainer.getAbstractCategoryClass(req.getRequestURI()), ""));
         req.setAttribute("columnSet",
                 AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI()), ""));
+        req.setAttribute("elementPageName",
+                PageContainer.getElementPage(req.getRequestURI()));
 
 
     }

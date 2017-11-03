@@ -162,9 +162,9 @@ public enum PageContainer {
         throw new PageContainerNotFoundException("getCategoryProperty - requestURI: "+requestURI);
     }
 
-    public static String getElementFromJournal(String journalPage){
+    public static String getElementPage(String requestURI){
 
-        switch (journalPage){
+        switch (requestURI){
             case PageContainer.CATEGORY_DEPARTMENT_JOURNAL_PAGE:
                 return PageContainer.CATEGORY_DEPARTMENT_ELEMENT_PAGE;
             case PageContainer.CATEGORY_POSITION_JOURNAL_PAGE:
@@ -174,7 +174,7 @@ public enum PageContainer {
             case PageContainer.CATEGORY_USER_JOURNAL_PAGE:
                 return PageContainer.CATEGORY_USER_ELEMENT_PAGE;
         }
-        throw new PageContainerNotFoundException("getElementFromJournal - journalPage: "+journalPage);
+        throw new PageContainerNotFoundException("getElementType - requestURI: "+requestURI);
     }
 
 

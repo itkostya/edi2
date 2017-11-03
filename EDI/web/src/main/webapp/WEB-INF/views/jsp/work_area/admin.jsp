@@ -14,10 +14,11 @@
 
 <body>
 
-<div>${pageContext.request.pathInfo} </div>
-<div>${pageContext.request.requestURI} </div>
-<div>${pageContext.request.requestURL} </div>
-<div>${pageContext.request.servletPath} </div>
+<div>pathInfo: ${pageContext.request.pathInfo} </div>
+<div>requestURI: ${pageContext.request.requestURI} </div>
+<div>requestURL: ${pageContext.request.requestURL} </div>
+<div>servletPath: ${pageContext.request.servletPath} </div>
+<div>getRequestURI(): ${pageContext.request.getRequestURI()} </div>
 
 <div class="container form-welcome">
 

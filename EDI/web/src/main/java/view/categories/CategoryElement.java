@@ -1,6 +1,6 @@
 package view.categories;
 
-import categories.User;
+import abstract_entity.AbstractCategory;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import hibernate.impl.categories.AbstractCategoryImpl;
@@ -51,26 +51,26 @@ public class CategoryElement extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        User userEdit = null;
+        AbstractCategory elementEditable = null;
 
         Long tempId = (Long) CommonModule.getNumberFromRequest(req, "tempId", Long.class);
         SessionDataElement sessionDataElement = SessionParameter.INSTANCE.getUserSettings(req).getSessionDataElement(tempId);
 
-        Gson gson = new Gson();  //https://stackoverflow.com/questions/443499/convert-json-to-map
+        Gson gson = new Gson();
         try {
-            userEdit = gson.fromJson(req.getParameter("param"), User.class);
+            elementEditable = gson.fromJson(req.getParameter("param"), PageContainer.getAbstractCategoryClass(req.getRequestURI()) );
         }catch (JsonSyntaxException e){
             e.printStackTrace();
-            sessionDataElement.setErrorMessage("JsonSyntaxException");
+            sessionDataElement.setErrorMessage("JsonSyntaxException: "+e.getMessage());
             sessionDataElement.setElementStatus(ElementStatus.ERROR);
         }
 
-        if (Objects.nonNull(userEdit)
-                && Objects.nonNull(userEdit.getId())){
-            Long elementId = (Long) CommonModule.getNumberFromRequest(req, "elementId", Long.class);
-            if (userEdit.getId().equals(elementId)){
+        if (Objects.nonNull(elementEditable)
+                && Objects.nonNull(elementEditable.getId())){
+            Long elementRequestId = (Long) CommonModule.getNumberFromRequest(req, "elementId", Long.class);
+            if (elementEditable.getId().equals(elementRequestId)){
                 // Update element
-                AbstractCategoryImpl.INSTANCE.update(userEdit);
+                AbstractCategoryImpl.INSTANCE.update(elementEditable);
                 sessionDataElement.setElementStatus(ElementStatus.CLOSE);
             }
         }

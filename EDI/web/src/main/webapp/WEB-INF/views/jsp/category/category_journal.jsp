@@ -1,10 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%--@elvariable id="PageContainer" type="tools"--%>
-<%@ page import="tools.PageContainer"%>
-
 <%--@elvariable id="columnSet" type="Set<? extends SingularAttribute<? extends AbstractCategory, ?>>"--%>
+<%--@elvariable id="elementPageName" type="java.lang.String"--%>
 <%--@elvariable id="ruPluralShortName" type="java.lang.String"--%>
 <%--@elvariable id="ruPluralFullName" type="java.lang.String"--%>
 
@@ -60,8 +58,7 @@
 
     function onClickOpenElement(elementId) {
         const myForm = document.forms["formOpenElement"];
-        // TODO: I need analogue of location.pathname in jsp instead of PageContainer.CATEGORY_USER_JOURNAL_PAGE
-        myForm.action = "${pageContext.request.contextPath}${PageContainer.getElementFromJournal( PageContainer.CATEGORY_USER_JOURNAL_PAGE)}";
+        myForm.action = "${pageContext.request.contextPath}${elementPageName}";
         myForm.elements["elementId"].value = elementId;
         myForm.elements["tempId"].value = getRandomInt();
         myForm.submit();
@@ -70,15 +67,15 @@
 </script>
 
 <div style="height:3%"><h2 class="left_up_panel">${ruPluralFullName}</h2></div>
-<form method="post" action="${pageContext.request.contextPath}/smth" style="overflow:hidden; height:96%"
-      autocomplete="off" name="work_area" id="work_area">
+<form method="post" action="${pageContext.request.contextPath}" style="overflow:hidden; height:96%"
+      autocomplete="off" name="category_journal" id="category_journal">
 
     <div style="height:6%" class="horizontal">
         <div>
             <table>
                 <tr>
                     <td>
-                        <button name="bookMark" value='markedTasksList'>
+                        <button>
                             <img class="command-bar-refresh"
                                  src="${pageContext.request.contextPath}/resources/images/refresh.png">
                             Обновить

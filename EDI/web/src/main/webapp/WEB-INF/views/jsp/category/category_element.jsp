@@ -67,8 +67,7 @@
         const formData = new FormData(document.forms["formSaveElement"]);
         const xhr = new XMLHttpRequest();
 
-        // location.pathname
-        xhr.open("POST", "${pageContext.request.contextPath}${ PageContainer.CATEGORY_USER_ELEMENT_PAGE}", true);
+        xhr.open("POST", "${pageContext.request.contextPath}", true);
 
         let current_table = document.getElementById("table-attributes");
         let body;
