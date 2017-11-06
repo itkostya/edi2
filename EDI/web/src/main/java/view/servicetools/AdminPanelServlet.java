@@ -1,7 +1,6 @@
 package view.servicetools;
 
 
-import categories.User;
 import hibernate.impl.categories.UserImpl;
 import model.SessionParameter;
 import service_tools.CreateData;

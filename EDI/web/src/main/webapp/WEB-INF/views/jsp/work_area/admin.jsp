@@ -14,12 +14,6 @@
 
 <body>
 
-<div>pathInfo: ${pageContext.request.pathInfo} </div>
-<div>requestURI: ${pageContext.request.requestURI} </div>
-<div>requestURL: ${pageContext.request.requestURL} </div>
-<div>servletPath: ${pageContext.request.servletPath} </div>
-<div>getRequestURI(): ${pageContext.request.getRequestURI()} </div>
-
 <div class="container form-welcome">
 
     <h2 class="form-welcome-heading">Administration Panel</h2>

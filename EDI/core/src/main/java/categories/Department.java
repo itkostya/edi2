@@ -20,13 +20,13 @@ import java.util.Set;
 public class Department extends AbstractCategory {
 
     @OneToMany(mappedBy = "department")
-    private Set<User> users = new HashSet<>();
+    private transient Set<User> users = new HashSet<>();
 
     @OneToMany(mappedBy = "departmentResponsible")
-    private Set<ProposalTemplate> departmentsResponsible = new HashSet<>();
+    private transient Set<ProposalTemplate> departmentsResponsible = new HashSet<>();
 
     @OneToMany(mappedBy = "departmentDestination")
-    private Set<ProposalTemplate> departmentsDestination = new HashSet<>();
+    private transient Set<ProposalTemplate> departmentsDestination = new HashSet<>();
 
     public Department() {
         super();

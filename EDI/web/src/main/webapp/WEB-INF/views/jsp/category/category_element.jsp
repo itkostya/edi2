@@ -37,13 +37,15 @@
         row = current_table.createTHead().insertRow(0);
         insertCellInRow(0, row, 'Field', "");
         insertCellInRow(1, row, 'Value', "");
+        row.insertCell(2).outerHTML = "<td hidden>Code</td>";
 
         body = current_table.appendChild(document.createElement('tbody'));
         <c:forEach var="cellCol" items="${columnSet}" varStatus="statusCol">
 
             row = body.insertRow(${statusCol.index});
             insertCellInRow(0, row, '${cellCol.name}', "");
-            insertCellInRow(1, row, '<div ${((cellCol.name=="id") ? "": "contenteditable")}>${((cellCol.getType().getPersistenceType() == "BASIC")? categoryElement[cellCol.name]: categoryElement[cellCol.name].name)}</div>', "");
+            insertCellInRow(1, row, '<div ${((cellCol.name=="id") ? "": "contenteditable=true")}>${((cellCol.getType().getPersistenceType() == "BASIC")? categoryElement[cellCol.name]: categoryElement[cellCol.name].name)}</div>', "");
+            row.insertCell(2).outerHTML = '<td hidden>${((cellCol.getType().getPersistenceType() == "BASIC")? "-": categoryElement[cellCol.name].id)}</td>';
 
             row_style = "";
             <c:choose><c:when test="${(statusCol.index % 2) == 0}">
@@ -76,10 +78,11 @@
         body = current_table.tBodies[0];
         <c:forEach var="cellCol" items="${columnSet}" varStatus="statusCol">
             if (body.rows[${statusCol.index}].cells[1].firstChild.innerHTML !== ""){
-                jsonString+= " "+body.rows[${statusCol.index}].cells[0].innerHTML+": '"+body.rows[${statusCol.index}].cells[1].firstChild.innerHTML+"',";
+                jsonString+= " "+body.rows[${statusCol.index}].cells[0].innerHTML+": "+(body.rows[${statusCol.index}].cells[2].firstChild.data ==='-' ? "'"+body.rows[${statusCol.index}].cells[1].firstChild.innerHTML+"'" : "{ 'id': '"+body.rows[${statusCol.index}].cells[2].firstChild.data+"'}")+",";
             }
         </c:forEach>
 
+        //formData.append("param", "{'lastName':'Чегалкин','firstName':'Сергей','middleName':'Викторович','login':'it_director','password':'123','position':{'id':'3'},'department':{'id':'1'},'fio':'Чегалкин Сергей Викторович','id':'10','name':'it_director','deletionMark':'false','isFolder':'false'}");
         formData.append("param", "{"+jsonString.slice(0, jsonString.length - 1)+" }");
         xhr.send(formData);
 

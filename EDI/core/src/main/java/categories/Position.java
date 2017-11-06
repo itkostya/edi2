@@ -19,7 +19,7 @@ import java.util.Set;
 public class Position extends AbstractCategory{
 
     @OneToMany(mappedBy = "position")
-    private Set<User> users = new HashSet<>();
+    private transient Set<User> users = new HashSet<>();
 
     public Position() {
         super();
