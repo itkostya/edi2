@@ -28,21 +28,29 @@ public enum PageContainer {
     public static final String WORK_AREA_PAGE = "/work_area";
     public static final String WORK_AREA_JSP = "WEB-INF/views/jsp/work_area/work_area_main.jsp";
 
+    public static final String CATEGORY_DEPARTMENT_CHOICE_PAGE = "/cat_department_choice";
+    public static final String CATEGORY_DEPARTMENT_CHOICE_JSP = "WEB-INF/views/jsp/category/category_choice.jsp";
     public static final String CATEGORY_DEPARTMENT_ELEMENT_PAGE = "/cat_department_element";
     public static final String CATEGORY_DEPARTMENT_ELEMENT_JSP = "WEB-INF/views/jsp/category/category_element.jsp";
     public static final String CATEGORY_DEPARTMENT_JOURNAL_PAGE = "/cat_department_journal";
     public static final String CATEGORY_DEPARTMENT_JOURNAL_JSP = "WEB-INF/views/jsp/category/category_journal.jsp";
 
+    public static final String CATEGORY_POSITION_CHOICE_PAGE = "/cat_position_choice";
+    public static final String CATEGORY_POSITION_CHOICE_JSP = "WEB-INF/views/jsp/category/category_choice.jsp";
     public static final String CATEGORY_POSITION_ELEMENT_PAGE = "/cat_position_element";
     public static final String CATEGORY_POSITION_ELEMENT_JSP = "WEB-INF/views/jsp/category/category_element.jsp";
     public static final String CATEGORY_POSITION_JOURNAL_PAGE = "/cat_position_journal";
     public static final String CATEGORY_POSITION_JOURNAL_JSP = "WEB-INF/views/jsp/category/category_journal.jsp";
 
+    public static final String CATEGORY_PROPOSAL_TEMPLATE_CHOICE_PAGE = "/cat_proposal_template_choice";
+    public static final String CATEGORY_PROPOSAL_TEMPLATE_CHOICE_JSP = "WEB-INF/views/jsp/category/category_choice.jsp";
     public static final String CATEGORY_PROPOSAL_TEMPLATE_ELEMENT_PAGE = "/cat_proposal_template_element";
     public static final String CATEGORY_PROPOSAL_TEMPLATE_ELEMENT_JSP = "WEB-INF/views/jsp/category/category_element.jsp";
     public static final String CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_PAGE = "/cat_proposal_template_journal";
     public static final String CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_JSP = "WEB-INF/views/jsp/category/category_journal.jsp";
 
+    public static final String CATEGORY_USER_CHOICE_PAGE = "/cat_user_choice";
+    public static final String CATEGORY_USER_CHOICE_JSP = "WEB-INF/views/jsp/category/category_choice.jsp";
     public static final String CATEGORY_USER_ELEMENT_PAGE = "/cat_user_element";
     public static final String CATEGORY_USER_ELEMENT_JSP = "WEB-INF/views/jsp/category/category_element.jsp";
     public static final String CATEGORY_USER_JOURNAL_PAGE = "/cat_user_journal";
@@ -80,15 +88,19 @@ public enum PageContainer {
     public static String getPageName(String requestURI){
 
         switch (requestURI){
+            case PageContainer.CATEGORY_DEPARTMENT_CHOICE_PAGE:
             case PageContainer.CATEGORY_DEPARTMENT_ELEMENT_PAGE:
             case PageContainer.CATEGORY_DEPARTMENT_JOURNAL_PAGE:
                 return "Department";
+            case PageContainer.CATEGORY_POSITION_CHOICE_PAGE:
             case PageContainer.CATEGORY_POSITION_ELEMENT_PAGE:
             case PageContainer.CATEGORY_POSITION_JOURNAL_PAGE:
                 return "Position";
+            case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_CHOICE_PAGE:
             case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_ELEMENT_PAGE:
             case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_PAGE:
                 return "Proposal template";
+            case PageContainer.CATEGORY_USER_CHOICE_PAGE:
             case PageContainer.CATEGORY_USER_ELEMENT_PAGE:
             case PageContainer.CATEGORY_USER_JOURNAL_PAGE:
                 return "User";
@@ -101,12 +113,16 @@ public enum PageContainer {
     public static String getJspName(String requestURI){
 
         switch (requestURI){
+            case PageContainer.CATEGORY_DEPARTMENT_CHOICE_PAGE: return PageContainer.CATEGORY_DEPARTMENT_CHOICE_JSP;
             case PageContainer.CATEGORY_DEPARTMENT_ELEMENT_PAGE: return PageContainer.CATEGORY_DEPARTMENT_ELEMENT_JSP;
             case PageContainer.CATEGORY_DEPARTMENT_JOURNAL_PAGE: return PageContainer.CATEGORY_DEPARTMENT_JOURNAL_JSP;
+            case PageContainer.CATEGORY_POSITION_CHOICE_PAGE: return PageContainer.CATEGORY_POSITION_CHOICE_JSP;
             case PageContainer.CATEGORY_POSITION_ELEMENT_PAGE: return PageContainer.CATEGORY_POSITION_ELEMENT_JSP;
             case PageContainer.CATEGORY_POSITION_JOURNAL_PAGE: return PageContainer.CATEGORY_POSITION_JOURNAL_JSP;
+            case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_CHOICE_PAGE: return PageContainer.CATEGORY_PROPOSAL_TEMPLATE_CHOICE_JSP;
             case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_ELEMENT_PAGE: return PageContainer.CATEGORY_PROPOSAL_TEMPLATE_ELEMENT_JSP;
             case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_PAGE: return PageContainer.CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_JSP;
+            case PageContainer.CATEGORY_USER_CHOICE_PAGE: return PageContainer.CATEGORY_USER_CHOICE_JSP;
             case PageContainer.CATEGORY_USER_ELEMENT_PAGE: return PageContainer.CATEGORY_USER_ELEMENT_JSP;
             case PageContainer.CATEGORY_USER_JOURNAL_PAGE: return PageContainer.CATEGORY_USER_JOURNAL_JSP;
             case PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_PAGE: return PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_JSP;
@@ -146,15 +162,19 @@ public enum PageContainer {
     public static CategoryProperty getCategoryProperty(String requestURI){
 
         switch (requestURI){
+            case PageContainer.CATEGORY_DEPARTMENT_CHOICE_PAGE:
             case PageContainer.CATEGORY_DEPARTMENT_ELEMENT_PAGE:
             case PageContainer.CATEGORY_DEPARTMENT_JOURNAL_PAGE:
                 return CategoryProperty.DEPARTMENT;
+            case PageContainer.CATEGORY_POSITION_CHOICE_PAGE:
             case PageContainer.CATEGORY_POSITION_ELEMENT_PAGE:
             case PageContainer.CATEGORY_POSITION_JOURNAL_PAGE:
                 return CategoryProperty.POSITION;
+            case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_CHOICE_PAGE:
             case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_ELEMENT_PAGE:
             case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_PAGE:
                 return CategoryProperty.PROPOSAL_TEMPLATE;
+            case PageContainer.CATEGORY_USER_CHOICE_PAGE:
             case PageContainer.CATEGORY_USER_ELEMENT_PAGE:
             case PageContainer.CATEGORY_USER_JOURNAL_PAGE:
                 return CategoryProperty.USER;
@@ -175,6 +195,20 @@ public enum PageContainer {
                 return PageContainer.CATEGORY_USER_ELEMENT_PAGE;
         }
         throw new PageContainerNotFoundException("getElementType - requestURI: "+requestURI);
+    }
+
+    public static String getChoicePage(Object obj){
+
+        switch (obj.getClass().getCanonicalName()){
+            case "Department": return PageContainer.CATEGORY_DEPARTMENT_CHOICE_PAGE;
+            case "Position": return PageContainer.CATEGORY_POSITION_CHOICE_PAGE;
+            case "ProposalTemplate": return PageContainer.CATEGORY_PROPOSAL_TEMPLATE_CHOICE_PAGE;
+            case "User": return PageContainer.CATEGORY_USER_CHOICE_PAGE;
+        }
+        System.out.println(obj);
+        return "";
+        // TODO exception
+
     }
 
 

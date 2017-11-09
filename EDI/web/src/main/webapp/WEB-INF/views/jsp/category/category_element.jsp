@@ -1,6 +1,9 @@
 <%--@elvariable id="ElementStatus" type="enumerations"--%>
 <%@ page import="model.ElementStatus" %>
 
+<%--@elvariable id="PageContainer" type="enumerations"--%>
+<%@ page import="tools.PageContainer" %>
+
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -33,6 +36,7 @@
 
         let body, row;
         let row_style;
+        <%--let isSimpleElement = ( true === ${(cellCol.getType().getPersistenceType() == "BASIC")});--%>
 
         row = current_table.createTHead().insertRow(0);
         insertCellInRow(0, row, 'Field', "");
@@ -54,15 +58,29 @@
             row.style = row_style;
 
             row.onkeyup = function () {
-                onKeyUpElement(${cellCol.id});
+                onKeyUpElement();
             };
+
+            <c:choose><c:when test="${(cellCol.getType().getPersistenceType()!='BASIC')}">
+                   row.onclick = function() {
+                       onClickComplexElement("${PageContainer.getChoicePage(cellCol.getBindableJavaType())}", "${cellCol.id}"); // Get page name from element type
+                };
+            </c:when></c:choose>
 
         </c:forEach>
 
     }
 
-    function onKeyUpElement(elementId) {
+    function onKeyUpElement() {
         event.currentTarget.cells[1].style = " color: red ";
+    }
+
+    function onClickComplexElement(pageName, elementId) {
+        const myForm = document.forms["formOpenElement"];
+        myForm.action = "${pageContext.request.contextPath}"+pageName;
+        myForm.elements["elementId"].value = elementId;
+        myForm.elements["tempId"].value = getRandomInt();
+        myForm.submit();
     }
 
     function saveData() {
@@ -127,6 +145,11 @@
 
 <form hidden id="formSaveElement">
     <input type="hidden" name="elementId"/>
+</form>
+
+<form hidden id="formOpenElement" target="_blank">
+    <input type="hidden" name="elementId"/>
+    <input type="hidden" name="tempId"/>
 </form>
 
 </body>
