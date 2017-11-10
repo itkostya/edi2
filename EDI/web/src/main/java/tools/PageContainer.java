@@ -7,7 +7,7 @@ import documents.Memorandum;
 import documents.Message;
 import exсeption.PageContainerNotFoundException;
 
-import java.util.Locale;
+import java.util.Objects;
 
 /*
  * Created by kostya on 9/2/2016.
@@ -143,15 +143,19 @@ public enum PageContainer {
     public static Class<? extends AbstractCategory> getAbstractCategoryClass(String requestURI){
 
         switch (requestURI){
+            case PageContainer.CATEGORY_DEPARTMENT_CHOICE_PAGE:
             case PageContainer.CATEGORY_DEPARTMENT_ELEMENT_PAGE:
             case PageContainer.CATEGORY_DEPARTMENT_JOURNAL_PAGE:
                 return Department.class;
+            case PageContainer.CATEGORY_POSITION_CHOICE_PAGE:
             case PageContainer.CATEGORY_POSITION_ELEMENT_PAGE:
             case PageContainer.CATEGORY_POSITION_JOURNAL_PAGE:
                 return Position.class;
+            case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_CHOICE_PAGE:
             case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_ELEMENT_PAGE:
             case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_PAGE:
                 return ProposalTemplate.class;
+            case PageContainer.CATEGORY_USER_CHOICE_PAGE:
             case PageContainer.CATEGORY_USER_ELEMENT_PAGE:
             case PageContainer.CATEGORY_USER_JOURNAL_PAGE:
                 return User.class;
@@ -197,17 +201,15 @@ public enum PageContainer {
         throw new PageContainerNotFoundException("getElementType - requestURI: "+requestURI);
     }
 
-    public static String getChoicePage(Object obj){
+    public static String getChoicePage(Class <? extends AbstractCategory> classAbstractCategory){
 
-        switch (obj.getClass().getCanonicalName()){
-            case "Department": return PageContainer.CATEGORY_DEPARTMENT_CHOICE_PAGE;
-            case "Position": return PageContainer.CATEGORY_POSITION_CHOICE_PAGE;
-            case "ProposalTemplate": return PageContainer.CATEGORY_PROPOSAL_TEMPLATE_CHOICE_PAGE;
-            case "User": return PageContainer.CATEGORY_USER_CHOICE_PAGE;
-        }
-        System.out.println(obj);
-        return "";
-        // TODO exception
+        if (Objects.isNull(classAbstractCategory)) throw new PageContainerNotFoundException("getChoicePage - classAbstractCategory: null");
+        else if ( classAbstractCategory.equals(Department.class)) return PageContainer.CATEGORY_DEPARTMENT_CHOICE_PAGE;
+        else if ( classAbstractCategory.equals(Position.class)) return PageContainer.CATEGORY_POSITION_CHOICE_PAGE;
+        else if ( classAbstractCategory.equals(ProposalTemplate.class))  return PageContainer.CATEGORY_PROPOSAL_TEMPLATE_CHOICE_PAGE;
+        else if ( classAbstractCategory.equals(User.class))  return PageContainer.CATEGORY_USER_CHOICE_PAGE;
+
+        throw new PageContainerNotFoundException("getChoicePage - classAbstractCategory: "+classAbstractCategory);
 
     }
 

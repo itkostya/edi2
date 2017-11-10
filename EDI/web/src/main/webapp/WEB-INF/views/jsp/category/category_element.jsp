@@ -63,7 +63,7 @@
 
             <c:choose><c:when test="${(cellCol.getType().getPersistenceType()!='BASIC')}">
                    row.onclick = function() {
-                       onClickComplexElement("${PageContainer.getChoicePage(cellCol.getBindableJavaType())}", "${cellCol.id}"); // Get page name from element type
+                       onClickComplexElement("${PageContainer.getChoicePage(cellCol.getBindableJavaType())}", "${cellCol.name}", "${cellCol.id}"); // Get page name from element type
                 };
             </c:when></c:choose>
 
@@ -72,15 +72,28 @@
     }
 
     function onKeyUpElement() {
-        event.currentTarget.cells[1].style = " color: red ";
+        event.currentTarget.cells[1].style = ' color: red ';
     }
 
-    function onClickComplexElement(pageName, elementId) {
+    function onClickComplexElement(pageName, attributeName, elementId) {
         const myForm = document.forms["formOpenElement"];
         myForm.action = "${pageContext.request.contextPath}"+pageName;
+        myForm.elements["attributeName"].value = attributeName;
         myForm.elements["elementId"].value = elementId;
         myForm.elements["tempId"].value = getRandomInt();
         myForm.submit();
+    }
+
+    function callBackChoice(elementJsonString) {
+        let elementJson = JSON.parse(elementJsonString);
+        for (let i = 0; i < document.getElementById("table-attributes").tBodies[0].rows.length; i++){
+            if (elementJson.attributeName === document.getElementById("table-attributes").tBodies[0].rows[i].cells[0].innerHTML){
+                document.getElementById("table-attributes").tBodies[0].rows[i].cells[1].innerHTML = elementJson.name;
+                document.getElementById("table-attributes").tBodies[0].rows[i].cells[1].style = ' color: red ';
+                document.getElementById("table-attributes").tBodies[0].rows[i].cells[2].outerHTML = '<td hidden>'+elementJson.id+'</td>';
+                i = document.getElementById("table-attributes").tBodies[0].rows.length;
+            }
+        }
     }
 
     function saveData() {
@@ -108,7 +121,7 @@
             afterErrorPageCheckResult(xhr);
         };
         xhr.onload = function () {
-            afterLoadingPageCheckResult(xhr, false);
+            afterLoadingPageCheckResult(xhr, true);
         };
 
         let button = document.getElementById("info_result");
@@ -148,6 +161,7 @@
 </form>
 
 <form hidden id="formOpenElement" target="_blank">
+    <input type="hidden" name="attributeName"/>
     <input type="hidden" name="elementId"/>
     <input type="hidden" name="tempId"/>
 </form>

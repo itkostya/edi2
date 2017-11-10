@@ -33,14 +33,14 @@ public class CategoryChoice extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("doPost");
+        doGet(req, resp);
     }
 
     private void setAttributesForCategory(HttpServletRequest req, String pageName){
 
         req.setAttribute("ruPluralShortName", PageContainer.getCategoryProperty(req.getRequestURI()).getRuPluralShortName());
-//        req.setAttribute("elementPageName",
-//                PageContainer.getElementPage(req.getRequestURI()));
+        req.setAttribute("categoryTable",
+                AbstractCategoryServiceImpl.INSTANCE.getCategoryTable( PageContainer.getAbstractCategoryClass(req.getRequestURI()), ""));
 
     }
 }
