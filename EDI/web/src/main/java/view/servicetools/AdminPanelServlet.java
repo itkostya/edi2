@@ -42,7 +42,7 @@ public class AdminPanelServlet extends HttpServlet {
                 CreateData.createUsers();
                 break;
             case 4:
-                CreateData.createCategories();
+                CreateData.createCategories();    // Useful
                 break;
             case 5:
                 CreateData.createMemorandums();

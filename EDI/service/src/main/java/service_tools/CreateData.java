@@ -4,9 +4,7 @@ import business_processes.BusinessProcess;
 import business_processes.BusinessProcessSequence;
 import business_processes.ExecutorTask;
 import business_processes.ExecutorTaskFolderStructure;
-import categories.Department;
-import categories.Position;
-import categories.User;
+import categories.*;
 import documents.DocumentProperty;
 import documents.Memorandum;
 import documents.Message;
@@ -18,6 +16,7 @@ import hibernate.impl.business_processes.BusinessProcessImpl;
 import hibernate.impl.business_processes.BusinessProcessSequenceImpl;
 import hibernate.impl.business_processes.ExecutorTaskFolderStructureImpl;
 import hibernate.impl.business_processes.ExecutorTaskImpl;
+import hibernate.impl.categories.AbstractCategoryImpl;
 import hibernate.impl.categories.DepartmentImpl;
 import hibernate.impl.categories.PositionImpl;
 import hibernate.impl.categories.UserImpl;
@@ -25,6 +24,8 @@ import hibernate.impl.documents.MemorandumImpl;
 import hibernate.impl.documents.MessageImpl;
 
 import java.io.File;
+import java.sql.Date;
+import java.sql.SQLData;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -88,6 +89,7 @@ public enum CreateData {
         PositionImpl.INSTANCE.save(positionHrManager);
 
         // Users
+        UserImpl.INSTANCE.save(new User("admin", false, null, false, "Gates", "William", "Henry", "admin", "MS", null, null, null));
         UserImpl.INSTANCE.save(new User("kostya", false, null, false, "Zhurov", "Kostyantin", "Oleksandrovich", "kostya", "DC", null, null, null));
 
         UserImpl.INSTANCE.save(new User("itkostya", false, null, false, "Журов", "Константин", "Александрович", "itkostya", null, "123", positionProgrammer, departmentIt));
@@ -98,6 +100,26 @@ public enum CreateData {
         UserImpl.INSTANCE.save(new User("hr_director", false, null, false, "Drocenko", "Ekaterina", "Valerievna", "hr_director", null, "234", positionHrDirector, departmentHr));
         UserImpl.INSTANCE.save(new User("hr_manager1", false, null, false, "Kruglenko", "Olga", "Aleksandrovna", "hr_manager1", null, "234", positionHrManager, departmentHr));
         UserImpl.INSTANCE.save(new User("hr_manager2", false, null, false, "Karpova", "Julia", "Aleksandrovna", "hr_manager2", null, "234", positionHrManager, departmentHr));
+
+        AbstractCategoryImpl.INSTANCE.save(new Contractor("Сильпо-Фуд ООО", false, null, false, "407201926538", "407201926538"));
+        AbstractCategoryImpl.INSTANCE.save(new Contractor("РТЦ Варус-8 ТОВ (Днепр)", false, null, false, "33184262", "331842604637"));
+        AbstractCategoryImpl.INSTANCE.save(new Contractor("АТБ маркет", false, null, false, "30487219", "304872104175"));
+
+        AbstractCategoryImpl.INSTANCE.save(new CostItem("Коммуналка"));
+        AbstractCategoryImpl.INSTANCE.save(new CostItem("Маркетинг и реклама"));
+        AbstractCategoryImpl.INSTANCE.save(new CostItem("Затраты на персонал"));
+
+        AbstractCategoryImpl.INSTANCE.save(new Currency("USD", false, 840L, false));
+        AbstractCategoryImpl.INSTANCE.save(new Currency("EUR", false, 978L, false));
+        AbstractCategoryImpl.INSTANCE.save(new Currency("UAH", false, 980L, false));
+
+        AbstractCategoryImpl.INSTANCE.save(new LegalOrganization("АКВАМИНЕРАЛЕ ООО"));
+        AbstractCategoryImpl.INSTANCE.save(new LegalOrganization("Национальный продукт ООО"));
+        AbstractCategoryImpl.INSTANCE.save(new LegalOrganization("Чегалкин ЧП"));
+
+        AbstractCategoryImpl.INSTANCE.save(new PlanningPeriod("Ноябрь 2017", Date.valueOf("2017-11-01"), Date.valueOf("2017-11-30") ));
+        AbstractCategoryImpl.INSTANCE.save(new PlanningPeriod("Декабрь 2017", Date.valueOf("2017-12-01"), Date.valueOf("2017-12-31")));
+        AbstractCategoryImpl.INSTANCE.save(new PlanningPeriod("Январь 2018", Date.valueOf("2018-01-01"), Date.valueOf("2018-01-31")));
 
     }
 

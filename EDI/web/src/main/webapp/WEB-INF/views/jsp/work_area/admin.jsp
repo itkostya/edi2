@@ -23,7 +23,7 @@
             <button name="param" value= "1" hidden> Create departments</button>
             <button name="param" value= "2" hidden> Create positions</button>
             <button name="param" value= "3" hidden> Create users</button>
-            <button name="param" value= "4" style="color:red"> Create categories (departments, positions, users)</button>
+            <button name="param" value= "4" style="color:red"> Create categories (departments, positions, users, contractors, cost items, currencies, legal organizations, planning periods)</button>
         </div>
 
         <div hidden>
@@ -72,8 +72,53 @@
                             </div>
                         </div>
                     </td>
+                    <td>
+                        <div class="relative-with-border" id="div-category-legal-organization">
+                            <div>
+                                <a href='${pageContext.request.contextPath}${PageContainer.CATEGORY_LEGAL_ORGANIZATION_JOURNAL_PAGE}' target="_blank">
+                                    <img src="${pageContext.request.contextPath}/resources/images/work_area/LegalOrganization.png"
+                                         alt="Юридические лица" class="button_dark_green"></a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="relative-with-border" id="div-category-contractor">
+                            <div>
+                                <a href='${pageContext.request.contextPath}${PageContainer.CATEGORY_CONTRACTOR_JOURNAL_PAGE}' target="_blank">
+                                    <img src="${pageContext.request.contextPath}/resources/images/work_area/Contractor.png"
+                                         alt="Контрагенты" class="button_dark_green"></a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="relative-with-border" id="div-category-currency">
+                            <div>
+                                <a href='${pageContext.request.contextPath}${PageContainer.CATEGORY_CURRENCY_JOURNAL_PAGE}' target="_blank">
+                                    <img src="${pageContext.request.contextPath}/resources/images/work_area/Currency.png"
+                                         alt="Валюты" class="button_dark_green"></a>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
+                    <td>
+                        <div class="relative-with-border" id="div-category-cost-item">
+                            <div>
+                                <a href='${pageContext.request.contextPath}${PageContainer.CATEGORY_COST_ITEM_JOURNAL_PAGE}' target="_blank">
+                                    <img src="${pageContext.request.contextPath}/resources/images/work_area/CostItem.png"
+                                         alt="Статьи затрат" class="button_dark_green"></a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="relative-with-border" id="div-category-planning-period">
+                            <div>
+                                <a href='${pageContext.request.contextPath}${PageContainer.CATEGORY_PLANNING_PERIOD_JOURNAL_PAGE}' target="_blank">
+                                    <img src="${pageContext.request.contextPath}/resources/images/work_area/PlanningPeriod.png"
+                                         alt="Периоды планирования" class="button_dark_green"></a>
+                            </div>
+                        </div>
+                    </td>
                     <td>
                         <div class="relative-with-border" id="div-category-proposal-template">
                             <div>

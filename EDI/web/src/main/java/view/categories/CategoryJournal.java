@@ -12,7 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = {
+        PageContainer.CATEGORY_CONTRACTOR_JOURNAL_PAGE,
+        PageContainer.CATEGORY_COST_ITEM_JOURNAL_PAGE,
+        PageContainer.CATEGORY_CURRENCY_JOURNAL_PAGE,
         PageContainer.CATEGORY_DEPARTMENT_JOURNAL_PAGE,
+        PageContainer.CATEGORY_LEGAL_ORGANIZATION_JOURNAL_PAGE,
+        PageContainer.CATEGORY_PLANNING_PERIOD_JOURNAL_PAGE,
         PageContainer.CATEGORY_POSITION_JOURNAL_PAGE,
         PageContainer.CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_PAGE,
         PageContainer.CATEGORY_USER_JOURNAL_PAGE

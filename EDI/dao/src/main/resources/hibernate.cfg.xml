@@ -19,7 +19,12 @@
         <property name="connection.autocommit">true</property>
 
         <mapping class="abstract_entity.AbstractCategory"/>
+        <mapping class="categories.Contractor"/>
+        <mapping class="categories.CostItem"/>
+        <mapping class="categories.Currency"/>
         <mapping class="categories.Department"/>
+        <mapping class="categories.LegalOrganization"/>
+        <mapping class="categories.PlanningPeriod"/>
         <mapping class="categories.Position"/>
         <mapping class="categories.ProposalTemplate"/>
         <mapping class="categories.UploadedFile"/>

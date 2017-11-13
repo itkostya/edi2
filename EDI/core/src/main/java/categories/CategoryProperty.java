@@ -2,9 +2,14 @@ package categories;
 
 public enum CategoryProperty {
 
+    CONTRACTOR("Contractor", "Contractors", "Контрагент", "Контрагенты", "Справочник - Контрагент",  "Справочник - Контрагенты"),
+    COST_ITEM("Cost item", "Cost items", "Статья затрат", "Статьи затрат", "Справочник - Статья затрат",  "Справочник - статьи затрат"),
+    CURRENCY("Currency", "Currencies", "Валюта", "Валюты", "Справочник - Валюта",  "Справочник - Валюты"),
     DEPARTMENT("Department", "Departments", "Департамент", "Департаменты", "Справочник - Департамент",  "Справочник - Департаменты"),
+    LEGAL_ORGANIZATION("Legal organization", "Legal organizations", "Юридическое лицо", "Юридические лица", "Справочник - Юридическое лицо",  "Справочник - Юридические лица"),
+    PLANNING_PERIOD("Period of planning", "Periods of planning", "Период планирования", "Периоды планирования", "Справочник - Период планирования",  "Справочник - Периоды планирования"),
     POSITION("Position", "Positions", "Должность", "Должности", "Справочник - Должность",  "Справочник - Должности"),
-    PROPOSAL_TEMPLATE("Proposal Template", "Proposal Templates", "Шаблон заявок", "Шаблоны заявок", "Справочник - Шаблон заявок", "Справочник - Шаблоны заявок"),
+    PROPOSAL_TEMPLATE("Proposal template", "Proposal templates", "Шаблон заявок", "Шаблоны заявок", "Справочник - Шаблон заявок", "Справочник - Шаблоны заявок"),
     UPLOADED_FILE("Uploaded file", "Uploaded files", "Файл", "Файлы", "Файл", "Файлы"),
     USER("User", "Users", "Пользователь", "Пользователи", "Справочник - Пользователь", "Справочник - Пользователи");
 

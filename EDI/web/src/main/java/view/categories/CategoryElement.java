@@ -21,7 +21,12 @@ import java.io.IOException;
 import java.util.Objects;
 
 @WebServlet(urlPatterns = {
+        PageContainer.CATEGORY_CONTRACTOR_ELEMENT_PAGE,
+        PageContainer.CATEGORY_COST_ITEM_ELEMENT_PAGE,
+        PageContainer.CATEGORY_CURRENCY_ELEMENT_PAGE,
         PageContainer.CATEGORY_DEPARTMENT_ELEMENT_PAGE,
+        PageContainer.CATEGORY_LEGAL_ORGANIZATION_ELEMENT_PAGE,
+        PageContainer.CATEGORY_PLANNING_PERIOD_ELEMENT_PAGE,
         PageContainer.CATEGORY_POSITION_ELEMENT_PAGE,
         PageContainer.CATEGORY_PROPOSAL_TEMPLATE_ELEMENT_PAGE,
         PageContainer.CATEGORY_USER_ELEMENT_PAGE
