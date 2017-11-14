@@ -36,7 +36,6 @@
 
         let body, row;
         let row_style;
-        <%--let isSimpleElement = ( true === ${(cellCol.getType().getPersistenceType() == "BASIC")});--%>
 
         row = current_table.createTHead().insertRow(0);
         insertCellInRow(0, row, 'Field', "");
@@ -48,8 +47,17 @@
 
             row = body.insertRow(${statusCol.index});
             insertCellInRow(0, row, '${cellCol.name}', "");
-            insertCellInRow(1, row, '<div ${((cellCol.name=="id") ? "": "contenteditable=true")}>${((cellCol.getType().getPersistenceType() == "BASIC")? categoryElement[cellCol.name]: categoryElement[cellCol.name].name)}</div>', "");
-            row.insertCell(2).outerHTML = '<td hidden>${((cellCol.getType().getPersistenceType() == "BASIC")? "-": categoryElement[cellCol.name].id)}</td>';
+            // TODO
+            insertCellInRow(1, row,
+                '${cellCol.getBindableJavaType().getName()== 'boolean' ? "<input type=checkbox ".concat(( categoryElement[cellCol.name] == true ? "checked": "")).concat(">") :
+                    cellCol.getBindableJavaType().getName() == 'java.sql.Date' ?  "<input type=date value=".concat(categoryElement[cellCol.name]).concat(">"):
+                        cellCol.name=='id' ? "<div>".concat(categoryElement["id"]).concat("</div>"):
+                             cellCol.getBindableJavaType().getName()=='java.lang.Long' ? "<input type=number value=".concat(categoryElement[cellCol.name]).concat(">"):
+                                "<div contenteditable=true>".concat((cellCol.getType().getPersistenceType() == "BASIC") ? categoryElement[cellCol.name]:
+                                    categoryElement[cellCol.name].name).concat("</div>")}', "");
+            row.insertCell(2).outerHTML = '<td hidden>${
+                (((cellCol.getBindableJavaType().getName() == 'boolean')||(cellCol.getBindableJavaType().getName() == 'java.sql.Date')||(cellCol.getBindableJavaType().getName() == 'java.lang.Long' && cellCol.name !='id')) ? cellCol.getBindableJavaType().getName() :
+                    ((cellCol.getType().getPersistenceType() == "BASIC") ? "BASIC": categoryElement[cellCol.name].id))}</td>';
 
             row_style = "";
             <c:choose><c:when test="${(statusCol.index % 2) == 0}">
@@ -57,8 +65,12 @@
             </c:when></c:choose>
             row.style = row_style;
 
+            row.onchange = function () {
+                onChangeElement();
+            };
+
             row.onkeyup = function () {
-                onKeyUpElement();
+                onChangeElement();
             };
 
             <c:choose><c:when test="${(cellCol.getType().getPersistenceType()!='BASIC')}">
@@ -71,8 +83,8 @@
 
     }
 
-    function onKeyUpElement() {
-        event.currentTarget.cells[1].style = ' color: red ';
+    function onChangeElement() {
+        event.currentTarget.cells[1].firstElementChild.style.cssText = ' color: red ';
     }
 
     function onClickComplexElement(pageName, attributeName, elementId) {
@@ -107,14 +119,24 @@
         let jsonString = "";
 
         body = current_table.tBodies[0];
-        <c:forEach var="cellCol" items="${columnSet}" varStatus="statusCol">
-            if (body.rows[${statusCol.index}].cells[1].firstChild.innerHTML !== ""){
-                jsonString+= " "+body.rows[${statusCol.index}].cells[0].innerHTML+": "+(body.rows[${statusCol.index}].cells[2].firstChild.data ==='-' ? "'"+body.rows[${statusCol.index}].cells[1].firstChild.innerHTML+"'" : "{ 'id': '"+body.rows[${statusCol.index}].cells[2].firstChild.data+"'}")+",";
-            }
-        </c:forEach>
 
+        for (let i = 0; i < ${columnSet.size()}; i++)
+        jsonString += " " + body.rows[i].cells[0].innerHTML + ": " +
+        (body.rows[i].cells[2].firstChild === null ?
+            "null" :
+            (body.rows[i].cells[2].firstChild.data === 'boolean' ?
+                "'" + body.rows[i].cells[1].firstChild.checked + "'" :
+                (body.rows[i].cells[2].firstChild.data === 'java.lang.Long' ?
+                    "'" + body.rows[i].cells[1].firstChild.value + "'" :
+                    (body.rows[i].cells[2].firstChild.data === 'java.sql.Date' ?
+                    "'" + body.rows[i].cells[1].firstChild.value + "'"  :
+                        (body.rows[i].cells[2].firstChild.data === 'BASIC' ?
+                            "'" + body.rows[i].cells[1].firstChild.innerHTML + "'" :
+                            "{ 'id': '" + body.rows[i].cells[2].firstChild.data + "'}"))))) + ",";
+
+        //formData.append("param", "{ id: '30', endOfPeriod: '2017-11-16', beginOfPeriod: '2017-11-23', deletionMark: 'false', name: 'Декабрь 2017', code: null }");
         //formData.append("param", "{'lastName':'Чегалкин','firstName':'Сергей','middleName':'Викторович','login':'it_director','password':'123','position':{'id':'3'},'department':{'id':'1'},'fio':'Чегалкин Сергей Викторович','id':'10','name':'it_director','deletionMark':'false','isFolder':'false'}");
-        formData.append("param", "{"+jsonString.slice(0, jsonString.length - 1)+" }");
+        formData.append("param", "{"+jsonString.slice(0, jsonString.length - 1).replace(/('')/g, "null")+" }");
         xhr.send(formData);
 
         xhr.onerror = function () {

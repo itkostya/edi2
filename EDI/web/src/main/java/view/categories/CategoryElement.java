@@ -2,6 +2,7 @@ package view.categories;
 
 import abstract_entity.AbstractCategory;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import hibernate.impl.categories.AbstractCategoryImpl;
 import impl.categories.AbstractCategoryServiceImpl;
@@ -61,7 +62,7 @@ public class CategoryElement extends HttpServlet {
         Long tempId = (Long) CommonModule.getNumberFromRequest(req, "tempId", Long.class);
         SessionDataElement sessionDataElement = SessionParameter.INSTANCE.getUserSettings(req).getSessionDataElement(tempId);
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
         try {
             elementEditable = gson.fromJson(req.getParameter("param"), PageContainer.getAbstractCategoryClass(req.getRequestURI()) );
         }catch (JsonSyntaxException e){
