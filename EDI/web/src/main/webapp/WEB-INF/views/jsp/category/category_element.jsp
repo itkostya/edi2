@@ -47,7 +47,6 @@
 
             row = body.insertRow(${statusCol.index});
             insertCellInRow(0, row, '${cellCol.name}', "");
-            // TODO
             insertCellInRow(1, row,
                 '${cellCol.getBindableJavaType().getName()== 'boolean' ? "<input type=checkbox ".concat(( categoryElement[cellCol.name] == true ? "checked": "")).concat(">") :
                     cellCol.getBindableJavaType().getName() == 'java.sql.Date' ?  "<input type=date value=".concat(categoryElement[cellCol.name]).concat(">"):

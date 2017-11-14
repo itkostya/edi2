@@ -134,7 +134,7 @@ public enum PageContainer {
             case PageContainer.CATEGORY_COST_ITEM_CHOICE_PAGE:
             case PageContainer.CATEGORY_COST_ITEM_ELEMENT_PAGE:
             case PageContainer.CATEGORY_COST_ITEM_JOURNAL_PAGE:
-                return "Cost item"; // TODO - check
+                return "Cost item";
             case PageContainer.CATEGORY_CURRENCY_CHOICE_PAGE:
             case PageContainer.CATEGORY_CURRENCY_ELEMENT_PAGE:
             case PageContainer.CATEGORY_CURRENCY_JOURNAL_PAGE:
