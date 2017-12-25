@@ -6,6 +6,7 @@ import app_info.TimeModule;
 import business_processes.ExecutorTask;
 import categories.UploadedFile;
 import categories.User;
+import common.CommonCollections;
 import documents.Message;
 import enumerations.ProcessResult;
 import enumerations.ProcessType;
@@ -219,7 +220,7 @@ public enum ExecutorTaskImpl implements HibernateDAO<ExecutorTask> {
                                         null :
                                         (m.get((ExecutorTask) v.get("0")) == null ?
                                                 new LinkedList<UploadedFile>(Collections.singletonList((UploadedFile) v.get("1"))) :
-                                                (LinkedList<UploadedFile>) addElementAndReturnList(m.get(v.get("0")), (UploadedFile) v.get("1"))
+                                                (LinkedList<UploadedFile>) CommonCollections.addElementAndReturnList(m.get(v.get("0")), (UploadedFile) v.get("1"))
                                         ))
                         ),
                 LinkedHashMap::putAll);
@@ -230,12 +231,6 @@ public enum ExecutorTaskImpl implements HibernateDAO<ExecutorTask> {
         session.close();
 
         return mapSignaturesWithUploadedFiles;
-    }
-
-    // Just now let it be here. If we need something like this in another classes - create something common
-    private <T> List<T> addElementAndReturnList(List<T> list, T t) {
-        list.add(t);
-        return list;
     }
 
     public ExecutorTask getDraft(User author, AbstractDocumentEdi documentEdi) {

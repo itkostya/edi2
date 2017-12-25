@@ -5,6 +5,7 @@ import abstract_entity.AbstractDocumentEdi;
 import categories.Department;
 import categories.Position;
 import categories.User;
+import common.CommonCollections;
 import exсeption.AbstractCategoryNotFoundException;
 import exсeption.AbstractDocumentEdiNotFoundException;
 import hibernate.HibernateDAO;
@@ -14,10 +15,7 @@ import org.hibernate.Session;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import javax.persistence.metamodel.SingularAttribute;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
@@ -80,18 +78,28 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
 
     }
 
+    private class AttrComparator implements Comparator<SingularAttribute> {
+        public int compare(SingularAttribute s1, SingularAttribute s2) {
+            return (s1.getName().toLowerCase().equals("id")?
+                    ("__"+s1.getName()).toLowerCase().compareTo(s2.getName().toLowerCase()) :
+                        (s1.getName().toLowerCase().equals("name") ?
+                        ("_"+s1.getName()).toLowerCase().compareTo(s2.getName().toLowerCase()) :
+                            s1.getName().toLowerCase().compareTo(s2.getName().toLowerCase())));
+        }
+    }
+
     public Set<? extends SingularAttribute<? extends AbstractCategory, ?>> getCategoryColumns(Class<? extends AbstractCategory> abstractCategoryClass, String filterString) {
             Session session = HibernateUtil.getSession();
 
         // TODO: Union of 2 sets should be type casted
-        Set<? extends SingularAttribute<? extends AbstractCategory, ?>> set = new HashSet<>(HibernateUtil.getSession().getMetamodel().managedType(abstractCategoryClass).getDeclaredSingularAttributes()) ;
-        Set set2 = new HashSet<>(HibernateUtil.getSession().getMetamodel().managedType(AbstractCategory.class).getDeclaredSingularAttributes());
-        set.addAll(set2);
-        set = set.stream().filter(
-                o ->
-                    //!o.getName().equals("fio") &&
-                    !o.getName().equals("isFolder")
-        ).collect(Collectors.toSet());
+
+        Set<? extends SingularAttribute<? extends AbstractCategory, ?>> set = new TreeSet<>(new AttrComparator());
+        Set<? extends SingularAttribute<? extends AbstractCategory, ?>> set1 = new HashSet<>(HibernateUtil.getSession().getMetamodel().managedType(abstractCategoryClass).getDeclaredSingularAttributes());
+        Set set2 = HibernateUtil.getSession().getMetamodel().managedType(AbstractCategory.class).getDeclaredSingularAttributes();
+        set.addAll(CommonCollections.merge(set1, set2));
+
+        set.removeIf(o -> o.getName().equals("isFolder"));
+        set.removeIf(o -> o.getName().equals("code"));
 
         session.close();
 

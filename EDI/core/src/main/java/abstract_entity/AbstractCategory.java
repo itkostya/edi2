@@ -6,10 +6,7 @@ package abstract_entity;
 * Created by kostya on 9/2/2016.
 */
 
-import categories.User;
-
 import javax.persistence.*;
-import java.lang.reflect.Field;
 import java.util.Objects;
 
 @MappedSuperclass
