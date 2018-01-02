@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 @WebServlet(urlPatterns = {
         PageContainer.CATEGORY_CONTRACTOR_JOURNAL_PAGE,
@@ -39,10 +40,25 @@ public class CategoryJournal extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doGet(req, resp);
+
+        String pageName = PageContainer.getPageName(req.getRequestURI());
+
+        if (SessionParameter.INSTANCE.accessAllowed(req)) {
+
+            StringBuilder sortColumnNumber = new StringBuilder(Objects.isNull(req.getParameter("sortColumn")) ? "" : req.getParameter("sortColumn"));
+            SessionParameter.INSTANCE.getUserSettings(req).setMapSortParameterChanged(pageName, "categoryJournal", sortColumnNumber);
+
+            doGet(req, resp);
+        }else {
+            req.setAttribute("error_message", "Access denied");
+            req.getRequestDispatcher(PageContainer.ERROR_JSP).forward(req, resp);
+        }
+
     }
 
     private void setAttributesForCategory(HttpServletRequest req, String pageName){
+
+        SessionParameter.INSTANCE.getUserSettings(req).setDocumentPropertyMap(pageName);
 
         req.setAttribute("ruPluralShortName", PageContainer.getCategoryProperty(req.getRequestURI()).getRuPluralShortName());
         req.setAttribute("ruPluralFullName", PageContainer.getCategoryProperty(req.getRequestURI()).getRuPluralFullName());
@@ -52,6 +68,7 @@ public class CategoryJournal extends HttpServlet {
                 AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI()), ""));
         req.setAttribute("elementPageName",
                 PageContainer.getElementPage(req.getRequestURI()));
+        req.setAttribute("mapSortValue", SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(PageContainer.getPageName(req.getRequestURI()), "categoryJournal" ));
 
     }
 }

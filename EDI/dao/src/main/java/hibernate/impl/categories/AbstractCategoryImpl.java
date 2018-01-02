@@ -80,11 +80,13 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
 
     private class AttrComparator implements Comparator<SingularAttribute> {
         public int compare(SingularAttribute s1, SingularAttribute s2) {
-            return (s1.getName().toLowerCase().equals("id")?
-                    ("__"+s1.getName()).toLowerCase().compareTo(s2.getName().toLowerCase()) :
-                        (s1.getName().toLowerCase().equals("name") ?
-                        ("_"+s1.getName()).toLowerCase().compareTo(s2.getName().toLowerCase()) :
-                            s1.getName().toLowerCase().compareTo(s2.getName().toLowerCase())));
+            String str1 = s1.getName().toLowerCase();
+            String str2 = s2.getName().toLowerCase();
+            if (str1.equals("id")) str1 = "aaa" + str1;
+                else if (str1.equals("name")) str1 = "aa" + str1;
+            if (str2.equals("id")) str2 = "aaa" + str2;
+                else if (str2.equals("name")) str2 = "aa" + str2;
+            return str1.compareTo(str2);
         }
     }
 

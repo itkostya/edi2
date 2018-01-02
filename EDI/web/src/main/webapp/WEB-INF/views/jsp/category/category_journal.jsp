@@ -4,6 +4,7 @@
 <%--@elvariable id="categoryTable" type="List<AbstractCategory>"--%>
 <%--@elvariable id="columnSet" type="Set<? extends SingularAttribute<? extends AbstractCategory, ?>>"--%>
 <%--@elvariable id="elementPageName" type="java.lang.String"--%>
+<%--@elvariable id="mapSortValue" type="java.lang.String"--%>
 <%--@elvariable id="ruPluralShortName" type="java.lang.String"--%>
 <%--@elvariable id="ruPluralFullName" type="java.lang.String"--%>
 
@@ -33,8 +34,12 @@
         let filterString = '${filterString}';
 
         row = current_table.createTHead().insertRow(0);
+        let itsId, strOrd, strView;
         <c:forEach var="cellCol" items="${columnSet}" varStatus="statusCol">
-            insertCellInRow(${statusCol.index}, row, '<button name="sortColumn" class="btn-link2" value="0.' + getColOrder("0", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("0", colNum, colOrd, defSort, '') + '${cellCol.name}</button>'); // Down
+            itsId = (true === ${'id' == cellCol.name});
+            strOrd = getColOrder("${statusCol.index}", colNum, colOrd, defSort, (itsId ? "+" : "n"));
+            strView = getColSymbol("${statusCol.index}", colNum, colOrd, defSort, (itsId ?  "&uarr;" : ""));
+            insertCellInRow(${statusCol.index}, row, '<button name="sortColumn" class="btn-link2" value="${statusCol.index}.'+ strOrd + '">' + strView + '${cellCol.name}</button>');
         </c:forEach>
 
         body = current_table.appendChild(document.createElement('tbody'));

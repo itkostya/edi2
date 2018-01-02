@@ -1,6 +1,7 @@
 package model;
 
-import categories.User;
+import categories.*;
+import categories.Currency;
 import documents.Memorandum;
 import documents.Message;
 import enumerations.FolderStructure;
@@ -25,13 +26,19 @@ public class UserSettings {
             put("controlledTasksList", "default");  // Sorting ("Тип процесса", "Исполнить до", "Дата")
             put("markedTasksList", "default");      // Sorting ("Выполнена", "Дата")
         }});
-        for (String mapName: Arrays.asList("MemorandumJournal", "MessageJournal"))
+        for (String mapName: Arrays.asList(Memorandum.class.getName()+"Journal", Message.class.getName()+"Journal"))
             put(mapName, new HashMap<String, String>() {{
                 put("bookMark1", "tasksListByGroup");   // Current table - "tasksListByGroup" or "fullTasksList"
                 put("bookMark2", "INBOX");              // FolderStructure - INBOX, ..., TRASH
                 put("groupBy", "author");               // GroupBy (author, sender)
                 put("tasksListByGroup", "default");     // Sorting (completed asc, date desc)
                 put("fullTasksList", "default");        // Sorting (completed asc, date desc)
+            }});
+        for (String mapName: Arrays.asList(Contractor.class.getName(), CostItem.class.getName(), Currency.class.getName(), Department.class.getName(),
+                LegalOrganization.class.getName(), PlanningPeriod.class.getName(), Position.class.getName(), ProposalTemplate.class.getName()))
+            put(mapName, new HashMap<String, String>() {{
+                put("categoryChoice", "default");
+                put("categoryJournal", "default");
             }});
     }};
 
@@ -42,7 +49,7 @@ public class UserSettings {
             put("markedTasksList", "");
             put("coworkersList", "");
         }});
-        for (String mapName: Arrays.asList("MemorandumJournal", "MessageJournal"))
+        for (String mapName: Arrays.asList(Memorandum.class.getName()+"Journal", Message.class.getName()+"Journal"))
             put(mapName, new HashMap<String, String>() {{
                 put("tasksListByGroup", "");
                 put("fullTasksList", "");
@@ -52,7 +59,7 @@ public class UserSettings {
     private final Map<Long, SessionDataElement> sessionDataMap = new TreeMap<>(); // Creating new documents
 
     private final Map<String, Map<FolderStructure, Integer>> documentPropertyMap = new HashMap<String, Map<FolderStructure, Integer>>(){{
-        for (String mapName: Arrays.asList("Memorandum", "Message"))
+        for (String mapName: Arrays.asList(Memorandum.class.getName(), Message.class.getName()))
             put(mapName, new HashMap<FolderStructure, Integer>() {{
               for (FolderStructure folderStructure: FolderStructure.values()) put(folderStructure, 0);
             }});

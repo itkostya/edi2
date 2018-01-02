@@ -130,41 +130,41 @@ public enum PageContainer {
             case PageContainer.CATEGORY_CONTRACTOR_CHOICE_PAGE:
             case PageContainer.CATEGORY_CONTRACTOR_ELEMENT_PAGE:
             case PageContainer.CATEGORY_CONTRACTOR_JOURNAL_PAGE:
-                return "Contractor";
+                return Contractor.class.getName();
             case PageContainer.CATEGORY_COST_ITEM_CHOICE_PAGE:
             case PageContainer.CATEGORY_COST_ITEM_ELEMENT_PAGE:
             case PageContainer.CATEGORY_COST_ITEM_JOURNAL_PAGE:
-                return "Cost item";
+                return CostItem.class.getName();
             case PageContainer.CATEGORY_CURRENCY_CHOICE_PAGE:
             case PageContainer.CATEGORY_CURRENCY_ELEMENT_PAGE:
             case PageContainer.CATEGORY_CURRENCY_JOURNAL_PAGE:
-                return "Currency";
+                return Currency.class.getName();
             case PageContainer.CATEGORY_DEPARTMENT_CHOICE_PAGE:
             case PageContainer.CATEGORY_DEPARTMENT_ELEMENT_PAGE:
             case PageContainer.CATEGORY_DEPARTMENT_JOURNAL_PAGE:
-                return "Department";
+                return Department.class.getName();
             case PageContainer.CATEGORY_LEGAL_ORGANIZATION_CHOICE_PAGE:
             case PageContainer.CATEGORY_LEGAL_ORGANIZATION_ELEMENT_PAGE:
             case PageContainer.CATEGORY_LEGAL_ORGANIZATION_JOURNAL_PAGE:
-                return "Legal organization";
+                return LegalOrganization.class.getName();
             case PageContainer.CATEGORY_PLANNING_PERIOD_CHOICE_PAGE:
             case PageContainer.CATEGORY_PLANNING_PERIOD_ELEMENT_PAGE:
             case PageContainer.CATEGORY_PLANNING_PERIOD_JOURNAL_PAGE:
-                return "Planning period";
+                return PlanningPeriod.class.getName();
             case PageContainer.CATEGORY_POSITION_CHOICE_PAGE:
             case PageContainer.CATEGORY_POSITION_ELEMENT_PAGE:
             case PageContainer.CATEGORY_POSITION_JOURNAL_PAGE:
-                return "Position";
+                return Position.class.getName();
             case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_CHOICE_PAGE:
             case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_ELEMENT_PAGE:
             case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_PAGE:
-                return "Proposal template";
+                return ProposalTemplate.class.getName();
             case PageContainer.CATEGORY_USER_CHOICE_PAGE:
             case PageContainer.CATEGORY_USER_ELEMENT_PAGE:
             case PageContainer.CATEGORY_USER_JOURNAL_PAGE:
-                return "User";
-            case PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_PAGE: return "Memorandum";
-            case PageContainer.DOCUMENT_MESSAGE_JOURNAL_PAGE: return "Message";
+                return PageContainer.class.getName();
+            case PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_PAGE: return Memorandum.class.getName();
+            case PageContainer.DOCUMENT_MESSAGE_JOURNAL_PAGE: return Message.class.getName();
         }
         throw new PageContainerNotFoundException("getPageName - requestURI: "+requestURI);
     }
