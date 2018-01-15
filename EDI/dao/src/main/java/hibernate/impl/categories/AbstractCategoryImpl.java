@@ -51,7 +51,7 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
 
     }
 
-    public List<AbstractCategory> getCategoryTable(Class<? extends AbstractCategory> abstractCategoryClass, String filterString) {
+    public List<AbstractCategory> getCategoryTable(Class<? extends AbstractCategory> abstractCategoryClass,  String filterString) {
         Session session = HibernateUtil.getSession();
 
         CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -91,7 +91,8 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
     }
 
     public Set<? extends SingularAttribute<? extends AbstractCategory, ?>> getCategoryColumns(Class<? extends AbstractCategory> abstractCategoryClass, String filterString) {
-            Session session = HibernateUtil.getSession();
+
+       Session session = HibernateUtil.getSession();
 
         // TODO: Union of 2 sets should be type casted
 
@@ -108,5 +109,17 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
         return set;
     }
 
+    public SingularAttribute<? extends AbstractCategory, ?> getCategoryColumnByPosition(Class<? extends AbstractCategory> abstractCategoryClass, String filterString, int pos) {
+
+        Set<? extends SingularAttribute<? extends AbstractCategory, ?>> setColumns =  getCategoryColumns(abstractCategoryClass, filterString);
+        int i = 0;
+
+        for ( SingularAttribute<? extends AbstractCategory, ?> col: setColumns){
+            if (i++ == pos) return col;
+        }
+
+        return null;
+
+    }
 
 }

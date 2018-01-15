@@ -29,8 +29,9 @@
         let body, row;
         let row_style, img_marked;
         let defSort = (true === ${mapSortValue == 'default'});
-        let colNum = (true === ${mapSortValue == 'default'} ? null : "${mapSortValue.charAt(0)}");
-        let colOrd = (true === ${mapSortValue == 'default'}? null : "${mapSortValue.charAt(2)}");
+        let colNum = (true === ${mapSortValue == 'default'} ? null : "${mapSortValue.substring(0, ((mapSortValue.contains('.') ? mapSortValue.indexOf('.') : 1 )))}");
+        <%--let colNum = (true === ${mapSortValue == 'default'} ? null : "${mapSortValue.charAt(0)}");--%>
+        let colOrd = (true === ${mapSortValue == 'default'}? null : "${mapSortValue.charAt(mapSortValue.length()-1)}");
         let filterString = '${filterString}';
 
         row = current_table.createTHead().insertRow(0);

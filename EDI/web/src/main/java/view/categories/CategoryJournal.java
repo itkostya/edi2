@@ -63,7 +63,10 @@ public class CategoryJournal extends HttpServlet {
         req.setAttribute("ruPluralShortName", PageContainer.getCategoryProperty(req.getRequestURI()).getRuPluralShortName());
         req.setAttribute("ruPluralFullName", PageContainer.getCategoryProperty(req.getRequestURI()).getRuPluralFullName());
         req.setAttribute("categoryTable",
-                AbstractCategoryServiceImpl.INSTANCE.getCategoryTable( PageContainer.getAbstractCategoryClass(req.getRequestURI()), ""));
+                AbstractCategoryServiceImpl.INSTANCE.getCategoryTable(
+                        PageContainer.getAbstractCategoryClass(req.getRequestURI()),
+                        SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName, "categoryJournal"),
+                        ""));
         req.setAttribute("columnSet",
                 AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI()), ""));
         req.setAttribute("elementPageName",

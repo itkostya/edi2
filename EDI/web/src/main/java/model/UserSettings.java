@@ -35,7 +35,7 @@ public class UserSettings {
                 put("fullTasksList", "default");        // Sorting (completed asc, date desc)
             }});
         for (String mapName: Arrays.asList(Contractor.class.getName(), CostItem.class.getName(), Currency.class.getName(), Department.class.getName(),
-                LegalOrganization.class.getName(), PlanningPeriod.class.getName(), Position.class.getName(), ProposalTemplate.class.getName()))
+                LegalOrganization.class.getName(), PlanningPeriod.class.getName(), Position.class.getName(), ProposalTemplate.class.getName(), User.class.getName()))
             put(mapName, new HashMap<String, String>() {{
                 put("categoryChoice", "default");
                 put("categoryJournal", "default");
@@ -88,17 +88,19 @@ public class UserSettings {
 
     public void setMapSortParameterChanged(String mapName, String mapParameter, StringBuilder sortColumnNumber){
 
-        if (Objects.nonNull(sortColumnNumber) && (sortColumnNumber.length() == 3) && Objects.nonNull(mapSort.get(mapName))) {
-            if (sortColumnNumber.charAt(0) == mapSort.get(mapName).get(mapParameter).charAt(0)) {
-                switch ( mapSort.get(mapName).get(mapParameter).charAt(2)) {
+        if (Objects.nonNull(sortColumnNumber) && (sortColumnNumber.length() <= 4) && Objects.nonNull(mapSort.get(mapName))) {
+
+            //int columnNumber = Integer.valueOf(sortColumnNumber.substring(0, sortColumnNumber.indexOf(".")));
+            if (sortColumnNumber.charAt(0) == mapSort.get(mapName).get(mapParameter).charAt(0)) {  // ???
+                switch ( mapSort.get(mapName).get(mapParameter).charAt(mapSort.get(mapName).get(mapParameter).length()-1)) {
                     case 'n':
-                        sortColumnNumber.replace(2, 3, "-");
+                        sortColumnNumber.replace(sortColumnNumber.indexOf(".")+1, sortColumnNumber.length(), "-");
                         break;
                     case '+':
-                        sortColumnNumber.replace(2, 3, "-");
+                        sortColumnNumber.replace(sortColumnNumber.indexOf(".")+1, sortColumnNumber.length(), "-");
                         break;
                     case '-':
-                        sortColumnNumber.replace(2, 3, "+");
+                        sortColumnNumber.replace(sortColumnNumber.indexOf(".")+1, sortColumnNumber.length(), "+");
                         break;
                 }
             }

@@ -45,7 +45,7 @@ public class CategoryChoice extends HttpServlet {
 
         req.setAttribute("ruPluralShortName", PageContainer.getCategoryProperty(req.getRequestURI()).getRuPluralShortName());
         req.setAttribute("categoryTable",
-                AbstractCategoryServiceImpl.INSTANCE.getCategoryTable( PageContainer.getAbstractCategoryClass(req.getRequestURI()), ""));
+                AbstractCategoryServiceImpl.INSTANCE.getCategoryTable( PageContainer.getAbstractCategoryClass(req.getRequestURI()), "default",""));
 
     }
 }
