@@ -88,7 +88,7 @@ public class UserSettings {
 
     public void setMapSortParameterChanged(String mapName, String mapParameter, StringBuilder sortColumnNumber){
 
-        if (Objects.nonNull(sortColumnNumber) && (sortColumnNumber.length() <= 4) && Objects.nonNull(mapSort.get(mapName))) {
+        if (Objects.nonNull(sortColumnNumber) && sortColumnNumber.length() > 0 && (sortColumnNumber.length() <= 4) && Objects.nonNull(mapSort.get(mapName))) {
 
             //int columnNumber = Integer.valueOf(sortColumnNumber.substring(0, sortColumnNumber.indexOf(".")));
             if (sortColumnNumber.charAt(0) == mapSort.get(mapName).get(mapParameter).charAt(0)) {  // ???
@@ -150,15 +150,12 @@ public class UserSettings {
         getDocumentPropertyMap(documentName).put(folderStructure, newValue);
     }
 
-    public void setDocumentPropertyMap(String documentName){
+    public void setDocumentPropertyMap(String documentName) {
 
-        switch (documentName){
-            case "Memorandum":
-                documentPropertyMap.put("Memorandum", ExecutorTaskFolderStructureServiceImpl.INSTANCE.getTaskCountByFolders(user, Memorandum.class));
-                break;
-            case "Message":
-                documentPropertyMap.put("Message", ExecutorTaskFolderStructureServiceImpl.INSTANCE.getTaskCountByFolders(user, Message.class));
-                break;
+        if (documentName.equals(Memorandum.class.getName())) {
+            documentPropertyMap.put(Memorandum.class.getName(), ExecutorTaskFolderStructureServiceImpl.INSTANCE.getTaskCountByFolders(user, Memorandum.class));
+        } else if (documentName.equals(Message.class.getName())) {
+            documentPropertyMap.put(Message.class.getName(), ExecutorTaskFolderStructureServiceImpl.INSTANCE.getTaskCountByFolders(user, Message.class));
         }
     }
 

@@ -1,6 +1,8 @@
 package view.work_area;
 
 import categories.User;
+import documents.Memorandum;
+import documents.Message;
 import enumerations.FolderStructure;
 import impl.business_processes.ExecutorTaskFolderStructureServiceImpl;
 import impl.business_processes.ExecutorTaskServiceImpl;
@@ -67,16 +69,16 @@ public class MainPanelServlet extends HttpServlet {
         String bookMark;
 
         User currentUser = SessionParameter.INSTANCE.getCurrentUser(req);
-        SessionParameter.INSTANCE.getUserSettings(req).setDocumentPropertyMap("Memorandum");
-        SessionParameter.INSTANCE.getUserSettings(req).setDocumentPropertyMap("Message");
+        SessionParameter.INSTANCE.getUserSettings(req).setDocumentPropertyMap(Memorandum.class.getName());
+        SessionParameter.INSTANCE.getUserSettings(req).setDocumentPropertyMap(Message.class.getName());
 
         if (Objects.nonNull(req.getParameter("bookMark"))) bookMark = req.getParameter("bookMark");
         else bookMark = SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter("MainPanelServlet", "bookMark");
 
         req.setAttribute("userPresentation", currentUser.getFio());
         req.setAttribute("bookMark", bookMark);
-        req.setAttribute("memorandumCount", SessionParameter.INSTANCE.getUserSettings(req).getMapDocumentPropertyParameter("Memorandum",FolderStructure.INBOX)); // documentPropertyMap.get("Memorandum").get(FolderStructure.INBOX));
-        req.setAttribute("messageCount", SessionParameter.INSTANCE.getUserSettings(req).getMapDocumentPropertyParameter("Message",FolderStructure.INBOX));    // documentPropertyMap.get("Message").get(FolderStructure.INBOX));
+        req.setAttribute("memorandumCount", SessionParameter.INSTANCE.getUserSettings(req).getMapDocumentPropertyParameter(Memorandum.class.getName(),FolderStructure.INBOX)); // documentPropertyMap.get("Memorandum").get(FolderStructure.INBOX));
+        req.setAttribute("messageCount", SessionParameter.INSTANCE.getUserSettings(req).getMapDocumentPropertyParameter(Message.class.getName(),FolderStructure.INBOX));    // documentPropertyMap.get("Message").get(FolderStructure.INBOX));
 
         switch (bookMark) {
             case "reviewTasksList":
