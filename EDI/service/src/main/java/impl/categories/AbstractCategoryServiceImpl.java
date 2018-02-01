@@ -120,7 +120,7 @@ public enum AbstractCategoryServiceImpl {
         return abstractCategoryList;
     }
 
-    public Set<? extends SingularAttribute<? extends AbstractCategory, ?>> getCategoryColumns(Class<? extends AbstractCategory> abstractCategoryClass, String filterString) {
-        return AbstractCategoryImpl.INSTANCE.getCategoryColumns(abstractCategoryClass, filterString);
+    public Set<? extends SingularAttribute<? extends AbstractCategory, ?>> getCategoryColumns(Class<? extends AbstractCategory> abstractCategoryClass) {
+        return AbstractCategoryImpl.INSTANCE.getCategoryColumns(abstractCategoryClass);
     }
 }

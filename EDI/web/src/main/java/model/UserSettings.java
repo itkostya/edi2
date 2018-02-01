@@ -54,6 +54,12 @@ public class UserSettings {
                 put("tasksListByGroup", "");
                 put("fullTasksList", "");
             }});
+        for (String mapName: Arrays.asList(Contractor.class.getName(), CostItem.class.getName(), Currency.class.getName(), Department.class.getName(),
+                LegalOrganization.class.getName(), PlanningPeriod.class.getName(), Position.class.getName(), ProposalTemplate.class.getName(), User.class.getName()))
+            put(mapName, new HashMap<String, String>() {{
+                put("categoryChoice", "");
+                put("categoryJournal", "");
+            }});
     }};
 
     private final Map<Long, SessionDataElement> sessionDataMap = new TreeMap<>(); // Creating new documents

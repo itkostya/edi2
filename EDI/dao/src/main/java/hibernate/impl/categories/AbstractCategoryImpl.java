@@ -60,12 +60,30 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
 //        Join<AbstractCategory, Position> positionJoin = categoryRoot.join("position", JoinType.LEFT);
 //        Join<AbstractCategory, Department> departmentJoin = categoryRoot.join("department", JoinType.LEFT);
 
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (!filterString.isEmpty()){
+            Set<? extends SingularAttribute<? extends AbstractCategory, ?>> setColumns = getCategoryColumns(abstractCategoryClass);
+            for ( SingularAttribute<? extends AbstractCategory, ?> col: setColumns){
+
+                if ("BASIC".equals(col.getType().getPersistenceType().name())){
+                    predicates.add(cb.like(cb.lower(categoryRoot.get(col.getName()).as(String.class)), "%" + filterString.toLowerCase() + "%"));
+                }else{
+                    // TODO - Create filter for entity type
+//                    Class type1 = col.getType().getJavaType();
+//                    Join<AbstractCategory, ?> join1 = categoryRoot.join(col.getName(), JoinType.LEFT);
+//                    predicates.add(cb.like(cb.lower(join1.get(col.getName()).get("name").as(String.class)), "%" + filterString.toLowerCase() + "%"));
+                }
+            }
+        }
+
         cq.where((("".equals(filterString) || Objects.isNull(filterString)) ? cb.and() :
-                        cb.or(
+                    cb.or(predicates.toArray(new Predicate[predicates.size()]))
+
 //                                cb.like(cb.lower(userRoot.get("fio")), "%" + filterString.toLowerCase() + "%"),
 //                                cb.like(cb.lower(positionJoin.get("name")), "%" + filterString.toLowerCase() + "%"),
 //                                cb.like(cb.lower(departmentJoin.get("name")), "%" + filterString.toLowerCase() + "%")
-                        )
+
                 )
         );
 
@@ -90,7 +108,7 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
         }
     }
 
-    public Set<? extends SingularAttribute<? extends AbstractCategory, ?>> getCategoryColumns(Class<? extends AbstractCategory> abstractCategoryClass, String filterString) {
+    public Set<? extends SingularAttribute<? extends AbstractCategory, ?>> getCategoryColumns(Class<? extends AbstractCategory> abstractCategoryClass) {
 
        Session session = HibernateUtil.getSession();
 
@@ -111,7 +129,7 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
 
     public SingularAttribute<? extends AbstractCategory, ?> getCategoryColumnByPosition(Class<? extends AbstractCategory> abstractCategoryClass, String filterString, int pos) {
 
-        Set<? extends SingularAttribute<? extends AbstractCategory, ?>> setColumns =  getCategoryColumns(abstractCategoryClass, filterString);
+        Set<? extends SingularAttribute<? extends AbstractCategory, ?>> setColumns =  getCategoryColumns(abstractCategoryClass);
         int i = 0;
 
         for ( SingularAttribute<? extends AbstractCategory, ?> col: setColumns){

@@ -45,6 +45,9 @@ public class CategoryJournal extends HttpServlet {
 
         if (SessionParameter.INSTANCE.accessAllowed(req)) {
 
+            SessionParameter.INSTANCE.getUserSettings(req).getMapFilter(pageName).keySet().stream().filter(s -> Objects.nonNull(req.getParameter((s+"FilterString")))).
+                    forEach( s1 -> SessionParameter.INSTANCE.getUserSettings(req).setMapFilterParameter(pageName, s1, req.getParameter(s1+"FilterString")));
+
             StringBuilder sortColumnNumber = new StringBuilder(Objects.isNull(req.getParameter("sortColumn")) ? "" : req.getParameter("sortColumn"));
             SessionParameter.INSTANCE.getUserSettings(req).setMapSortParameterChanged(pageName, "categoryJournal", sortColumnNumber);
 
@@ -66,12 +69,13 @@ public class CategoryJournal extends HttpServlet {
                 AbstractCategoryServiceImpl.INSTANCE.getCategoryTable(
                         PageContainer.getAbstractCategoryClass(req.getRequestURI()),
                         SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName, "categoryJournal"),
-                        ""));
+                        SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter(pageName, "categoryJournal")));
         req.setAttribute("columnSet",
-                AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI()), ""));
+                AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI())));
         req.setAttribute("elementPageName",
                 PageContainer.getElementPage(req.getRequestURI()));
-        req.setAttribute("mapSortValue", SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(PageContainer.getPageName(req.getRequestURI()), "categoryJournal" ));
+        req.setAttribute("mapSortValue", SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName, "categoryJournal"));
+        req.setAttribute("filterString", SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter(pageName, "categoryJournal"));
 
     }
 }

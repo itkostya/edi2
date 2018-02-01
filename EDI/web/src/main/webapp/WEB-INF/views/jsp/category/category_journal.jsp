@@ -4,6 +4,7 @@
 <%--@elvariable id="categoryTable" type="List<AbstractCategory>"--%>
 <%--@elvariable id="columnSet" type="Set<? extends SingularAttribute<? extends AbstractCategory, ?>>"--%>
 <%--@elvariable id="elementPageName" type="java.lang.String"--%>
+<%--@elvariable id="filterString" type="java.lang.String"--%>
 <%--@elvariable id="mapSortValue" type="java.lang.String"--%>
 <%--@elvariable id="ruPluralShortName" type="java.lang.String"--%>
 <%--@elvariable id="ruPluralFullName" type="java.lang.String"--%>
@@ -92,8 +93,8 @@
                 </tr>
             </table>
         </div>
-        <div class="search-string"><input name="markedTasksListFilterString" placeholder="Поиск"
-                                          onkeyup="onKeyupSearchString(arguments[0],'work_area')"
+        <div class="search-string"><input name="categoryJournalFilterString" placeholder="Поиск"
+                                          onkeyup="onKeyupSearchString(arguments[0],'category_journal')"
                                           value="${filterString}"/></div>
     </div>
     <div style="height:90%;" id="div-for-main-table">
