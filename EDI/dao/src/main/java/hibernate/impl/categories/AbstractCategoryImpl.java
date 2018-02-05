@@ -69,21 +69,14 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
                 if ("BASIC".equals(col.getType().getPersistenceType().name())){
                     predicates.add(cb.like(cb.lower(categoryRoot.get(col.getName()).as(String.class)), "%" + filterString.toLowerCase() + "%"));
                 }else{
-                    // TODO - Create filter for entity type
-//                    Class type1 = col.getType().getJavaType();
-//                    Join<AbstractCategory, ?> join1 = categoryRoot.join(col.getName(), JoinType.LEFT);
-//                    predicates.add(cb.like(cb.lower(join1.get(col.getName()).get("name").as(String.class)), "%" + filterString.toLowerCase() + "%"));
+                    Join<AbstractCategory, ?> elementJoin = categoryRoot.join(col.getName(), JoinType.LEFT);
+                    predicates.add(cb.like(cb.lower(elementJoin.get("name").as(String.class)), "%" + filterString.toLowerCase() + "%"));
                 }
             }
         }
 
         cq.where((("".equals(filterString) || Objects.isNull(filterString)) ? cb.and() :
                     cb.or(predicates.toArray(new Predicate[predicates.size()]))
-
-//                                cb.like(cb.lower(userRoot.get("fio")), "%" + filterString.toLowerCase() + "%"),
-//                                cb.like(cb.lower(positionJoin.get("name")), "%" + filterString.toLowerCase() + "%"),
-//                                cb.like(cb.lower(departmentJoin.get("name")), "%" + filterString.toLowerCase() + "%")
-
                 )
         );
 

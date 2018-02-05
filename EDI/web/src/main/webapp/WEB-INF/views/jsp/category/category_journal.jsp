@@ -48,7 +48,7 @@
         <c:forEach var="cell" items="${categoryTable}" varStatus="status">
             row = body.insertRow(${status.index});
             <c:forEach var="cellCol" items="${columnSet}" varStatus="statusCol">
-                insertCellInRow(${statusCol.index}, row, '${((cellCol.getType().getPersistenceType() == "BASIC")? cell[cellCol.name]: cell[cellCol.name].name)}', filterString);
+                insertCellInRow(${statusCol.index}, row, getHighlightedText('${((cellCol.getType().getPersistenceType() == "BASIC")? cell[cellCol.name]: cell[cellCol.name].name)}', filterString));
             </c:forEach>
 
             row_style = "";
