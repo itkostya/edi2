@@ -95,15 +95,15 @@ public enum AbstractCategoryServiceImpl {
     }
 
 
-    public List<? extends AbstractCategory> getCategoryTable(Class<? extends AbstractCategory> abstractCategoryClass, String sortingSequence, String filterString) {
+    public List<? extends AbstractCategory> getCategoryTable(Class<? extends AbstractCategory> abstractCategoryClass, String sortingSequence, String filterString, List<String> columnNames) {
 
-        List<? extends AbstractCategory> abstractCategoryList = AbstractCategoryImpl.INSTANCE.getCategoryTable(abstractCategoryClass, filterString);
+        List<? extends AbstractCategory> abstractCategoryList = AbstractCategoryImpl.INSTANCE.getCategoryTable(abstractCategoryClass, filterString, columnNames);
 
         if (sortingSequence.equals("default")) {
             abstractCategoryList.sort(Comparator.comparing(AbstractCategory::getId));
         } else {
             SingularAttribute singularAttribute =
-                    AbstractCategoryImpl.INSTANCE.getCategoryColumnByPosition(abstractCategoryClass, filterString, Integer.valueOf("" + sortingSequence.substring(0, sortingSequence.indexOf("."))));
+                    AbstractCategoryImpl.INSTANCE.getCategoryColumnByPosition(abstractCategoryClass, filterString, Integer.valueOf("" + sortingSequence.substring(0, sortingSequence.indexOf("."))), columnNames);
             boolean ascSorting = (sortingSequence.charAt(sortingSequence.length()-1) == '+' || sortingSequence.charAt(sortingSequence.length()-1) == 'n');
             String methodName = singularAttribute.getName();
             if (singularAttribute.getJavaType().getName().equals("boolean")) {
@@ -120,7 +120,7 @@ public enum AbstractCategoryServiceImpl {
         return abstractCategoryList;
     }
 
-    public Set<? extends SingularAttribute<? extends AbstractCategory, ?>> getCategoryColumns(Class<? extends AbstractCategory> abstractCategoryClass) {
-        return AbstractCategoryImpl.INSTANCE.getCategoryColumns(abstractCategoryClass);
+    public Set<? extends SingularAttribute<? extends AbstractCategory, ?>> getCategoryColumns(Class<? extends AbstractCategory> abstractCategoryClass, List<String> columnNames) {
+        return AbstractCategoryImpl.INSTANCE.getCategoryColumns(abstractCategoryClass, columnNames);
     }
 }

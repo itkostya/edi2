@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Objects;
 
 @WebServlet(urlPatterns = {
@@ -69,9 +70,9 @@ public class CategoryJournal extends HttpServlet {
                 AbstractCategoryServiceImpl.INSTANCE.getCategoryTable(
                         PageContainer.getAbstractCategoryClass(req.getRequestURI()),
                         SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName, "categoryJournal"),
-                        SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter(pageName, "categoryJournal")));
+                        SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter(pageName, "categoryJournal"), Collections.emptyList()));
         req.setAttribute("columnSet",
-                AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI())));
+                AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI()), Collections.emptyList()));
         req.setAttribute("elementPageName",
                 PageContainer.getElementPage(req.getRequestURI()));
         req.setAttribute("mapSortValue", SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName, "categoryJournal"));

@@ -2,10 +2,13 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--@elvariable id="categoryTable" type="List<AbstractCategory>"--%>
+<%--@elvariable id="filterString" type="java.lang.String"--%>
+<%--@elvariable id="mapSortValue" type="java.lang.String"--%>
+<%--@elvariable id="ruPluralShortName" type="java.lang.String"--%>
 
 <html>
 <head>
-    <title></title>
+    <title>${ruPluralShortName} выбор</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
     <jsp:include page="../common/common.jsp"/>
@@ -22,8 +25,8 @@
         let body, row;
         let row_style, img_marked;
         let defSort = (true === ${mapSortValue == 'default'});
-        let colNum = (true === ${mapSortValue == 'default'} ? null : "${mapSortValue.charAt(0)}");
-        let colOrd = (true === ${mapSortValue == 'default'}? null : "${mapSortValue.charAt(2)}");
+        let colNum = (true === ${mapSortValue == 'default'} ? null : "${mapSortValue.substring(0, ((mapSortValue.contains('.') ? mapSortValue.indexOf('.') : 1 )))}");
+        let colOrd = (true === ${mapSortValue == 'default'}? null : "${mapSortValue.charAt(mapSortValue.length()-1)}");
         let filterString = '${filterString}';
 
         row = current_table.createTHead().insertRow(0);
@@ -32,7 +35,7 @@
         body = current_table.appendChild(document.createElement('tbody'));
         <c:forEach var="cell" items="${categoryTable}" varStatus="status">
             row = body.insertRow(${status.index});
-            insertCellInRow(0, row, '${cell.name}', filterString);
+            insertCellInRow(0, row, getHighlightedText('${cell.name}', filterString));
 
         row_style = "";
         <c:choose><c:when test="${(status.index % 2) == 0}">
@@ -61,7 +64,7 @@
 
 <div style="height:3%"><h2 class="left_up_panel">Выберите элемент справочника ${ruPluralShortName}</h2></div>
 <form method="post" action="${pageContext.request.contextPath}" style="overflow:hidden; height:96%"
-      autocomplete="off" name="category_journal" id="category_journal">
+      autocomplete="off" name="category_choice" id="category_choice">
 
     <div style="height:6%" class="horizontal">
         <div>
@@ -78,8 +81,8 @@
                 </tr>
             </table>
         </div>
-        <div class="search-string"><input name="markedTasksListFilterString" placeholder="Поиск"
-                                          onkeyup="onKeyupSearchString(arguments[0],'work_area')"
+        <div class="search-string"><input name="categoryChoiceFilterString" placeholder="Поиск"
+                                          onkeyup="onKeyupSearchString(arguments[0],'category_choice')"
                                           value="${filterString}"/></div>
     </div>
     <div style="height:90%;" id="div-for-main-table">

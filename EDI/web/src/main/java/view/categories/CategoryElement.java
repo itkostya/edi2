@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Objects;
 
 @WebServlet(urlPatterns = {
@@ -94,7 +95,7 @@ public class CategoryElement extends HttpServlet {
         req.setAttribute("categoryElement",
                 AbstractCategoryImpl.INSTANCE.getById( PageContainer.getAbstractCategoryClass(req.getRequestURI()), (Long) CommonModule.getNumberFromRequest(req, "elementId", Long.class)));
         req.setAttribute("columnSet",
-                AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI())));
+                AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI()), Collections.emptyList()));
 
     }
 

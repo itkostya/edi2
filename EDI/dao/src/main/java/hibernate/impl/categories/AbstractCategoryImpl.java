@@ -51,7 +51,8 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
 
     }
 
-    public List<AbstractCategory> getCategoryTable(Class<? extends AbstractCategory> abstractCategoryClass,  String filterString) {
+    public List<AbstractCategory> getCategoryTable(Class<? extends AbstractCategory> abstractCategoryClass,  String filterString, List<String> columnNames) {
+
         Session session = HibernateUtil.getSession();
 
         CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -63,7 +64,7 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
         List<Predicate> predicates = new ArrayList<>();
 
         if (!filterString.isEmpty()){
-            Set<? extends SingularAttribute<? extends AbstractCategory, ?>> setColumns = getCategoryColumns(abstractCategoryClass);
+            Set<? extends SingularAttribute<? extends AbstractCategory, ?>> setColumns = getCategoryColumns(abstractCategoryClass, columnNames);
             for ( SingularAttribute<? extends AbstractCategory, ?> col: setColumns){
 
                 if ("BASIC".equals(col.getType().getPersistenceType().name())){
@@ -101,7 +102,9 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
         }
     }
 
-    public Set<? extends SingularAttribute<? extends AbstractCategory, ?>> getCategoryColumns(Class<? extends AbstractCategory> abstractCategoryClass) {
+    public Set<? extends SingularAttribute<? extends AbstractCategory, ?>> getCategoryColumns(Class<? extends AbstractCategory> abstractCategoryClass, List<String> columnNames) {
+
+        // TODO priority 1: use columnNames if it filled
 
        Session session = HibernateUtil.getSession();
 
@@ -120,9 +123,9 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
         return set;
     }
 
-    public SingularAttribute<? extends AbstractCategory, ?> getCategoryColumnByPosition(Class<? extends AbstractCategory> abstractCategoryClass, String filterString, int pos) {
+    public SingularAttribute<? extends AbstractCategory, ?> getCategoryColumnByPosition(Class<? extends AbstractCategory> abstractCategoryClass, String filterString, int pos, List<String> columnNames) {
 
-        Set<? extends SingularAttribute<? extends AbstractCategory, ?>> setColumns =  getCategoryColumns(abstractCategoryClass);
+        Set<? extends SingularAttribute<? extends AbstractCategory, ?>> setColumns =  getCategoryColumns(abstractCategoryClass, columnNames);
         int i = 0;
 
         for ( SingularAttribute<? extends AbstractCategory, ?> col: setColumns){
