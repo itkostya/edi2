@@ -2,6 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--@elvariable id="categoryTable" type="List<AbstractCategory>"--%>
+<%--@elvariable id="columnSet" type="Set<? extends SingularAttribute<? extends AbstractCategory, ?>>"--%>
 <%--@elvariable id="filterString" type="java.lang.String"--%>
 <%--@elvariable id="mapSortValue" type="java.lang.String"--%>
 <%--@elvariable id="ruPluralShortName" type="java.lang.String"--%>
@@ -26,16 +27,26 @@
         let row_style, img_marked;
         let defSort = (true === ${mapSortValue == 'default'});
         let colNum = (true === ${mapSortValue == 'default'} ? null : "${mapSortValue.substring(0, ((mapSortValue.contains('.') ? mapSortValue.indexOf('.') : 1 )))}");
-        let colOrd = (true === ${mapSortValue == 'default'}? null : "${mapSortValue.charAt(mapSortValue.length()-1)}");
+        let colOrd = (true === ${mapSortValue == 'default'} ? null : "${mapSortValue.charAt(mapSortValue.length()-1)}");
         let filterString = '${filterString}';
 
         row = current_table.createTHead().insertRow(0);
-        insertCellInRow(0, row, '<button name="sortColumn" class="btn-link2" value="0.' + getColOrder("0", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("0", colNum, colOrd, defSort, '') + 'Name</button>'); // Down
+        let itsId, strOrd, strView;
+        <c:forEach var="cellCol" items="${columnSet}" varStatus="statusCol">
+        itsId = (true === ${'id' == cellCol.name});
+        strOrd = getColOrder("${statusCol.index}", colNum, colOrd, defSort, (itsId ? "+" : "n"));
+        strView = getColSymbol("${statusCol.index}", colNum, colOrd, defSort, (itsId ?  "&darr;" : ""));
+        insertCellInRow(${statusCol.index}, row, '<button name="sortColumn" class="btn-link2" value="${statusCol.index}.'+ strOrd + '">' + strView + '${cellCol.name}</button>');
+        </c:forEach>
+        //insertCellInRow(0, row, '<button name="sortColumn" class="btn-link2" value="0.' + getColOrder("0", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("0", colNum, colOrd, defSort, '') + 'Name</button>'); // Down
 
         body = current_table.appendChild(document.createElement('tbody'));
         <c:forEach var="cell" items="${categoryTable}" varStatus="status">
             row = body.insertRow(${status.index});
-            insertCellInRow(0, row, getHighlightedText('${cell.name}', filterString));
+            <c:forEach var="cellCol" items="${columnSet}" varStatus="statusCol">
+                insertCellInRow(${statusCol.index}, row, getHighlightedText('${((cellCol.getType().getPersistenceType() == "BASIC")? cell[cellCol.name]: cell[cellCol.name].name)}', filterString));
+            </c:forEach>
+            <%--insertCellInRow(0, row, getHighlightedText('${cell.name}', filterString));--%>
 
         row_style = "";
         <c:choose><c:when test="${(status.index % 2) == 0}">

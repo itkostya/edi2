@@ -63,7 +63,7 @@
         row.className = "first_row_tasks_list";
         insertCellInRow(0, row, '<button name="sortColumn" class="btn-link2" value="0.' + getColOrder("0", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("0", colNum, colOrd, defSort, '') + '${(FolderStructure.valueOf(bookMark2) == FolderStructure.INBOX || FolderStructure.valueOf(bookMark2) ==  FolderStructure.TRASH) ? (groupBy=='sender' ? 'Отправитель' : 'Автор') : (groupBy=='sender' ? 'Получатель' : 'Кому')}</button>');
         insertCellInRow(1, row, '<button name="sortColumn" class="btn-link2" value="1.' + getColOrder("1", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("1", colNum, colOrd, defSort, '') + 'Тема</button>');
-        insertCellInRow(2, row, '<button name="sortColumn" class="btn-link2" value="2.' + getColOrder("2", colNum, colOrd, defSort, '+') + '">' + getColSymbol("2", colNum, colOrd, defSort, '&uarr;') + 'Дата</button>');  // Up (desc)
+        insertCellInRow(2, row, '<button name="sortColumn" class="btn-link2" value="2.' + getColOrder("2", colNum, colOrd, defSort, '-') + '">' + getColSymbol("2", colNum, colOrd, defSort, '&uarr;') + 'Дата</button>');  // Up (desc)
         <c:choose><c:when test="${FolderStructure.valueOf(bookMark2) == FolderStructure.MARKED}">
         insertCellInRow(1, row, '<button name="sortColumn" class="btn-link2" value="3.' + getColOrder("3", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("3", colNum, colOrd, defSort, '') + '${(groupBy=='sender' ? 'Отправитель' : 'Автор')}</button>');
         </c:when></c:choose>
@@ -156,7 +156,7 @@
         row = current_table.createTHead().insertRow(0);
         row.className = "first_row_tasks_list";
         insertCellInRow(0, row, '<button name="sortColumn" class="btn-link2" value="0.' + getColOrder("0", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("0", colNum, colOrd, defSort, '') + 'Номер');
-        insertCellInRow(1, row, '<button name="sortColumn" class="btn-link2" value="1.' + getColOrder("1", colNum, colOrd, defSort, '+') + '">' + getColSymbol("1", colNum, colOrd, defSort, '&uarr;') + 'Дата');  // Up (desc)
+        insertCellInRow(1, row, '<button name="sortColumn" class="btn-link2" value="1.' + getColOrder("1", colNum, colOrd, defSort, '-') + '">' + getColSymbol("1", colNum, colOrd, defSort, '&uarr;') + 'Дата');  // Up (desc)
         insertCellInRow(2, row, '<button name="sortColumn" class="btn-link2" value="2.' + getColOrder("2", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("2", colNum, colOrd, defSort, '') + 'Документ');
         insertCellInRow(3, row, '<button name="sortColumn" class="btn-link2" value="3.' + getColOrder("3", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("3", colNum, colOrd, defSort, '') + 'Автор');
         insertCellInRow(4, row, '<button name="sortColumn" class="btn-link2" value="4.' + getColOrder("4", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("4", colNum, colOrd, defSort, '') + 'Отправитель');

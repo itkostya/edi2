@@ -96,23 +96,34 @@ public class UserSettings {
 
         if (Objects.nonNull(sortColumnNumber) && sortColumnNumber.length() > 0 && (sortColumnNumber.length() <= 4) && Objects.nonNull(mapSort.get(mapName))) {
 
-            //int columnNumber = Integer.valueOf(sortColumnNumber.substring(0, sortColumnNumber.indexOf(".")));
-            if (sortColumnNumber.charAt(0) == mapSort.get(mapName).get(mapParameter).charAt(0)) {  // ???
-                switch ( mapSort.get(mapName).get(mapParameter).charAt(mapSort.get(mapName).get(mapParameter).length()-1)) {
-                    case 'n':
-                        sortColumnNumber.replace(sortColumnNumber.indexOf(".")+1, sortColumnNumber.length(), "-");
-                        break;
-                    case '+':
-                        sortColumnNumber.replace(sortColumnNumber.indexOf(".")+1, sortColumnNumber.length(), "-");
-                        break;
-                    case '-':
-                        sortColumnNumber.replace(sortColumnNumber.indexOf(".")+1, sortColumnNumber.length(), "+");
-                        break;
+            if (sortColumnNumber.charAt(0) == mapSort.get(mapName).get(mapParameter).charAt(0)){
+                setNextItem(sortColumnNumber, mapSort.get(mapName).get(mapParameter).charAt(mapSort.get(mapName).get(mapParameter).length()-1) );
+            }else
+                {
+                    if ( mapSort.get(mapName).get(mapParameter).equals("default"))
+                    {
+                        setNextItem( sortColumnNumber, sortColumnNumber.charAt(sortColumnNumber.length()-1) );
+                    }
                 }
-            }
             setMapSortParameter(mapName, mapParameter, sortColumnNumber.toString());
         }
         
+    }
+
+    private void setNextItem(StringBuilder sortColumnNumber, char currentSort) {
+
+        switch ( currentSort) {
+            case 'n':
+                sortColumnNumber.replace(sortColumnNumber.indexOf(".")+1, sortColumnNumber.length(), "-");
+                break;
+            case '+':
+                sortColumnNumber.replace(sortColumnNumber.indexOf(".")+1, sortColumnNumber.length(), "-");
+                break;
+            case '-':
+                sortColumnNumber.replace(sortColumnNumber.indexOf(".")+1, sortColumnNumber.length(), "+");
+                break;
+        }
+
     }
 
     public Map<String, String> getMapFilter(String mapName) {

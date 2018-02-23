@@ -104,8 +104,6 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
 
     public Set<? extends SingularAttribute<? extends AbstractCategory, ?>> getCategoryColumns(Class<? extends AbstractCategory> abstractCategoryClass, List<String> columnNames) {
 
-        // TODO priority 1: use columnNames if it filled
-
        Session session = HibernateUtil.getSession();
 
         // TODO: Union of 2 sets should be type casted
@@ -117,6 +115,9 @@ public enum AbstractCategoryImpl implements HibernateDAO<AbstractCategory> {
 
         set.removeIf(o -> o.getName().equals("isFolder"));
         set.removeIf(o -> o.getName().equals("code"));
+
+        if (!columnNames.isEmpty())
+            set.removeIf(o -> !columnNames.contains(o.getName()));
 
         session.close();
 

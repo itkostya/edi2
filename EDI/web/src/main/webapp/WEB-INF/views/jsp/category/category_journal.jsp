@@ -40,7 +40,7 @@
         <c:forEach var="cellCol" items="${columnSet}" varStatus="statusCol">
             itsId = (true === ${'id' == cellCol.name});
             strOrd = getColOrder("${statusCol.index}", colNum, colOrd, defSort, (itsId ? "+" : "n"));
-            strView = getColSymbol("${statusCol.index}", colNum, colOrd, defSort, (itsId ?  "&uarr;" : ""));
+            strView = getColSymbol("${statusCol.index}", colNum, colOrd, defSort, (itsId ?  "&darr;" : ""));
             insertCellInRow(${statusCol.index}, row, '<button name="sortColumn" class="btn-link2" value="${statusCol.index}.'+ strOrd + '">' + strView + '${cellCol.name}</button>');
         </c:forEach>
 

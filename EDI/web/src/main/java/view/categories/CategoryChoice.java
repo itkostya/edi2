@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -62,14 +63,14 @@ public class CategoryChoice extends HttpServlet {
     private void setAttributesForCategory(HttpServletRequest req, String pageName){
 
         req.setAttribute("ruPluralShortName", PageContainer.getCategoryProperty(req.getRequestURI()).getRuPluralShortName());
-        // TODO - Set your own list instead of Collections.emptyList()
+
         req.setAttribute("categoryTable",
                 AbstractCategoryServiceImpl.INSTANCE.getCategoryTable(
                         PageContainer.getAbstractCategoryClass(req.getRequestURI()),
                         SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName, "categoryChoice"),
-                        SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter(pageName, "categoryChoice"), Collections.emptyList()));
+                        SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter(pageName, "categoryChoice"), Arrays.asList("id", "name") ));
         req.setAttribute("columnSet",
-                AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI()), Collections.emptyList()));
+                AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI()), Arrays.asList("id", "name") ));
         req.setAttribute("mapSortValue", SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter(pageName, "categoryChoice"));
         req.setAttribute("filterString", SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter(pageName, "categoryChoice"));
 

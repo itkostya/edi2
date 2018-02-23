@@ -160,12 +160,12 @@
 
         row = current_table.createTHead().insertRow(0);
         row.className = "first_row_task_table";
-        insertCellInRow(0, row, '<button name="sortColumn" class="btn-link2" value="0.' + getColOrder("0", colNum, colOrd, defSort, '-') + '">' + getColSymbol("0", colNum, colOrd, defSort, '&darr;') + 'Тип процесса</button>'); // Down (asc)
+        insertCellInRow(0, row, '<button name="sortColumn" class="btn-link2" value="0.' + getColOrder("0", colNum, colOrd, defSort, '+') + '">' + getColSymbol("0", colNum, colOrd, defSort, '&darr;') + 'Тип процесса</button>'); // Down (asc)
         insertCellInRow(1, row, '<button name="sortColumn" class="btn-link2" value="1.' + getColOrder("1", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("1", colNum, colOrd, defSort, '') + 'Кто</button>');
         insertCellInRow(2, row, '<button name="sortColumn" class="btn-link2" value="2.' + getColOrder("2", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("2", colNum, colOrd, defSort, '') + 'Документ</button>');
         insertCellInRow(3, row, '<button name="sortColumn" class="btn-link2" value="3.' + getColOrder("3", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("3", colNum, colOrd, defSort, '') + 'Тема</button>');
-        insertCellInRow(4, row, '<button name="sortColumn" class="btn-link2" value="4.' + getColOrder("4", colNum, colOrd, defSort, '+') + '">' + getColSymbol("4", colNum, colOrd, defSort, '&uarr;') + 'Дата отправки</button>'); // Up (desc)
-        insertCellInRow(5, row, '<button name="sortColumn" class="btn-link2" value="5.' + getColOrder("5", colNum, colOrd, defSort, '-') + '">' + getColSymbol("5", colNum, colOrd, defSort, '&darr;') + 'Срок</button>');  // Down (asc)
+        insertCellInRow(4, row, '<button name="sortColumn" class="btn-link2" value="4.' + getColOrder("4", colNum, colOrd, defSort, '-') + '">' + getColSymbol("4", colNum, colOrd, defSort, '&uarr;') + 'Дата отправки</button>'); // Up (desc)
+        insertCellInRow(5, row, '<button name="sortColumn" class="btn-link2" value="5.' + getColOrder("5", colNum, colOrd, defSort, '+') + '">' + getColSymbol("5", colNum, colOrd, defSort, '&darr;') + 'Срок</button>');  // Down (asc)
 
         body = current_table.appendChild(document.createElement('tbody'));
         <c:forEach var="cell" items="${reviewTasksList}" varStatus="status">
@@ -221,11 +221,11 @@
 
         row = current_table.createTHead().insertRow(0);
         row.className = "first_row_task_table";
-        insertCellInRow(0, row, '<button name="sortColumn" class="btn-link2" value="0.' + getColOrder("0", colNum, colOrd, defSort, '-') + '">' + getColSymbol("0", colNum, colOrd, defSort, '&darr;') + 'Тип процесса</button>'); // Down
+        insertCellInRow(0, row, '<button name="sortColumn" class="btn-link2" value="0.' + getColOrder("0", colNum, colOrd, defSort, '+') + '">' + getColSymbol("0", colNum, colOrd, defSort, '&darr;') + 'Тип процесса</button>'); // Down
         insertCellInRow(1, row, '<button name="sortColumn" class="btn-link2" value="1.' + getColOrder("1", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("1", colNum, colOrd, defSort, '') + 'Кому</button>');
         insertCellInRow(2, row, '<button name="sortColumn" class="btn-link2" value="2.' + getColOrder("2", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("2", colNum, colOrd, defSort, '') + 'Документ</button>');
         insertCellInRow(3, row, '<button name="sortColumn" class="btn-link2" value="3.' + getColOrder("3", colNum, colOrd, defSort, 'n') + '">' + getColSymbol("3", colNum, colOrd, defSort, '') + 'Тема</button>');
-        insertCellInRow(4, row, '<button name="sortColumn" class="btn-link2" value="4.' + getColOrder("4", colNum, colOrd, defSort, '-') + '">' + getColSymbol("4", colNum, colOrd, defSort, '&darr;') + 'Исполнить до</button>'); // Down
+        insertCellInRow(4, row, '<button name="sortColumn" class="btn-link2" value="4.' + getColOrder("4", colNum, colOrd, defSort, '+') + '">' + getColSymbol("4", colNum, colOrd, defSort, '&darr;') + 'Исполнить до</button>'); // Down
 
         body = current_table.appendChild(document.createElement('tbody'));
         <c:forEach var="cell" items="${controlledTasksList}" varStatus="status">
