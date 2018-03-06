@@ -58,7 +58,7 @@ public enum UserImpl implements HibernateDAO<User> {
 
     public List<User> getUsers() {
         Session session = HibernateUtil.getSession();
-        Query<User> query = session.createQuery("from User where domain is null", User.class);
+        Query<User> query = session.createQuery("from User where role is not null", User.class);
         List<User> list = query.getResultList();
         session.close();
         return list;
@@ -96,6 +96,10 @@ public enum UserImpl implements HibernateDAO<User> {
 //        session.close();
 //        return list;
 
+    }
+
+    public boolean isDatabaseEmpty(){
+        return getUsers().isEmpty();
     }
 
 }

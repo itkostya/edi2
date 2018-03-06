@@ -23,6 +23,9 @@ public enum PageContainer {
     public static final String USER_PAGE = "/user";
     public static final String USER_JSP = "WEB-INF/views/jsp/authorization/user.jsp";
 
+    public static final String NEW_USER_PAGE = "/new_user";
+    public static final String NEW_USER_JSP = "WEB-INF/views/jsp/authorization/new_user.jsp";
+
     public static final String ERROR_JSP = "WEB-INF/views/jsp/authorization/error.jsp";
 
     public static final String WORK_AREA_PAGE = "/work_area";

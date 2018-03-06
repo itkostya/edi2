@@ -44,6 +44,9 @@ public class User extends AbstractCategory{
     @Column(name = "password")
     private String password;
 
+    @Enumerated(EnumType.ORDINAL)
+    private UserRole role;
+
     @ManyToOne
     @JoinColumn(name = "position_id")
     private Position position;
@@ -87,7 +90,7 @@ public class User extends AbstractCategory{
         super(name, deletionMark, code, isFolder);
     }
 
-    public User(String name, boolean deletionMark, Long code, boolean isFolder, String lastName, String firstName, String middleName, String login, String domain, String password, Position position, Department department) {
+    public User(String name, boolean deletionMark, Long code, boolean isFolder, String lastName, String firstName, String middleName, String login, String domain, String password, Position position, Department department, UserRole role) {
         super(name, deletionMark, code, isFolder);
         this.lastName = lastName;
         this.firstName = firstName;
@@ -97,6 +100,7 @@ public class User extends AbstractCategory{
         this.password = password;
         this.position = position;
         this.department = department;
+        this.role = role;
     }
 
     public String getFioInitials(){
@@ -172,6 +176,15 @@ public class User extends AbstractCategory{
     @SuppressWarnings("unused")
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    @SuppressWarnings("unused")
+    public void setRole(UserRole role) {
+        this.role = role;
     }
 
     public String getFio() {
@@ -269,11 +282,11 @@ public class User extends AbstractCategory{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         User user = (User) o;
-        return Objects.equals(lastName, user.lastName) && Objects.equals(firstName, user.firstName) && Objects.equals(middleName, user.middleName) && Objects.equals(login, user.login) && Objects.equals(domain, user.domain) && Objects.equals(password, user.password) && Objects.equals(position, user.position) && Objects.equals(department, user.department);
+        return Objects.equals(lastName, user.lastName) && Objects.equals(firstName, user.firstName) && Objects.equals(middleName, user.middleName) && Objects.equals(login, user.login) && Objects.equals(domain, user.domain) && Objects.equals(password, user.password) && Objects.equals(position, user.position) && Objects.equals(department, user.department) && role == user.role;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), lastName, firstName, middleName, login, domain, password, position, department);
+        return Objects.hash(super.hashCode(), lastName, firstName, middleName, login, domain, password, position, department, role);
     }
 }

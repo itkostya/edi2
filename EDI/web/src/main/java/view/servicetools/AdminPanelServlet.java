@@ -1,6 +1,7 @@
 package view.servicetools;
 
 
+import categories.User;
 import hibernate.impl.categories.UserImpl;
 import model.SessionParameter;
 import service_tools.CreateData;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 /*
  * Created by kostya on 9/2/2016.
@@ -21,7 +23,15 @@ public class AdminPanelServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(PageContainer.ADMIN_JSP).forward(req, resp);
+        boolean isDatabaseEmpty =  UserImpl.INSTANCE.isDatabaseEmpty();
+        req.setAttribute("isDatabaseEmpty", UserImpl.INSTANCE.isDatabaseEmpty());
+        if ((isDatabaseEmpty) || (SessionParameter.INSTANCE.adminAccessAllowed(req))) {
+            req.getRequestDispatcher(PageContainer.ADMIN_JSP).forward(req, resp);
+        }else{
+            User currentUser = SessionParameter.INSTANCE.getCurrentUser(req);
+            req.setAttribute("error_message", (Objects.isNull(currentUser) ? "You should pass authorization first" : String.format("User %s doesn't have admin role", currentUser.getName())));
+            req.getRequestDispatcher(PageContainer.ERROR_JSP).forward(req, resp);
+        }
     }
 
     @Override
@@ -30,44 +40,17 @@ public class AdminPanelServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
 
-        Integer param = Integer.valueOf(req.getParameter("param"));
-        switch (param) {
-            case 1:
-                 CreateData.createDepartments();
-                break;
-            case 2:
-                CreateData.createPositions();
-                break;
-            case 3:
-                CreateData.createUsers();
-                break;
-            case 4:
-                CreateData.createCategories();    // Useful
-                break;
-            case 5:
-                CreateData.createMemorandums();
-                break;
-            case 6:
-                CreateData.createBusinessProcess();
-                break;
-            case 7:
-                CreateData.createBusinessProcessSequence();
-                break;
-            case 8:
-                CreateData.createExecutorTasks();
-                break;
-            case 20:
-                CreateData.createCheckFileFolder();
-                break;
-            case 21:
-                CreateData.createAll();
-                break;
-            case 31:
-                SessionParameter.INSTANCE.setCurrentUser(req, UserImpl.INSTANCE.getUserById(9L));
-                break;
-        }
-
-        System.out.println(param);
+            Integer param = Integer.valueOf(req.getParameter("param"));
+            switch (param) {
+                case 1:
+                    // Creation tables only if database is empty
+                    if (UserImpl.INSTANCE.isDatabaseEmpty()) {
+                        CreateData.createCategories();
+                        // After creation user has admin access
+                        SessionParameter.INSTANCE.setCurrentUser(req, UserImpl.INSTANCE.getUserById(8L));
+                    }
+                    break;
+            }
 
         doGet(req, resp);
 

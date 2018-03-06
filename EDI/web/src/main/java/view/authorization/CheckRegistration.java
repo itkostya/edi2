@@ -24,10 +24,13 @@ public class CheckRegistration extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        List<User> userList = UserImpl.INSTANCE.getUsers();
-        req.setAttribute("userList", userList);
-
-        req.getRequestDispatcher(PageContainer.USER_JSP).forward(req, resp);
+        if (UserImpl.INSTANCE.isDatabaseEmpty()){
+            resp.sendRedirect(PageContainer.ADMIN_PAGE);
+        }else {
+            List<User> userList = UserImpl.INSTANCE.getUsers();
+            req.setAttribute("userList", userList);
+            req.getRequestDispatcher(PageContainer.USER_JSP).forward(req, resp);
+        }
     }
 
     @Override
@@ -45,8 +48,12 @@ public class CheckRegistration extends HttpServlet {
                 req.setAttribute("UserPresentation", databaseUser.getFio());
                 req.setAttribute("Bookmark", "1");
                 req.setAttribute("DocumentPropertyList", DocumentProperty.values());
-                //req.getRequestDispatcher(PageContainer.WORK_AREA_JSP).forward(req, resp);
-                resp.sendRedirect(PageContainer.WORK_AREA_PAGE);
+
+                if (SessionParameter.INSTANCE.adminAccessAllowed(req)) {
+                    resp.sendRedirect(PageContainer.ADMIN_PAGE);
+                }else{
+                    resp.sendRedirect(PageContainer.WORK_AREA_PAGE);
+                }
 
             } else {
                 req.setAttribute("error_message", String.format("Password for user %s is not correct", userClient.getLogin()));
