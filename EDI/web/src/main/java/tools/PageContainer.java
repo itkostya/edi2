@@ -7,6 +7,9 @@ import documents.Memorandum;
 import documents.Message;
 import exсeption.PageContainerNotFoundException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /*
@@ -22,9 +25,6 @@ public enum PageContainer {
 
     public static final String USER_PAGE = "/user";
     public static final String USER_JSP = "WEB-INF/views/jsp/authorization/user.jsp";
-
-    public static final String NEW_USER_PAGE = "/new_user";
-    public static final String NEW_USER_JSP = "WEB-INF/views/jsp/authorization/new_user.jsp";
 
     public static final String ERROR_JSP = "WEB-INF/views/jsp/authorization/error.jsp";
 
@@ -369,6 +369,17 @@ public enum PageContainer {
         throw new PageContainerNotFoundException("getChoicePage - classAbstractCategory: "+classAbstractCategory);
 
     }
+
+
+    public static List<String> getNewUserAvailableProperties(Class <? extends AbstractCategory> classAbstractCategory){
+
+        if (Objects.isNull(classAbstractCategory)) throw new PageContainerNotFoundException("getNewUserProperties - classAbstractCategory: null");
+        else if ( classAbstractCategory.equals(User.class))  return Arrays.asList("lastName", "firstName" ,"middleName", "position", "department");
+
+        throw new PageContainerNotFoundException("getNewUserProperties - classAbstractCategory: "+classAbstractCategory);
+
+    }
+
 
 
 }

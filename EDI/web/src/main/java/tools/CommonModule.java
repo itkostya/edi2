@@ -17,7 +17,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 import java.util.function.IntFunction;
@@ -70,6 +73,18 @@ public enum CommonModule {
         }
 
         return null;
+    }
+
+    public static Boolean getBooleanFromRequest(HttpServletRequest req, String parameterName) {
+
+        String parameterString = req.getParameter(parameterName);
+
+        if (Objects.nonNull(parameterString)) {
+            if (parameterString.isEmpty()) return Boolean.FALSE;
+            else return Boolean.valueOf(parameterString);
+        }
+
+        return Boolean.FALSE;
     }
 
     // the same as jsp - common - common.jsp

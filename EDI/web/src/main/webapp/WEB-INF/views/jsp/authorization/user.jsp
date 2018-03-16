@@ -53,8 +53,8 @@
                             </td>
 
                             <td>
-                                <button class="btn btn-lg btn-primary btn-block" id = "ok">Ok</button>
-                                <button class="btn btn-lg btn-primary btn-block" id = "cancel">Cancel</button>
+                                <button id = "ok">Ok</button>
+                                <button id = "cancel">Cancel</button>
                             </td>
 
                         </tr>

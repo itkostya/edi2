@@ -241,8 +241,25 @@ a.button-disabled{
     background-size: contain;
 }
 
-
 /********** COMMAND BARS END **********/
+
+.authorization-login{
+    vertical-align: middle;
+    width: 72px;
+    height: 36px;
+    background:
+            url(../../images/authorization/login.png);
+    background-size: contain;
+}
+
+.authorization-sign-up{
+    vertical-align: middle;
+    width: 72px;
+    height: 36px;
+    background:
+            url(../../images/authorization/sign-up.png);
+    background-size: contain;
+}
 
 .select-whom{
     vertical-align: middle;

@@ -1,6 +1,7 @@
 package view.categories;
 
 import abstract_entity.AbstractCategory;
+import categories.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -47,6 +49,17 @@ public class CategoryElement extends HttpServlet {
             setAttributesForCategory(req, PageContainer.getPageName(req.getRequestURI()));
             req.setAttribute("sessionDataElement", sessionDataElement);
             req.getRequestDispatcher(PageContainer.getJspName(req.getRequestURI())).forward(req, resp);
+
+        }
+        else if (CommonModule.getBooleanFromRequest(req,"createNew")){
+            Long tempId = (Long) CommonModule.getNumberFromRequest(req, "tempId", Long.class);
+
+            SessionParameter.INSTANCE.setCurrentUser(req, new User());  // TODO - restrict roles for this user
+
+            SessionDataElement sessionDataElement = SessionParameter.INSTANCE.getUserSettings(req).getSessionDataElement(tempId);
+            setAttributesForCategory(req, PageContainer.getPageName(req.getRequestURI()));
+            req.setAttribute("sessionDataElement", sessionDataElement);
+            req.getRequestDispatcher(PageContainer.getJspName(req.getRequestURI())).forward(req, resp);
         }
         else {
             req.setAttribute("error_message", "Access denied");
@@ -72,15 +85,21 @@ public class CategoryElement extends HttpServlet {
             sessionDataElement.setElementStatus(ElementStatus.ERROR);
         }
 
-        if (Objects.nonNull(elementEditable)
-                && Objects.nonNull(elementEditable.getId())){
-            Long elementRequestId = (Long) CommonModule.getNumberFromRequest(req, "elementId", Long.class);
-            if (elementEditable.getId().equals(elementRequestId)){
-                // Update element
-                AbstractCategoryImpl.INSTANCE.update(elementEditable);
+        Boolean createNew = CommonModule.getBooleanFromRequest(req,"createNew");
+
+        if (Objects.nonNull(elementEditable)) {
+            if (Objects.nonNull(elementEditable.getId())) {
+                Long elementRequestId = (Long) CommonModule.getNumberFromRequest(req, "elementId", Long.class);
+                if (elementEditable.getId().equals(elementRequestId)) {
+                    AbstractCategoryImpl.INSTANCE.update(elementEditable);
+                    sessionDataElement.setElementStatus(ElementStatus.CLOSE);
+                }
+            } else if (createNew) {
+                AbstractCategoryImpl.INSTANCE.save(elementEditable);
                 sessionDataElement.setElementStatus(ElementStatus.CLOSE);
             }
         }
+
 
         req.setAttribute("infoResult", sessionDataElement.getErrorMessage());
         req.setAttribute("sessionDataElement", sessionDataElement);
@@ -92,10 +111,27 @@ public class CategoryElement extends HttpServlet {
    private void setAttributesForCategory(HttpServletRequest req, String pageName){
 
         req.setAttribute("ruPluralShortName", PageContainer.getCategoryProperty(req.getRequestURI()).getRuPluralShortName());
-        req.setAttribute("categoryElement",
-                AbstractCategoryImpl.INSTANCE.getById( PageContainer.getAbstractCategoryClass(req.getRequestURI()), (Long) CommonModule.getNumberFromRequest(req, "elementId", Long.class)));
+
+        Boolean createNew = CommonModule.getBooleanFromRequest(req,"createNew");
+        if (createNew){
+            Class c =  PageContainer.getAbstractCategoryClass(req.getRequestURI());
+            AbstractCategory newElement = null;
+            try {
+                newElement = (AbstractCategory) c.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            req.setAttribute("categoryElement", newElement);
+        }else {
+            req.setAttribute("categoryElement",
+                    AbstractCategoryImpl.INSTANCE.getById(PageContainer.getAbstractCategoryClass(req.getRequestURI()), (Long) CommonModule.getNumberFromRequest(req, "elementId", Long.class)));
+        }
+
         req.setAttribute("columnSet",
-                AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI()), Collections.emptyList()));
+                AbstractCategoryServiceImpl.INSTANCE.getCategoryColumns( PageContainer.getAbstractCategoryClass(req.getRequestURI()),
+                        createNew && !SessionParameter.INSTANCE.adminAccessAllowed(req) ?
+                                PageContainer.getNewUserAvailableProperties(PageContainer.getAbstractCategoryClass(req.getRequestURI())):
+                                Collections.emptyList()));
 
     }
 
