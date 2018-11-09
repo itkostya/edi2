@@ -102,4 +102,12 @@ public enum UserImpl implements HibernateDAO<User> {
         return getUsers().isEmpty();
     }
 
+    public List<User> getNewUsers(){
+        Session session = HibernateUtil.getSession();
+        Query<User> query = session.createQuery("from User where role is null and deletionMark = false", User.class);
+        List<User> list = query.getResultList();
+        session.close();
+        return list;
+    }
+
 }

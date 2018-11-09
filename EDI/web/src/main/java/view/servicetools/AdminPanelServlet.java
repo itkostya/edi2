@@ -3,6 +3,7 @@ package view.servicetools;
 
 import categories.User;
 import hibernate.impl.categories.UserImpl;
+import impl.categories.UserServiceImpl;
 import model.SessionParameter;
 import service_tools.CreateData;
 import tools.PageContainer;
@@ -26,6 +27,7 @@ public class AdminPanelServlet extends HttpServlet {
         boolean isDatabaseEmpty =  UserImpl.INSTANCE.isDatabaseEmpty();
         req.setAttribute("isDatabaseEmpty", UserImpl.INSTANCE.isDatabaseEmpty());
         if ((isDatabaseEmpty) || (SessionParameter.INSTANCE.adminAccessAllowed(req))) {
+            req.setAttribute("newUsersCount", UserServiceImpl.INSTANCE.getNewUsersCount());
             req.getRequestDispatcher(PageContainer.ADMIN_JSP).forward(req, resp);
         }else{
             User currentUser = SessionParameter.INSTANCE.getCurrentUser(req);

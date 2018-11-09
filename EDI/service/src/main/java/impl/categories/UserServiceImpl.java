@@ -28,4 +28,8 @@ public enum UserServiceImpl {
         return UserImpl.INSTANCE.getCoworkers(filterString);
     }
 
+    public Integer getNewUsersCount(){
+        List<User> userList = UserImpl.INSTANCE.getNewUsers();
+        return userList.size();
+    }
 }

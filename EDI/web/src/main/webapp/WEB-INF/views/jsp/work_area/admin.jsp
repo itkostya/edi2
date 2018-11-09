@@ -5,6 +5,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%--@elvariable id="isDatabaseEmpty" type="boolean">"--%>
+<%--@elvariable id="newUsersCount" type="java.lang.Integer"--%>
 
 <html>
 
@@ -15,6 +16,15 @@
 </head>
 
 <body>
+
+<script>
+
+    window.onload = function () {
+
+        <c:set value="${newUsersCount!=null && newUsersCount!=0}" var="isExistNewUsersCount"/>
+
+    };
+</script>
 
 <div class="container form-welcome">
 
@@ -39,6 +49,9 @@
                                         <img src="${pageContext.request.contextPath}/resources/images/work_area/User.png"
                                              alt="Пользователи" class="button_dark_green"></a>
                                 </div>
+                                <div class="number_in_circle" ${isExistNewUsersCount ? '' : 'style="background: none;"'}
+                                     onclick="window.alert('Количество новых пользователей');">
+                                        ${isExistNewUsersCount ? newUsersCount : ''} </div>
                             </div>
                         </td>
                         <td>
@@ -48,6 +61,7 @@
                                         <img src="${pageContext.request.contextPath}/resources/images/work_area/Position.png"
                                              alt="Должности" class="button_dark_green"></a>
                                 </div>
+                                <div class="number_in_circle" style="background: none; height: 24px; width: 24px; top: -71px; left: -1px; border-radius: 24px; font-size: medium;"></div>
                             </div>
                         </td>
                         <td>
@@ -57,6 +71,7 @@
                                         <img src="${pageContext.request.contextPath}/resources/images/work_area/Department.png"
                                              alt="Департаменты" class="button_dark_green"></a>
                                 </div>
+                                <div class="number_in_circle" style="background: none; height: 24px; width: 24px; top: -71px; left: -1px; border-radius: 24px; font-size: medium;"></div>
                             </div>
                         </td>
                         <td>
@@ -66,6 +81,7 @@
                                         <img src="${pageContext.request.contextPath}/resources/images/work_area/LegalOrganization.png"
                                              alt="Юридические лица" class="button_dark_green"></a>
                                 </div>
+                                <div class="number_in_circle" style="background: none; height: 24px; width: 24px; top: -71px; left: -1px; border-radius: 24px; font-size: medium;"></div>
                             </div>
                         </td>
                         <td>
@@ -75,6 +91,7 @@
                                         <img src="${pageContext.request.contextPath}/resources/images/work_area/Contractor.png"
                                              alt="Контрагенты" class="button_dark_green"></a>
                                 </div>
+                                <div class="number_in_circle" style="background: none; height: 24px; width: 24px; top: -71px; left: -1px; border-radius: 24px; font-size: medium;"></div>
                             </div>
                         </td>
                         <td>
@@ -84,6 +101,7 @@
                                         <img src="${pageContext.request.contextPath}/resources/images/work_area/Currency.png"
                                              alt="Валюты" class="button_dark_green"></a>
                                 </div>
+                                <div class="number_in_circle" style="background: none; height: 24px; width: 24px; top: -71px; left: -1px; border-radius: 24px; font-size: medium;"></div>
                             </div>
                         </td>
                     </tr>
