@@ -16,6 +16,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
     <jsp:include page="../common/common.jsp"/>
+    <%--IT'S COPY FROM CATEGORY_JOURNAL.JSP, BUT IT HAS SPECIAL THINGS AVAILABLE ONLY FOR CATEGORY USER:
+      I DON'T WANTED TO USE WEIRD CONDITIONS IN COMMON JSP FILE SO I CREATED A NEW ONE
+      IT'S NOT INHERITAGE FOR JSP, BUT IT'S CLOSE FOR THIS--%>
 </head>
 
 <body>
@@ -25,6 +28,7 @@
         refreshCategoryTable(document.getElementById("table-category"));
     };
 
+    // CHANGEABLE
     function refreshCategoryTable(current_table) {
 
         let body, row;
@@ -55,6 +59,12 @@
             <c:choose><c:when test="${(status.index % 2) == 0}">
             row_style += " background: rgb(255, 248, 234); ";
             </c:when></c:choose>
+
+            // CHANGEABLE BEGIN
+            if (  true === ${cell['role']== null} )
+            row_style += " background: rgb(255, 178, 179); ";
+            // CHANGEABLE END
+
             row.style = row_style;
 
             row.ondblclick = function () {

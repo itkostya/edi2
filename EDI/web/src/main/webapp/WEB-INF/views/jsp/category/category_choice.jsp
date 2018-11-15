@@ -24,7 +24,7 @@
     function refreshCategoryTable(current_table) {
 
         let body, row;
-        let row_style, img_marked;
+        let row_style;
         let defSort = (true === ${mapSortValue == 'default'});
         let colNum = (true === ${mapSortValue == 'default'} ? null : "${mapSortValue.substring(0, ((mapSortValue.contains('.') ? mapSortValue.indexOf('.') : 1 )))}");
         let colOrd = (true === ${mapSortValue == 'default'} ? null : "${mapSortValue.charAt(mapSortValue.length()-1)}");

@@ -96,7 +96,7 @@ public enum PageContainer {
     public static final String CATEGORY_USER_ELEMENT_PAGE = "/cat_user_element";
     public static final String CATEGORY_USER_ELEMENT_JSP = CATEGORY_COMMON_ELEMENT_JSP;
     public static final String CATEGORY_USER_JOURNAL_PAGE = "/cat_user_journal";
-    public static final String CATEGORY_USER_JOURNAL_JSP = CATEGORY_COMMON_JOURNAL_JSP;
+    public static final String CATEGORY_USER_JOURNAL_JSP = "WEB-INF/views/jsp/category/cat_user_journal.jsp";
 
     public static final String DOCUMENT_MEMORANDUM_JOURNAL_PAGE = "/doc_memorandum_journal";
     @SuppressWarnings("WeakerAccess")
