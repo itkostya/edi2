@@ -7,6 +7,7 @@ import business_processes.BusinessProcessSequence;
 import business_processes.ExecutorTask;
 import business_processes.ExecutorTaskFolderStructure;
 import documents.Memorandum;
+import information_registers.UserAccessRight;
 import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
@@ -78,6 +79,9 @@ public class User extends AbstractCategory{
 
     @OneToMany(mappedBy = "user")
     private Set<ExecutorTaskFolderStructure> executorTaskFolderStructureUserSet = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserAccessRight> userAccessRightSet = new HashSet<>();
 
     public User() {
     }
@@ -274,6 +278,16 @@ public class User extends AbstractCategory{
     @SuppressWarnings("unused")
     public void setExecutorTaskFolderStructureUserSet(Set<ExecutorTaskFolderStructure> executorTaskFolderStructureUserSet) {
         this.executorTaskFolderStructureUserSet = executorTaskFolderStructureUserSet;
+    }
+
+    @SuppressWarnings("unused")
+    public Set<UserAccessRight> getUserAccessRightSet() {
+        return userAccessRightSet;
+    }
+
+    @SuppressWarnings("unused")
+    public void setUserAccessRightSet(Set<UserAccessRight> userAccessRightSet) {
+        this.userAccessRightSet = userAccessRightSet;
     }
 
     @Override

@@ -24,6 +24,12 @@
     width: 72px;
 }
 
+.button_red {
+    background: rgb(255, 0, 0);
+    height: 72px;
+    width: 72px;
+}
+
 .button_lime {
     background: rgb(26, 219, 8);
     height: 72px;

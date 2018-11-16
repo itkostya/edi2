@@ -5,7 +5,7 @@
 <html>
 
 <head>
-    <title>Edi - version 0.125 - beta</title>
+    <title>Edi - version 0.126 - beta</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link href="<c:url value="/resources/css/common/common.css"/>" rel="stylesheet" type="text/css">
     <jsp:include page="/WEB-INF/views/jsp/common/common.jsp"/>

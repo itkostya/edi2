@@ -38,11 +38,14 @@
         <mapping class="enumerations.ProcessOrderType"/>
         <mapping class="enumerations.ProcessResult"/>
         <mapping class="enumerations.ProcessType"/>
+        <mapping class="enumerations.MetadataType"/>
 
         <mapping class="business_processes.BusinessProcess"/>
         <mapping class="business_processes.BusinessProcessSequence"/>
         <mapping class="business_processes.ExecutorTask"/>
         <mapping class="business_processes.ExecutorTaskFolderStructure"/>
+
+        <mapping class="information_registers.UserAccessRight"/>
 
     </session-factory>
 </hibernate-configuration>

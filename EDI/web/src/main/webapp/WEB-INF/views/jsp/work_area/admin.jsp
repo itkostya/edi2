@@ -133,6 +133,15 @@
                                 </div>
                             </div>
                         </td>
+                        <td>
+                            <div class="relative-with-border" id="div-data-processors-set-roles">
+                                <div>
+                                    <a href='${pageContext.request.contextPath}${PageContainer.DATA_PROCESSOR_SET_RIGHTS_PAGE}' target="_blank">
+                                        <img src="${pageContext.request.contextPath}/resources/images/data_processors/SetRights.png"
+                                             alt="Установка ролей пользователей" class="button_red"></a>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 </table>
 

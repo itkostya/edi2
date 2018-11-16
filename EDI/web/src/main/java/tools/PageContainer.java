@@ -115,6 +115,9 @@ public enum PageContainer {
     public static final String EXECUTOR_TASK_PAGE = "/executor_task";
     public static final String EXECUTOR_TASK_JSP = "WEB-INF/views/jsp/business_processes/executor_task.jsp";
 
+    public static final String DATA_PROCESSOR_SET_RIGHTS_PAGE = "/data_processor_set_rights";
+    public static final String DATA_PROCESSOR_SET_RIGHTS_JSP = "WEB-INF/views/jsp/data_processors/set_rights.jsp";
+
     public static final String DOWNLOAD_PAGE = "/download";
 
     public static String getCreatePageStringByDocumentProperty(String documentProperty){
@@ -123,7 +126,7 @@ public enum PageContainer {
             case ("MEMORANDUM"): return DOCUMENT_MEMORANDUM_CREATE_PAGE;
             case ("MESSAGE"): return DOCUMENT_MESSAGE_CREATE_PAGE;
         }
-        throw new PageContainerNotFoundException("getCreatePageStringByDocumentProperty - documentProperty: "+documentProperty);
+        throw new PageContainerNotFoundException("getCreatePageStringByDocumentProperty -> documentProperty: "+documentProperty);
 
     }
 
@@ -178,7 +181,7 @@ public enum PageContainer {
             case PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_PAGE: return Memorandum.class.getName();
             case PageContainer.DOCUMENT_MESSAGE_JOURNAL_PAGE: return Message.class.getName();
         }
-        throw new PageContainerNotFoundException("getPageName - requestURI: "+requestURI);
+        throw new PageContainerNotFoundException("getPageName -> requestURI: "+requestURI);
     }
 
     public static String getJspName(String requestURI){
@@ -222,8 +225,10 @@ public enum PageContainer {
 
             case PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_PAGE: return PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_JSP;
             case PageContainer.DOCUMENT_MESSAGE_JOURNAL_PAGE: return PageContainer.DOCUMENT_MESSAGE_JOURNAL_JSP;
+
+            case PageContainer.DATA_PROCESSOR_SET_RIGHTS_PAGE: return PageContainer.DATA_PROCESSOR_SET_RIGHTS_JSP;
         }
-        throw new PageContainerNotFoundException("getJspName - requestURI: "+requestURI);
+        throw new PageContainerNotFoundException("getJspName -> requestURI: "+requestURI);
     }
 
     public static Class<? extends AbstractDocumentEdi> getAbstractDocumentClass(String requestURI){
@@ -232,7 +237,7 @@ public enum PageContainer {
             case PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_PAGE: return  Memorandum.class;
             case PageContainer.DOCUMENT_MESSAGE_JOURNAL_PAGE: return  Message.class;
         }
-        throw new PageContainerNotFoundException("getAbstractDocumentClass - requestURI: "+requestURI);
+        throw new PageContainerNotFoundException("getAbstractDocumentClass -> requestURI: "+requestURI);
     }
 
     public static Class<? extends AbstractCategory> getAbstractCategoryClass(String requestURI){
@@ -283,7 +288,7 @@ public enum PageContainer {
             case PageContainer.CATEGORY_USER_JOURNAL_PAGE:
                 return User.class;
         }
-        throw new PageContainerNotFoundException("getAbstractDocumentClass - requestURI: "+requestURI);
+        throw new PageContainerNotFoundException("getAbstractDocumentClass -> requestURI: "+requestURI);
     }
 
     public static CategoryProperty getCategoryProperty(String requestURI){
@@ -334,7 +339,7 @@ public enum PageContainer {
             case PageContainer.CATEGORY_USER_JOURNAL_PAGE:
                 return CategoryProperty.USER;
         }
-        throw new PageContainerNotFoundException("getCategoryProperty - requestURI: "+requestURI);
+        throw new PageContainerNotFoundException("getCategoryProperty -> requestURI: "+requestURI);
     }
 
     public static String getElementPage(String requestURI){
@@ -350,7 +355,7 @@ public enum PageContainer {
             case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_PAGE: return PageContainer.CATEGORY_PROPOSAL_TEMPLATE_ELEMENT_PAGE;
             case PageContainer.CATEGORY_USER_JOURNAL_PAGE: return PageContainer.CATEGORY_USER_ELEMENT_PAGE;
         }
-        throw new PageContainerNotFoundException("getElementType - requestURI: "+requestURI);
+        throw new PageContainerNotFoundException("getElementType -> requestURI: "+requestURI);
     }
 
     public static String getChoicePage(Class <? extends AbstractCategory> classAbstractCategory){
@@ -366,7 +371,7 @@ public enum PageContainer {
         else if ( classAbstractCategory.equals(ProposalTemplate.class))  return PageContainer.CATEGORY_PROPOSAL_TEMPLATE_CHOICE_PAGE;
         else if ( classAbstractCategory.equals(User.class))  return PageContainer.CATEGORY_USER_CHOICE_PAGE;
 
-        throw new PageContainerNotFoundException("getChoicePage - classAbstractCategory: "+classAbstractCategory);
+        throw new PageContainerNotFoundException("getChoicePage -> classAbstractCategory: "+classAbstractCategory);
 
     }
 
@@ -376,7 +381,7 @@ public enum PageContainer {
         if (Objects.isNull(classAbstractCategory)) throw new PageContainerNotFoundException("getNewUserProperties - classAbstractCategory: null");
         else if ( classAbstractCategory.equals(User.class))  return Arrays.asList("lastName", "firstName" ,"middleName", "position", "department");
 
-        throw new PageContainerNotFoundException("getNewUserProperties - classAbstractCategory: "+classAbstractCategory);
+        throw new PageContainerNotFoundException("getNewUserProperties -> classAbstractCategory: "+classAbstractCategory);
 
     }
 
