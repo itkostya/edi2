@@ -22,7 +22,7 @@ public class UserAccessRight {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    private Long id;  // TODO. I should delete "id" in UserAccessRight or change equals, hashcode
 
     @NotNull(message = "Поле 'Тип метаданных' должно быть заполнено")
     @Enumerated(EnumType.ORDINAL)

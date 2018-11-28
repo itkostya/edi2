@@ -1,5 +1,7 @@
 package view.data_processors;
 
+import categories.User;
+import impl.information_registers.UserAccessRightServiceImpl;
 import model.SessionParameter;
 import tools.PageContainer;
 
@@ -19,9 +21,8 @@ public class DataProcessorSetRights extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (SessionParameter.INSTANCE.accessAllowed(req)) {
-            /* TODO: Get users and they rights. Create dao, service for class UserAccessRight.
-                Probably change
-             */
+            User currentUser = SessionParameter.INSTANCE.getCurrentUser(req);
+            UserAccessRightServiceImpl.INSTANCE.getUserRights(currentUser);
             req.getRequestDispatcher(PageContainer.getJspName(req.getRequestURI())).forward(req, resp);
         }
         else {
