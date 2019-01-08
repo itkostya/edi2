@@ -217,19 +217,6 @@ window.onload = function () {
         setMarkOfLine();
     }
 
-    function addRowInTable(table, index, array, row_classname) {
-
-        if (table !== null) {
-            const row = table.insertRow(index);
-            row.className = row_classname;
-
-            for (let i = 0; i < array.length; i++) {
-                const cell = row.insertCell(i);
-                cell.innerHTML = array[i];
-            }
-        }
-    }
-
     function deleteAllRows() {
 
         // Should be in the table only head and tail

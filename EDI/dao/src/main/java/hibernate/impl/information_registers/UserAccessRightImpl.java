@@ -9,10 +9,7 @@ import information_registers.UserAccessRight;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -40,6 +37,11 @@ public enum UserAccessRightImpl implements HibernateDAO<UserAccessRight> {
 
     public List<UserAccessRight> getUserRights(User user){
 
+        // test begin
+        UserAccessRight userAccessRight = new UserAccessRight(MetadataType.CONTRACTOR, user, true, true);
+        save(userAccessRight);
+        // test end
+
         // All type of rights in Metadata. We should check current user rights with all type of rights
 
         Session session = HibernateUtil.getSession();
@@ -50,11 +52,14 @@ public enum UserAccessRightImpl implements HibernateDAO<UserAccessRight> {
 
         // Empty rights for user
         List<UserAccessRight> metadataValues = Arrays.stream(MetadataType.values())
-                .map(e -> new UserAccessRight(e, user,false,false ))
+                .map(e -> new UserAccessRight(e, user, false, false))
                 .collect(Collectors.toList());
 
-        // TODO - check it. I should delete "id" in UserAccessRight or change equals, hashcode
-        List < UserAccessRight > resultRights = metadataValues.stream().map( m-> currentRights.contains(m) ? currentRights.get(currentRights.indexOf(m)) : m ).collect(Collectors.toList());
+        List<UserAccessRight> resultRights =
+                metadataValues.stream().map(m -> currentRights.stream().filter(c -> c.getMetadataType() == m.getMetadataType()).findFirst().orElse(m))
+                .collect(Collectors.toList());
+
+        delete(userAccessRight);  // test
 
         return resultRights;
 

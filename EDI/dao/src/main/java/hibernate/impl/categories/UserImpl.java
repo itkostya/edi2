@@ -90,12 +90,6 @@ public enum UserImpl implements HibernateDAO<User> {
         session.close();
         return list;
 
-//        Session session = HibernateUtil.getSession();
-//        Query<User> query = session.createQuery("from User", User.class);
-//        List<User> list = query.getResultList();
-//        session.close();
-//        return list;
-
     }
 
     public boolean isDatabaseEmpty(){
