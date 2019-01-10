@@ -1,0 +1,25 @@
+.table-wrapper-rights-list{
+    position:relative;
+    width:100%;
+    height: 88%;
+}
+
+.table-wrapper-rights-list table
+{
+    width:100%;
+}
+
+.table-scroll-rights-list
+{
+    height: 100%;
+    width: inherit;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.first_row_rights_list {
+    position: absolute;
+    background: rgb(240, 255, 240) !important;
+    top: -2.5%;
+    border-bottom-style: none;
+}
