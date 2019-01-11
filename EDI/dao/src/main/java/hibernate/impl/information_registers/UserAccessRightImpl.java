@@ -37,11 +37,6 @@ public enum UserAccessRightImpl implements HibernateDAO<UserAccessRight> {
 
     public List<UserAccessRight> getUserRights(User user){
 
-        // test begin
-        UserAccessRight userAccessRight = new UserAccessRight(MetadataType.CONTRACTOR, user, true, true);
-        save(userAccessRight);
-        // test end
-
         // All type of rights in Metadata. We should check current user rights with all type of rights
 
         Session session = HibernateUtil.getSession();
@@ -59,18 +54,18 @@ public enum UserAccessRightImpl implements HibernateDAO<UserAccessRight> {
                 metadataValues.stream().map(m -> currentRights.stream().filter(c -> c.getMetadataType() == m.getMetadataType()).findFirst().orElse(m))
                 .collect(Collectors.toList());
 
-        delete(userAccessRight);  // test
-
         return resultRights;
 
     }
 
-    public boolean setUserRights(User user, List<UserAccessRight> userAccessRights){
+    public void setUserRights(List<UserAccessRight> userAccessRights){
 
-        Session session = HibernateUtil.getSession();
-        userAccessRights.forEach(session::update);
-        session.close();
-        return true;
+        // TODO: update in database - delete old user's data and create new
+        Session session = HibernateUtil.getSessionWithTransaction();
+        userAccessRights.forEach(this::delete);
+        userAccessRights.forEach(this::save);
+        //userAccessRights.forEach(this::update);
+        HibernateUtil.closeSessionWithTransaction(session);
 
     }
 

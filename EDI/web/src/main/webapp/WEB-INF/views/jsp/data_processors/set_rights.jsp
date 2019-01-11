@@ -76,7 +76,7 @@
         }
         row.style= row_style;
 
-        row.onclick =  function () { changeStatus("${cell.id}"); };
+        row.onclick =  function () { changeUser("${cell.id}"); };
 
         </c:forEach>
 
@@ -84,9 +84,10 @@
 
     }
 
-    function changeStatus(userId) {
+    function changeUser(userId) {
 
         const formData = new FormData();
+        formData.append("param", "changeUser");
         formData.append("currentSelectedUserId", userId);
 
         const xhr = new XMLHttpRequest();
@@ -124,8 +125,8 @@
         body = currentTable.appendChild(document.createElement('tbody'));
         <c:forEach var="cell" items="${userAccessRightList}" varStatus="status">
         row = body.insertRow(${status.index});
-        insertCellInRow(0, row, '<a href="#choose_one_user" class="link-like-text">${cell.metadataType.metadata}</a>');
-        insertCellInRow(1, row, '<a href="#choose_one_user" class="link-like-text">${cell.metadataType}</a>');
+        insertCellInRow(0, row, '<a href="#" class="link-like-text">${cell.metadataType.metadata}</a>');
+        insertCellInRow(1, row, '<a href="#" class="link-like-text">${cell.metadataType}</a>');
         insertCellInRow(2, row, "<input type=checkbox ".concat(( true === ${cell.view} ? "checked": "")).concat(">"));
         insertCellInRow(3, row, "<input type=checkbox ".concat(( true === ${cell.edit} ? "checked": "")).concat(">"));
 
@@ -142,7 +143,35 @@
     }
 
     function setNewRights() {
-        // TODO: post in servlet/database
+
+        const tableRights = document.getElementById("table-rightsList");
+
+        const formData = new FormData();
+        formData.append("param", "save");
+
+        for (i = 0; i < tableRights.tBodies[0].rows.length; i++) {
+            formData.append("metadataStringArray[]", tableRights.tBodies[0].rows[i].cells[0].innerText);
+            formData.append("metadataTypeStringArray[]", tableRights.tBodies[0].rows[i].cells[1].innerText);
+            formData.append("viewStringArray[]", tableRights.tBodies[0].rows[i].cells[2].children[0].checked);
+            formData.append("editStringArray[]", tableRights.tBodies[0].rows[i].cells[3].children[0].checked);
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "${pageContext.request.contextPath}${PageContainer.DATA_PROCESSOR_SET_RIGHTS_PAGE}", true);
+        xhr.timeout = 30000;
+        xhr.send(formData);
+
+        xhr.onerror = function () {
+            afterErrorPageCheckResult(xhr);
+        };
+        xhr.onload = function () {
+            afterLoadingPageCheckResult(xhr, true);
+        };
+
+        let button = document.getElementById("info_result");
+        button.innerHTML = "Установка прав пользователя...";
+        button.disabled = true;
+
     }
 
     function setView(checked) {
@@ -174,13 +203,13 @@
         <div style="height:3%">&nbsp;</div>
         <div style="padding: 3px; height: 5%;" id="div-groupBy">
             <div class="horizontal">
-                <div><a class="link-like-button"><div class="command-bar-save" onclick="setNewRights()"></div>&nbsp;Записать права&nbsp;</a></div>
+                <div><a href="javascript:void(0)" class="link-like-button" onclick="setNewRights()"><div class="command-bar-save"></div>&nbsp;Записать права&nbsp;</a></div>
                 <div>&nbsp;</div>
-                <div><a class="link-like-button"><div class="command-bar-set-checkbox-items" onclick="setView(true)"></div>&nbsp;Просмотр&nbsp;</a></div>
+                <div><a href = "#" class="link-like-button"><div class="command-bar-set-checkbox-items" onclick="setView(true)"></div>&nbsp;Просмотр&nbsp;</a></div>
                 <div>&nbsp;</div>
-                <div><a class="link-like-button"><div class="command-bar-clear-checkbox-items" onclick="setView(false)"></div>&nbsp;Просмотр&nbsp;</a></div>
+                <div><a href = "#" class="link-like-button"><div class="command-bar-clear-checkbox-items" onclick="setView(false)"></div>&nbsp;Просмотр&nbsp;</a></div>
                 <div>&nbsp;</div>
-                <div><a class="link-like-button"><div class="command-bar-set-checkbox-items" onclick="setEdit(true)"></div>&nbsp;Редактирование&nbsp;</a></div>
+                <div><a href = "#" class="link-like-button"><div class="command-bar-set-checkbox-items" onclick="setEdit(true)"></div>&nbsp;Редактирование&nbsp;</a></div>
                 <div>&nbsp;</div>
                 <div><a class="link-like-button"><div class="command-bar-clear-checkbox-items" onclick="setEdit(false)"></div>&nbsp;Редактирование&nbsp;</a></div>
             </div>

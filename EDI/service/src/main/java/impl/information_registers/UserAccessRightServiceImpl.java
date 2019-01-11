@@ -14,7 +14,7 @@ public enum UserAccessRightServiceImpl {
         return UserAccessRightImpl.INSTANCE.getUserRights(user);
     }
 
-    public boolean setUserRights(User user, List<UserAccessRight> userAccessRights) {
-        return UserAccessRightImpl.INSTANCE.setUserRights(user, userAccessRights);
+    public void setUserRights(List<UserAccessRight> userAccessRights) {
+        UserAccessRightImpl.INSTANCE.setUserRights(userAccessRights);
     }
 }

@@ -2,6 +2,7 @@ package view.data_processors;
 
 import app_info.Constant;
 import categories.User;
+import enumerations.MetadataType;
 import hibernate.impl.categories.UserImpl;
 import impl.information_registers.UserAccessRightServiceImpl;
 import information_registers.UserAccessRight;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +31,7 @@ import java.util.Objects;
 public class DataProcessorSetRights extends HttpServlet {
 
     private Long currentSelectedUserId = null;
+    private User currentSelectedUser = null;
     private final static List<User> userList = UserImpl.INSTANCE.getUsers();
 
     @Override
@@ -36,16 +40,16 @@ public class DataProcessorSetRights extends HttpServlet {
         // TODO: Run this code twice when one click in userList table - some actions do this
         if (SessionParameter.INSTANCE.accessAllowed(req)) {
 //            User currentUser = SessionParameter.INSTANCE.getCurrentUser(req);
-            if (Objects.isNull(currentSelectedUserId) && userList.size() > 0){
-                currentSelectedUserId  = userList.get(0).getId();
+            if (Objects.isNull(currentSelectedUserId) && userList.size() > 0) {
+                currentSelectedUserId = userList.get(0).getId();
             }
-            List<UserAccessRight> userAccessRightList = UserAccessRightServiceImpl.INSTANCE.getUserRights(UserImpl.INSTANCE.getUserById(currentSelectedUserId));
+            currentSelectedUser = UserImpl.INSTANCE.getUserById(currentSelectedUserId);
+            List<UserAccessRight> userAccessRightList = UserAccessRightServiceImpl.INSTANCE.getUserRights(currentSelectedUser);
             req.setAttribute("userList", userList);
             req.setAttribute("userAccessRightList", userAccessRightList);
             req.setAttribute("currentSelectedUserId", currentSelectedUserId);
             req.getRequestDispatcher(PageContainer.getJspName(req.getRequestURI())).forward(req, resp);
-        }
-        else {
+        } else {
             req.setAttribute("error_message", "Access denied");
             req.getRequestDispatcher(PageContainer.ERROR_JSP).forward(req, resp);
         }
@@ -60,10 +64,26 @@ public class DataProcessorSetRights extends HttpServlet {
 
         if (SessionParameter.INSTANCE.accessAllowed(req)) {
 
-            currentSelectedUserId =  Long.valueOf(req.getParameter("currentSelectedUserId"));
-
+            String param = req.getParameter("param");
+            switch (param) {
+                case "changeUser":
+                    currentSelectedUserId = Long.valueOf(req.getParameter("currentSelectedUserId"));
+                    break;
+                case "save":
+                    System.out.println("Save user");
+                    String[] metadataStringArray = req.getParameterValues("metadataStringArray[]");
+                    String[] metadataTypeStringArray = req.getParameterValues("metadataTypeStringArray[]");
+                    String[] viewStringArray = req.getParameterValues("viewStringArray[]");
+                    String[] editStringArray = req.getParameterValues("editStringArray[]");
+                    List<UserAccessRight> userAccessRightList = new ArrayList<>();
+                    for (int i = 0; i < metadataStringArray.length; i++) {
+                        userAccessRightList.add(new UserAccessRight(MetadataType.valueOf(metadataTypeStringArray[i]), currentSelectedUser, Boolean.valueOf(viewStringArray[i]), Boolean.valueOf(editStringArray[i])));
+                    }
+                    UserAccessRightServiceImpl.INSTANCE.setUserRights(userAccessRightList);
+                    break;
+            }
             doGet(req, resp);
-        }else {
+        } else {
             req.setAttribute("error_message", "Access denied");
             req.getRequestDispatcher(PageContainer.ERROR_JSP).forward(req, resp);
         }
