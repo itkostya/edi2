@@ -14,7 +14,13 @@ public enum UserAccessRightServiceImpl {
         return UserAccessRightImpl.INSTANCE.getUserRights(user);
     }
 
-    public void setUserRights(List<UserAccessRight> userAccessRights) {
-        UserAccessRightImpl.INSTANCE.setUserRights(userAccessRights);
+    public void updateUserRights(User user, List<UserAccessRight> userAccessRights) {
+        checkTransformUserRights(userAccessRights);
+        UserAccessRightImpl.INSTANCE.updateUserRights(user, userAccessRights);
+    }
+
+    public void checkTransformUserRights(List<UserAccessRight> userAccessRights){
+        // Some combinations isn't available
+        userAccessRights.stream().filter(f -> !f.isView() && f.isEdit()).forEach(userAccessRight -> userAccessRight.setView(true));
     }
 }

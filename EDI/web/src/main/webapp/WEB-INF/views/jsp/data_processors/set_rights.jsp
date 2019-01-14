@@ -127,8 +127,8 @@
         row = body.insertRow(${status.index});
         insertCellInRow(0, row, '<a href="#" class="link-like-text">${cell.metadataType.metadata}</a>');
         insertCellInRow(1, row, '<a href="#" class="link-like-text">${cell.metadataType}</a>');
-        insertCellInRow(2, row, "<input type=checkbox ".concat(( true === ${cell.view} ? "checked": "")).concat(">"));
-        insertCellInRow(3, row, "<input type=checkbox ".concat(( true === ${cell.edit} ? "checked": "")).concat(">"));
+        insertCellInRow(2, row, "<input type=checkbox ".concat(( true === ${cell.view} ? "checked": "")).concat(" onchange = 'changeView(this)'>"));
+        insertCellInRow(3, row, "<input type=checkbox ".concat(( true === ${cell.edit} ? "checked": "")).concat(" onchange = 'changeEdit(this)'>"));
 
         row_style = "";
         <c:choose><c:when test="${(status.index % 2) == 0}"> row_style+=" background: rgb(255, 248, 234); ";</c:when></c:choose>
@@ -174,12 +174,54 @@
 
     }
 
-    function setView(checked) {
-        // TODO: use setItems(checked) in executor_task.jsp
+    function changeView(element) {
+
+        const tableRights = document.getElementById("table-rightsList");
+        if (!element.checked && tableRights.tBodies[0].rows[element.parentElement.parentElement.rowIndex-2].cells[3].children[0].checked) {
+            tableRights.tBodies[0].rows[element.parentElement.parentElement.rowIndex-2].cells[3].children[0].checked = false;
+        }
     }
 
-    function setEdit(checked) {
-        // TODO: use setItems(checked) in executor_task.jsp
+    function changeEdit(element) {
+
+        const tableRights = document.getElementById("table-rightsList");
+        if (element.checked && !tableRights.tBodies[0].rows[element.parentElement.parentElement.rowIndex-2].cells[2].children[0].checked) {
+            tableRights.tBodies[0].rows[element.parentElement.parentElement.rowIndex-2].cells[2].children[0].checked = true;
+        }
+    }
+
+    function setViewToAll(checked) {
+
+        const tableRights = document.getElementById("table-rightsList");
+
+        for (let i = 0; i < tableRights.tBodies[0].rows.length; i++) {
+            tableRights.tBodies[0].rows[i].cells[2].children[0].checked = checked;
+        }
+
+        if (!checked) {
+            for (let i = 0; i < tableRights.tBodies[0].rows.length; i++) {
+                if (tableRights.tBodies[0].rows[i].cells[3].children[0].checked) {
+                    tableRights.tBodies[0].rows[i].cells[3].children[0].checked = false;
+                }
+            }
+        }
+    }
+
+    function setEditToAll(checked) {
+
+        const tableRights = document.getElementById("table-rightsList");
+
+        for (let i = 0; i < tableRights.tBodies[0].rows.length; i++) {
+            tableRights.tBodies[0].rows[i].cells[3].children[0].checked = checked;
+        }
+
+        if (checked) {
+            for (let i = 0; i < tableRights.tBodies[0].rows.length; i++) {
+                if (!tableRights.tBodies[0].rows[i].cells[2].children[0].checked) {
+                    tableRights.tBodies[0].rows[i].cells[2].children[0].checked = true;
+                }
+            }
+        }
     }
 
 </script>
@@ -205,13 +247,13 @@
             <div class="horizontal">
                 <div><a href="javascript:void(0)" class="link-like-button" onclick="setNewRights()"><div class="command-bar-save"></div>&nbsp;Записать права&nbsp;</a></div>
                 <div>&nbsp;</div>
-                <div><a href = "#" class="link-like-button"><div class="command-bar-set-checkbox-items" onclick="setView(true)"></div>&nbsp;Просмотр&nbsp;</a></div>
+                <div><a href = "javascript:void(0)" class="link-like-button" onclick="setViewToAll(true)"><div class="command-bar-set-checkbox-items"></div>&nbsp;Просмотр&nbsp;</a></div>
                 <div>&nbsp;</div>
-                <div><a href = "#" class="link-like-button"><div class="command-bar-clear-checkbox-items" onclick="setView(false)"></div>&nbsp;Просмотр&nbsp;</a></div>
+                <div><a href = "javascript:void(0)" class="link-like-button" onclick="setViewToAll(false)"><div class="command-bar-clear-checkbox-items"></div>&nbsp;Просмотр&nbsp;</a></div>
                 <div>&nbsp;</div>
-                <div><a href = "#" class="link-like-button"><div class="command-bar-set-checkbox-items" onclick="setEdit(true)"></div>&nbsp;Редактирование&nbsp;</a></div>
+                <div><a href = "javascript:void(0)" class="link-like-button" onclick="setEditToAll(true)"><div class="command-bar-set-checkbox-items"></div>&nbsp;Редактирование&nbsp;</a></div>
                 <div>&nbsp;</div>
-                <div><a class="link-like-button"><div class="command-bar-clear-checkbox-items" onclick="setEdit(false)"></div>&nbsp;Редактирование&nbsp;</a></div>
+                <div><a href = "javascript:void(0)" class="link-like-button" onclick="setEditToAll(false)"><div class="command-bar-clear-checkbox-items"></div>&nbsp;Редактирование&nbsp;</a></div>
             </div>
         </div>
         <div class="table-wrapper-rights-list" style="height: 88%;">

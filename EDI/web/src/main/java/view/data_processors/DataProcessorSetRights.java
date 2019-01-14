@@ -70,7 +70,6 @@ public class DataProcessorSetRights extends HttpServlet {
                     currentSelectedUserId = Long.valueOf(req.getParameter("currentSelectedUserId"));
                     break;
                 case "save":
-                    System.out.println("Save user");
                     String[] metadataStringArray = req.getParameterValues("metadataStringArray[]");
                     String[] metadataTypeStringArray = req.getParameterValues("metadataTypeStringArray[]");
                     String[] viewStringArray = req.getParameterValues("viewStringArray[]");
@@ -79,10 +78,9 @@ public class DataProcessorSetRights extends HttpServlet {
                     for (int i = 0; i < metadataStringArray.length; i++) {
                         userAccessRightList.add(new UserAccessRight(MetadataType.valueOf(metadataTypeStringArray[i]), currentSelectedUser, Boolean.valueOf(viewStringArray[i]), Boolean.valueOf(editStringArray[i])));
                     }
-                    UserAccessRightServiceImpl.INSTANCE.setUserRights(userAccessRightList);
+                    UserAccessRightServiceImpl.INSTANCE.updateUserRights(currentSelectedUser, userAccessRightList);
                     break;
             }
-            doGet(req, resp);
         } else {
             req.setAttribute("error_message", "Access denied");
             req.getRequestDispatcher(PageContainer.ERROR_JSP).forward(req, resp);

@@ -422,7 +422,6 @@ window.onload = function () {
 
             for (i = 0; i < fileList.length; i++) formData.append("fileList[]", fileList[i]);
 
-
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "${pageContext.request.contextPath}", true);
             xhr.timeout = 30000;

@@ -4,13 +4,12 @@ import categories.User;
 import enumerations.MetadataType;
 import hibernate.HibernateDAO;
 import hibernate.HibernateUtil;
-import hibernate.impl.categories.UserImpl;
 import information_registers.UserAccessRight;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import java.util.*;
-import java.util.stream.Collector;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public enum UserAccessRightImpl implements HibernateDAO<UserAccessRight> {
@@ -35,7 +34,7 @@ public enum UserAccessRightImpl implements HibernateDAO<UserAccessRight> {
         HibernateUtil.closeSessionWithTransaction(session);
     }
 
-    public List<UserAccessRight> getUserRights(User user){
+    public List<UserAccessRight> getCurrentUserRights(User user) {
 
         // All type of rights in Metadata. We should check current user rights with all type of rights
 
@@ -45,26 +44,31 @@ public enum UserAccessRightImpl implements HibernateDAO<UserAccessRight> {
         List<UserAccessRight> currentRights = query.getResultList();
         session.close();
 
+        return currentRights;
+
+    }
+
+    // Comparing current rights with empty rights
+    public List<UserAccessRight> getUserRights(User user) {
+
+        // All type of rights in Metadata. We should check current user rights with all type of rights
+
         // Empty rights for user
         List<UserAccessRight> metadataValues = Arrays.stream(MetadataType.values())
                 .map(e -> new UserAccessRight(e, user, false, false))
                 .collect(Collectors.toList());
 
-        List<UserAccessRight> resultRights =
-                metadataValues.stream().map(m -> currentRights.stream().filter(c -> c.getMetadataType() == m.getMetadataType()).findFirst().orElse(m))
+        return metadataValues.stream().map(m -> getCurrentUserRights(user).stream().filter(c -> c.getMetadataType() == m.getMetadataType()).findFirst().orElse(m))
                 .collect(Collectors.toList());
-
-        return resultRights;
 
     }
 
-    public void setUserRights(List<UserAccessRight> userAccessRights){
+    public void updateUserRights(User user, List<UserAccessRight> userAccessRights) {
 
-        // TODO: update in database - delete old user's data and create new
+        // Delete current data and save new. All data compared by metadataType & user (id doesn't matter)
         Session session = HibernateUtil.getSessionWithTransaction();
-        userAccessRights.forEach(this::delete);
+        getCurrentUserRights(user).forEach(this::delete);
         userAccessRights.forEach(this::save);
-        //userAccessRights.forEach(this::update);
         HibernateUtil.closeSessionWithTransaction(session);
 
     }
