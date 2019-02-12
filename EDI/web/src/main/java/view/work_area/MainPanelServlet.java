@@ -7,6 +7,7 @@ import enumerations.FolderStructure;
 import impl.business_processes.ExecutorTaskFolderStructureServiceImpl;
 import impl.business_processes.ExecutorTaskServiceImpl;
 import impl.categories.UserServiceImpl;
+import impl.information_registers.UserAccessRightServiceImpl;
 import model.SessionParameter;
 import tools.PageContainer;
 
@@ -101,6 +102,9 @@ public class MainPanelServlet extends HttpServlet {
                                 SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter("MainPanelServlet", bookMark),
                                 SessionParameter.INSTANCE.getUserSettings(req).getMapFilterParameter("MainPanelServlet", bookMark)));
                 req.setAttribute("mapSortValue", SessionParameter.INSTANCE.getUserSettings(req).getMapSortParameter("MainPanelServlet", bookMark));
+                break;
+            case "rightsList":
+                req.setAttribute("userAccessRightList",  UserAccessRightServiceImpl.INSTANCE.getUserRights(currentUser));
                 break;
             case "coworkersList":
                 req.setAttribute("coworkersList", UserServiceImpl.INSTANCE.getCoworkers(

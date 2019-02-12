@@ -5,8 +5,11 @@ import categories.User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import enumerations.MetadataType;
 import hibernate.impl.categories.AbstractCategoryImpl;
 import impl.categories.AbstractCategoryServiceImpl;
+import impl.information_registers.UserAccessRightServiceImpl;
+import information_registers.UserAccessRight;
 import model.ElementStatus;
 import model.SessionDataElement;
 import model.SessionParameter;
@@ -20,9 +23,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = {
         PageContainer.CATEGORY_CONTRACTOR_ELEMENT_PAGE,
@@ -54,7 +56,7 @@ public class CategoryElement extends HttpServlet {
         else if (CommonModule.getBooleanFromRequest(req,"createNew")){
             Long tempId = (Long) CommonModule.getNumberFromRequest(req, "tempId", Long.class);
 
-            SessionParameter.INSTANCE.setCurrentUser(req, new User());  // TODO - restrict roles for this user
+            SessionParameter.INSTANCE.setCurrentUser(req, new User());
 
             SessionDataElement sessionDataElement = SessionParameter.INSTANCE.getUserSettings(req).getSessionDataElement(tempId);
             setAttributesForCategory(req, PageContainer.getPageName(req.getRequestURI()));
@@ -85,7 +87,7 @@ public class CategoryElement extends HttpServlet {
             sessionDataElement.setElementStatus(ElementStatus.ERROR);
         }
 
-        Boolean createNew = CommonModule.getBooleanFromRequest(req,"createNew");
+        Boolean createNew = CommonModule.getBooleanFromRequest(req, "createNew");
 
         if (Objects.nonNull(elementEditable)) {
             if (Objects.nonNull(elementEditable.getId())) {
@@ -96,10 +98,14 @@ public class CategoryElement extends HttpServlet {
                 }
             } else if (createNew) {
                 AbstractCategoryImpl.INSTANCE.save(elementEditable);
+
+                if (elementEditable.getClass().equals(User.class)) {
+                    UserAccessRightServiceImpl.INSTANCE.createDefaultUserRights((User) elementEditable);
+                }
+
                 sessionDataElement.setElementStatus(ElementStatus.CLOSE);
             }
         }
-
 
         req.setAttribute("infoResult", sessionDataElement.getErrorMessage());
         req.setAttribute("sessionDataElement", sessionDataElement);

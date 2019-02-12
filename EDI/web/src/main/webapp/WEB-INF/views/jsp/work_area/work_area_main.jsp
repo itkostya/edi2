@@ -22,6 +22,7 @@
 <%--@elvariable id="memorandumCount" type="java.lang.Integer"--%>
 <%--@elvariable id="messageCount" type="java.lang.Integer"--%>
 <%--@elvariable id="reviewTasksList" type="java.util.List<business_processes.ExecutorTask> "--%>
+<%--@elvariable id="userAccessRightList" type="java.util.List<categories.UserAccessRight>"--%>
 <%--@elvariable id="userPresentation" type="java.lang.String"--%>
 
 <html>
@@ -50,6 +51,9 @@
         <c:when test="${bookMark == 'markedTasksList'}">
         refreshMarkedTasks(document.getElementById("table-marked-tasks"));
         </c:when>
+        <c:when test="${bookMark == 'rightsList'}">
+        refreshCategoryTableRights(document.getElementById("table-rights-list"));
+        </c:when>
         <c:when test="${bookMark == 'coworkersList'}">
         refreshCoworkers(document.getElementById("table-coworkers"));
         </c:when>
@@ -77,12 +81,13 @@
             "${ bookMark=='reviewTasksList' ? 'table-review-tasks':
                 bookMark == 'controlledTasksList' ? 'table-controlled-tasks' :
                 bookMark == 'markedTasksList' ? 'table-marked-tasks' :
+                bookMark == 'rightsList' ? 'table-rights-list':
                 bookMark == 'coworkersList' ? 'table-coworkers':
                 ''}");
         let i;
 
         for (i = 0; i < current_table.tHead.rows[0].children.length; i++)
-            current_table.tHead.rows[0].children[i].style = "width:" + current_table.tBodies[0].rows[0].cells[i].clientWidth + ";";
+            current_table.tHead.rows[0].children[i].style = current_table.tBodies[0].rows.length > 0 ? "width:" + current_table.tBodies[0].rows[0].cells[i].clientWidth + ";" : "";
 
         <c:choose>
         <c:when test="${bookMark == 'reviewTasksList'}">
@@ -313,6 +318,35 @@
 
     }
 
+    function refreshCategoryTableRights(current_table) {
+
+        let body, row;
+        let row_style;
+
+        row = current_table.createTHead().insertRow(0);
+        row.className = "first_row_task_table";  // Better have name "first_row_work_area" for every table
+
+        insertCellInRow(0, row, 'Метаданные');
+        insertCellInRow(1, row, 'Тип метаданных');
+
+        body = current_table.appendChild(document.createElement('tbody'));
+
+        let statusIndex = 0;
+        <c:forEach var="cell" items="${userAccessRightList}" varStatus="status">
+            <c:choose><c:when test="${true == (cell.view || cell.edit)}">
+                row = body.insertRow(statusIndex);
+                insertCellInRow(0, row, '<a href="${pageContext.request.contextPath}${PageContainer.getJournalPage(cell.metadataType)}" target="_blank" class="link-like-text">${cell.metadataType.metadata}</a>');
+                insertCellInRow(1, row, '<a href="${pageContext.request.contextPath}${PageContainer.getJournalPage(cell.metadataType)}" target="_blank" class="link-like-text">' +
+                    '<img class="image-for-table" src="/resources/images/data_processors/'.concat((true === ${cell.edit} ? "edit" : "view")).concat('.png">${cell.metadataType}</a>'));
+                row.style.cssText += ((statusIndex % 2) === 0 ? " background: rgb(255, 248, 234); " : "");
+                statusIndex++;
+            </c:when></c:choose>
+        </c:forEach>
+
+        current_table.createTHead().insertRow(1).outerHTML = "<tr class='second_row' style='font-size: 0;'><td class='td_sr'>1</td><td class='td_sr'>2</td></tr>";
+
+    }
+
     function refreshCoworkers(current_table) {
 
         let body, row;
@@ -336,7 +370,7 @@
         <c:choose><c:when test="${(status.index % 2) == 0}">
         row_style += " background: rgb(255, 248, 234); ";
         </c:when></c:choose>
-        row.style = row_style;
+        row.style.cssText = row_style;
 
         </c:forEach>
 
@@ -445,6 +479,24 @@
                           onclick="document.getElementById('3').click();">
                     <button name="bookMark" value='markedTasksList' class="btn-link2" id='3'>
                         <span class="text-in-table-headline">Отмеченные</span>
+                    </button>
+                </div>
+            </c:otherwise>
+        </c:choose>
+
+        <c:choose>
+            <c:when test="${bookMark=='rightsList'}">
+                <div class="open"><img class="image-for-table"
+                                       src="${pageContext.request.contextPath}/resources/images/user.png">
+                    <span class="text-in-table-headline">Доступные объекты</span>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div><img class="image-for-table"
+                          src="${pageContext.request.contextPath}/resources/images/user.png"
+                          onclick="document.getElementById('4').click();">
+                    <button name="bookMark" value='rightsList' class="btn-link2" id='4'>
+                        <span class="text-in-table-headline">Доступные объекты</span>
                     </button>
                 </div>
             </c:otherwise>
@@ -568,6 +620,32 @@
                 <div class="table-wrapper">
                     <div class="table-scroll-review-tasks">
                         <table class="table-tasks" id="table-marked-tasks"></table>
+                    </div>
+                </div>
+            </div>
+        </c:when>
+
+        <c:when test="${bookMark=='rightsList'}">
+            <div style="height:6%" class="horizontal">
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <button name="bookMark" value='rightsList'>
+                                    <img class="command-bar-refresh"
+                                         src="${pageContext.request.contextPath}/resources/images/refresh.png">
+                                    Обновить
+                                </button>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div style="height:75.5%;" id="div-for-main-table">
+                <div class="table-wrapper">
+                    <div class="table-scroll-review-tasks">
+                        <table class="table-rights" id="table-rights-list"></table>
                     </div>
                 </div>
             </div>

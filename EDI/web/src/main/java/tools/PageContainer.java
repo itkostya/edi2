@@ -5,6 +5,7 @@ import abstract_entity.AbstractDocumentEdi;
 import categories.*;
 import documents.Memorandum;
 import documents.Message;
+import enumerations.MetadataType;
 import exсeption.PageContainerNotFoundException;
 
 import java.util.ArrayList;
@@ -375,6 +376,26 @@ public enum PageContainer {
 
     }
 
+    public static String getJournalPage(MetadataType metadataType){
+
+        switch (metadataType){
+            case CONTRACTOR: return PageContainer.CATEGORY_CONTRACTOR_JOURNAL_PAGE;
+            case COST_ITEM:  return PageContainer.CATEGORY_COST_ITEM_JOURNAL_PAGE;
+            case CURRENCY: return PageContainer.CATEGORY_CURRENCY_JOURNAL_PAGE;
+            case DEPARTMENT: return PageContainer.CATEGORY_DEPARTMENT_JOURNAL_PAGE;
+            case LEGAL_ORGANIZATION: return PageContainer.CATEGORY_LEGAL_ORGANIZATION_JOURNAL_PAGE;
+            case PLANNING_PERIOD: return PageContainer.CATEGORY_PLANNING_PERIOD_JOURNAL_PAGE;
+            case POSITION: return PageContainer.CATEGORY_POSITION_JOURNAL_PAGE;
+            case PROPOSAL_TEMPLATE: return PageContainer.CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_PAGE;
+            case USER: return PageContainer.CATEGORY_USER_JOURNAL_PAGE;
+            case MEMORANDUM: return PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_PAGE;
+            case MESSAGE: return PageContainer.DOCUMENT_MESSAGE_JOURNAL_PAGE;
+
+        }
+
+        return "";
+
+    }
 
     public static List<String> getNewUserAvailableProperties(Class <? extends AbstractCategory> classAbstractCategory){
 
@@ -385,6 +406,88 @@ public enum PageContainer {
 
     }
 
+    public static MetadataType getMetadataTypeProperty(String requestURI){
 
+        switch (requestURI){
+
+            case PageContainer.CATEGORY_CONTRACTOR_CHOICE_PAGE:
+            case PageContainer.CATEGORY_CONTRACTOR_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_CONTRACTOR_JOURNAL_PAGE:
+                return MetadataType.CONTRACTOR;
+
+            case PageContainer.CATEGORY_COST_ITEM_CHOICE_PAGE:
+            case PageContainer.CATEGORY_COST_ITEM_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_COST_ITEM_JOURNAL_PAGE:
+                return MetadataType.COST_ITEM;
+
+            case PageContainer.CATEGORY_CURRENCY_CHOICE_PAGE:
+            case PageContainer.CATEGORY_CURRENCY_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_CURRENCY_JOURNAL_PAGE:
+                return MetadataType.CURRENCY;
+
+            case PageContainer.CATEGORY_DEPARTMENT_CHOICE_PAGE:
+            case PageContainer.CATEGORY_DEPARTMENT_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_DEPARTMENT_JOURNAL_PAGE:
+                return MetadataType.DEPARTMENT;
+
+            case PageContainer.CATEGORY_LEGAL_ORGANIZATION_CHOICE_PAGE:
+            case PageContainer.CATEGORY_LEGAL_ORGANIZATION_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_LEGAL_ORGANIZATION_JOURNAL_PAGE:
+                return MetadataType.LEGAL_ORGANIZATION;
+
+            case PageContainer.CATEGORY_PLANNING_PERIOD_CHOICE_PAGE:
+            case PageContainer.CATEGORY_PLANNING_PERIOD_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_PLANNING_PERIOD_JOURNAL_PAGE:
+                return MetadataType.PLANNING_PERIOD;
+
+            case PageContainer.CATEGORY_POSITION_CHOICE_PAGE:
+            case PageContainer.CATEGORY_POSITION_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_POSITION_JOURNAL_PAGE:
+                return MetadataType.POSITION;
+
+            case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_CHOICE_PAGE:
+            case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_JOURNAL_PAGE:
+                return MetadataType.PROPOSAL_TEMPLATE;
+
+            case PageContainer.CATEGORY_USER_CHOICE_PAGE:
+            case PageContainer.CATEGORY_USER_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_USER_JOURNAL_PAGE:
+                return MetadataType.USER;
+
+            case PageContainer.DOCUMENT_MEMORANDUM_CREATE_PAGE:
+            case PageContainer.DOCUMENT_MEMORANDUM_JOURNAL_PAGE:
+                return MetadataType.MEMORANDUM;
+
+            case PageContainer.DOCUMENT_MESSAGE_CREATE_PAGE:
+            case PageContainer.DOCUMENT_MESSAGE_JOURNAL_PAGE:
+                return MetadataType.MESSAGE;
+        }
+
+        throw new PageContainerNotFoundException("getMetadataTypeProperty -> requestURI: "+requestURI);
+
+    }
+
+    public static Boolean isEditablePage(String requestURI){
+
+        switch (requestURI){
+
+            case PageContainer.CATEGORY_CONTRACTOR_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_COST_ITEM_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_CURRENCY_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_DEPARTMENT_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_LEGAL_ORGANIZATION_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_PLANNING_PERIOD_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_POSITION_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_PROPOSAL_TEMPLATE_ELEMENT_PAGE:
+            case PageContainer.CATEGORY_USER_ELEMENT_PAGE:
+            case PageContainer.DOCUMENT_MEMORANDUM_CREATE_PAGE:
+            case PageContainer.DOCUMENT_MESSAGE_CREATE_PAGE:
+                return Boolean.TRUE;
+        }
+
+        return Boolean.FALSE;
+
+    }
 
 }

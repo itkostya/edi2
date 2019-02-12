@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public enum UserAccessRightImpl implements HibernateDAO<UserAccessRight> {
@@ -48,6 +49,12 @@ public enum UserAccessRightImpl implements HibernateDAO<UserAccessRight> {
 
     }
 
+    public void createUserRights(User user, List<UserAccessRight> userAccessRights) {
+        Session session = HibernateUtil.getSessionWithTransaction();
+        userAccessRights.forEach(this::save);
+        HibernateUtil.closeSessionWithTransaction(session);
+    }
+
     // Comparing current rights with empty rights
     public List<UserAccessRight> getUserRights(User user) {
 
@@ -70,6 +77,32 @@ public enum UserAccessRightImpl implements HibernateDAO<UserAccessRight> {
         getCurrentUserRights(user).forEach(this::delete);
         userAccessRights.forEach(this::save);
         HibernateUtil.closeSessionWithTransaction(session);
+
+    }
+
+    private UserAccessRight getUserAccessRight (User user, MetadataType metadataType){
+
+        Session session = HibernateUtil.getSession();
+        Query<UserAccessRight> query = session.createQuery("from UserAccessRight where user=:user and metadataType=:metadataType", UserAccessRight.class);
+        query.setParameter("user", user);
+        query.setParameter("metadataType", metadataType);
+        UserAccessRight userAccessRight = query.getSingleResult();
+        session.close();
+
+        return userAccessRight;
+
+    }
+
+    public boolean viewAccess(User user, MetadataType metadataType) {
+
+        UserAccessRight userAccessRight = getUserAccessRight(user, metadataType);
+        return (!Objects.isNull(userAccessRight) && userAccessRight.isView());
+    }
+
+    public boolean editAccess(User user, MetadataType metadataType) {
+
+        UserAccessRight userAccessRight = getUserAccessRight(user, metadataType);
+        return (!Objects.isNull(userAccessRight) && userAccessRight.isEdit());
 
     }
 

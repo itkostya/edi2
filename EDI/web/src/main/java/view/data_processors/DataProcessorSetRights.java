@@ -37,9 +37,7 @@ public class DataProcessorSetRights extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        // TODO: Run this code twice when one click in userList table - some actions do this
-        if (SessionParameter.INSTANCE.accessAllowed(req)) {
-//            User currentUser = SessionParameter.INSTANCE.getCurrentUser(req);
+        if (SessionParameter.INSTANCE.adminAccessAllowed(req)) {
             if (Objects.isNull(currentSelectedUserId) && userList.size() > 0) {
                 currentSelectedUserId = userList.get(0).getId();
             }
@@ -50,7 +48,7 @@ public class DataProcessorSetRights extends HttpServlet {
             req.setAttribute("currentSelectedUserId", currentSelectedUserId);
             req.getRequestDispatcher(PageContainer.getJspName(req.getRequestURI())).forward(req, resp);
         } else {
-            req.setAttribute("error_message", "Access denied");
+            req.setAttribute("error_message", "Admin access denied");
             req.getRequestDispatcher(PageContainer.ERROR_JSP).forward(req, resp);
         }
     }
@@ -62,7 +60,7 @@ public class DataProcessorSetRights extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html;charset=UTF-8");
 
-        if (SessionParameter.INSTANCE.accessAllowed(req)) {
+        if (SessionParameter.INSTANCE.adminAccessAllowed(req)) {
 
             String param = req.getParameter("param");
             switch (param) {
@@ -82,7 +80,7 @@ public class DataProcessorSetRights extends HttpServlet {
                     break;
             }
         } else {
-            req.setAttribute("error_message", "Access denied");
+            req.setAttribute("error_message", "Admin access denied");
             req.getRequestDispatcher(PageContainer.ERROR_JSP).forward(req, resp);
         }
     }
