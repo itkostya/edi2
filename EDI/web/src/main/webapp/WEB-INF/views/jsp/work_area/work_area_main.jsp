@@ -119,10 +119,10 @@
         document.getElementsByClassName("first_row_task_table")[0].style.cssText = "top:" + (clientHeight > 850 ? "-3" : clientHeight <= 630 ? "0" : clientHeight <= 700 ? "-1" : "-2") + "%";
         document.getElementsByClassName("second_row")[0].style.cssText = "font-size:" + (clientHeight > 850 ? "0" : clientHeight <= 630 ? "22" : clientHeight <= 700 ? "15" : "8") + "px";
 
-        if (clientWidth < 640) {
+        if (clientWidth < 850) {
             let textInTablesHeadlines = document.getElementsByClassName("text-in-table-headline");
             for (i = 0; i < textInTablesHeadlines.length; i++) {
-                textInTablesHeadlines[i].innerHTML = textInTablesHeadlines[i].innerHTML.replace("На рассмотрении", "").replace("На контроле", "").replace("Отмеченные", "").replace("Сотрудники", "");
+                textInTablesHeadlines[i].innerHTML = textInTablesHeadlines[i].innerHTML.replace("На рассмотрении", "").replace("На контроле", "").replace("Отмеченные", "").replace("Сотрудники", "").replace("Доступные объекты", "");
             }
         }
 
@@ -487,13 +487,13 @@
         <c:choose>
             <c:when test="${bookMark=='rightsList'}">
                 <div class="open"><img class="image-for-table"
-                                       src="${pageContext.request.contextPath}/resources/images/user.png">
+                                       src="${pageContext.request.contextPath}/resources/images/data_processors/edit.png">
                     <span class="text-in-table-headline">Доступные объекты</span>
                 </div>
             </c:when>
             <c:otherwise>
                 <div><img class="image-for-table"
-                          src="${pageContext.request.contextPath}/resources/images/user.png"
+                          src="${pageContext.request.contextPath}/resources/images/data_processors/edit.png"
                           onclick="document.getElementById('4').click();">
                     <button name="bookMark" value='rightsList' class="btn-link2" id='4'>
                         <span class="text-in-table-headline">Доступные объекты</span>
