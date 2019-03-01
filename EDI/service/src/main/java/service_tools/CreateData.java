@@ -22,6 +22,7 @@ import hibernate.impl.categories.PositionImpl;
 import hibernate.impl.categories.UserImpl;
 import hibernate.impl.documents.MemorandumImpl;
 import hibernate.impl.documents.MessageImpl;
+import impl.information_registers.UserAccessRightServiceImpl;
 
 import java.io.File;
 import java.sql.Date;
@@ -60,17 +61,42 @@ public enum CreateData {
         PositionImpl.INSTANCE.save(positionHrManager);
 
         // Users
-        UserImpl.INSTANCE.save(new User("admin", false, null, false, "Gates", "William", "Henry", "admin", "MS", "12345", null, null, UserRole.ADMIN));
-        UserImpl.INSTANCE.save(new User("kostya", false, null, false, "Zhurov", "Kostyantin", "Oleksandrovich", "kostya", "DC", null, null, null, null));
+        User user;
+        user = new User("admin", false, null, false, "Gates", "William", "Henry", "admin", "MS", "12345", null, null, UserRole.ADMIN);
+        UserImpl.INSTANCE.save(user);
+        UserAccessRightServiceImpl.INSTANCE.createDefaultUserRights(user);
 
-        UserImpl.INSTANCE.save(new User("itkostya", false, null, false, "Журов", "Константин", "Александрович", "itkostya", null, "123", positionProgrammer, departmentIt, UserRole.USER));
-        UserImpl.INSTANCE.save(new User("it_director", false, null, false, "Чегалкин", "Сергей", "Викторович", "it_director", null, "123", positionItDirector, departmentIt, UserRole.USER));
-        UserImpl.INSTANCE.save(new User("it_admin1", false, null, false, "Капитошка", "Виталий", "Владимирович", "it_admin1", null, "123", positionAdmin, departmentIt, UserRole.USER));
-        UserImpl.INSTANCE.save(new User("it_admin2", false, null, false, "Рябчиков", "Сергей", "Владимирович", "it_admin2", null, "123", positionAdmin, departmentIt, UserRole.USER));
+        user = new User("kostya", false, null, false, "Zhurov", "Kostyantin", "Oleksandrovich", "kostya", "DC", null, null, null, null);
+        UserImpl.INSTANCE.save(user);
+        UserAccessRightServiceImpl.INSTANCE.createDefaultUserRights(user);
 
-        UserImpl.INSTANCE.save(new User("hr_director", false, null, false, "Drocenko", "Ekaterina", "Valerievna", "hr_director", null, "234", positionHrDirector, departmentHr, UserRole.USER));
-        UserImpl.INSTANCE.save(new User("hr_manager1", false, null, false, "Kruglenko", "Olga", "Aleksandrovna", "hr_manager1", null, "234", positionHrManager, departmentHr, UserRole.USER));
-        UserImpl.INSTANCE.save(new User("hr_manager2", false, null, false, "Karpova", "Julia", "Aleksandrovna", "hr_manager2", null, "234", positionHrManager, departmentHr, UserRole.USER));
+        user = new User("itkostya", false, null, false, "Журов", "Константин", "Александрович", "itkostya", null, "123", positionProgrammer, departmentIt, UserRole.USER);
+        UserImpl.INSTANCE.save(user);
+        UserAccessRightServiceImpl.INSTANCE.createDefaultUserRights(user);
+
+        user = new User("it_director", false, null, false, "Чегалкин", "Сергей", "Викторович", "it_director", null, "123", positionItDirector, departmentIt, UserRole.USER);
+        UserImpl.INSTANCE.save(user);
+        UserAccessRightServiceImpl.INSTANCE.createDefaultUserRights(user);
+
+        user = new User("it_admin1", false, null, false, "Капитошка", "Виталий", "Владимирович", "it_admin1", null, "123", positionAdmin, departmentIt, UserRole.USER);
+        UserImpl.INSTANCE.save(user);
+        UserAccessRightServiceImpl.INSTANCE.createDefaultUserRights(user);
+
+        user = new User("it_admin2", false, null, false, "Рябчиков", "Сергей", "Владимирович", "it_admin2", null, "123", positionAdmin, departmentIt, UserRole.USER);
+        UserImpl.INSTANCE.save(user);
+        UserAccessRightServiceImpl.INSTANCE.createDefaultUserRights(user);
+
+        user = new User("hr_director", false, null, false, "Drocenko", "Ekaterina", "Valerievna", "hr_director", null, "234", positionHrDirector, departmentHr, UserRole.USER);
+        UserImpl.INSTANCE.save(user);
+        UserAccessRightServiceImpl.INSTANCE.createDefaultUserRights(user);
+
+        user = new User("hr_manager1", false, null, false, "Kruglenko", "Olga", "Aleksandrovna", "hr_manager1", null, "234", positionHrManager, departmentHr, UserRole.USER);
+        UserImpl.INSTANCE.save(user);
+        UserAccessRightServiceImpl.INSTANCE.createDefaultUserRights(user);
+
+        user = new User("hr_manager2", false, null, false, "Karpova", "Julia", "Aleksandrovna", "hr_manager2", null, "234", positionHrManager, departmentHr, UserRole.USER);
+        UserImpl.INSTANCE.save(user);
+        UserAccessRightServiceImpl.INSTANCE.createDefaultUserRights(user);
 
         AbstractCategoryImpl.INSTANCE.save(new Contractor("Сильпо-Фуд ООО", false, null, false, "407201926538", "407201926538"));
         AbstractCategoryImpl.INSTANCE.save(new Contractor("РТЦ Варус-8 ТОВ (Днепр)", false, null, false, "33184262", "331842604637"));

@@ -22,7 +22,7 @@ public enum Constant {
     public static final String BASIC_FILE_PATH = System.getProperty("catalina.home") + File.separator + "files" + File.separator;
     public static final String PATH_YEAR_MONTH = Year.now().getValue() + File.separator + YearMonth.now().getMonthValue() + File.separator;
     public static final int FILE_SIZE_THRESHOLD = 1024 * 1024;          // 1 MB
-    public static final int MAX_FILE_SIZE       = 10   * 1024 * 1024;   // 25 MB
+    public static final int MAX_FILE_SIZE       = 10   * 1024 * 1024;   // 10 MB
     public static final int MAX_REQUEST_SIZE    = 100  * 1024 * 1024;   // 100 MB
 
     static {
